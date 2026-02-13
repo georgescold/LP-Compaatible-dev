@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(node --version:*)",
+      "Bash(npm:*)",
+      "Bash(claude mcp add gemini-design-mcp --env API_KEY=gd_7_krkC5QlKOKaf_1qdRtM6S4WEQ4_DUc -- npx -y gemini-design-mcp@latest)",
+      "mcp__gemini-design-mcp__create_frontend",
+      "mcp__gemini-design-mcp__modify_frontend",
+      "Bash(npx vue-tsc:*)",
+      "Bash(npx vite build)",
+      "Bash(where:*)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(ls:*)",
+      "mcp__gemini-design-mcp__snippet_frontend",
+      "Bash(git status:*)",
+      "Bash(git remote add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(dir /s /b srcviews*.vue srccomponents***.vue)",
+      "Bash(timeout /t 10 /nobreak)"
+    ]
+  }
+}

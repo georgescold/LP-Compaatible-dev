@@ -1,0 +1,15 @@
+{
+  "recommendations": ["Vue.volar"]
+}
+
+{
+  "servers": {
+    "gemini": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/gemini-mcp"],
+      "env": {
+        "GEMINI_API_KEY": "gd_7_krkC5QlKOKaf_1qdRtM6S4WEQ4_DUc"
+      }
+    }
+  }
+}
