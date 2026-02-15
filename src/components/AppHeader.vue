@@ -42,6 +42,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
       <nav class="nav-menu desktop-only">
         <a href="/#technologie" class="nav-link">Le principe</a>
         <a href="/#process" class="nav-link">Comment ça marche ?</a>
+        <router-link to="/types-de-personnalite" class="nav-link">Personnalités</router-link>
         <a href="/#faq" class="nav-link">FAQ</a>
         <router-link to="/blog" class="nav-link">Blogs</router-link>
       </nav>
@@ -65,6 +66,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
       <nav class="mobile-nav">
         <a href="/#technologie" class="mobile-link" @click="toggleMenu">Le principe</a>
         <a href="/#process" class="mobile-link" @click="toggleMenu">Comment ça marche ?</a>
+        <router-link to="/types-de-personnalite" class="mobile-link" @click="toggleMenu">Personnalités</router-link>
         <a href="/#faq" class="mobile-link" @click="toggleMenu">FAQ</a>
         <router-link to="/blog" class="mobile-link" @click="toggleMenu">Blogs</router-link>
       </nav>

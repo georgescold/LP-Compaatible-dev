@@ -8,6 +8,7 @@ import ComparisonSection from '../components/ComparisonSection.vue'
 import PourQuiSection from '../components/PourQuiSection.vue'
 import ProcessSection from '../components/ProcessSection.vue'
 import StorySection from '../components/StorySection.vue'
+import PersonalityTypesSection from '../components/PersonalityTypesSection.vue'
 
 import QuoteSection from '../components/QuoteSection.vue'
 import FAQSection from '../components/FAQSection.vue'
@@ -30,6 +31,7 @@ import ExitPopup from '../components/ExitPopup.vue'
       <PourQuiSection />
       <ProcessSection />
       <StorySection />
+      <PersonalityTypesSection />
 
       <FAQSection />
       <FinalCTASection />

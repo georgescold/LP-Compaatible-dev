@@ -1,97 +1,121 @@
+# Design System — Compaatible (Vibe 3: Warm Romantic)
+
+## Reference Code
+
 ```vue
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="background: #FBF9F7;">
-  <!-- Decorative blurs -->
-  <div class="absolute top-[-50%] right-[-20%] w-[800px] h-[800px] rounded-full" style="background: radial-gradient(circle, rgba(153, 0, 27, 0.08) 0%, transparent 70%); pointer-events: none;"></div>
-  <div class="absolute bottom-[-30%] left-[-10%] w-[600px] h-[600px] rounded-full" style="background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%); pointer-events: none;"></div>
+<section id="vibe3" class="bg-[#FBF9F7] py-24 relative overflow-hidden">
+  <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#99001B]/5 blur-3xl"></div>
+  <div class="absolute bottom-0 -right-24 h-64 w-64 rounded-full bg-amber-500/5 blur-3xl"></div>
 
-  <div class="container mx-auto px-6 text-center relative z-10" style="max-width: 1200px;">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border mb-8 text-sm font-medium" style="border-color: #E8E8E8; color: #4A4A4A; box-shadow: 0 2px 10px rgba(0,0,0,0.04);">
-      <svg class="w-4 h-4" fill="#99001B" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Basé sur la science de la personnalité
+  <div class="mx-auto max-w-7xl px-6 relative">
+    <div class="mb-16 text-center">
+      <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-[#99001B]/5 px-4 py-1 text-[11px] font-medium text-[#99001B]">
+        <Heart class="h-3 w-3" fill="currentColor" />
+        VOTRE DESTINÉE AMOUREUSE
+      </div>
+      <h2 class="mb-4 font-serif text-4xl font-bold italic text-slate-800 md:text-5xl">Les types de personnalité</h2>
+      <p class="mx-auto max-w-lg font-serif text-lg text-slate-500 italic opacity-80">
+        "Le langage secret de votre cœur enfin décodé."
+      </p>
     </div>
 
-    <!-- Heading -->
-    <h1 style="font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.2; color: #1A1A1A; margin-bottom: 24px;">
-      Ton <span class="relative inline-block" style="color: #99001B; font-family: 'Playfair Display', serif;">
-        âme sœur
-        <span class="absolute bottom-[5px] left-0 w-full h-2" style="background: rgba(153, 0, 27, 0.2); z-index: -1;"></span>
-      </span> existe.<br/>
-      On va la trouver.
-    </h1>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div v-for="cat in categories" :key="cat.id"
+        class="flex flex-col items-center rounded-[2.5rem] bg-white p-8 text-center shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#99001B]/5">
+        <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-full transition-transform duration-700" :style="{ backgroundColor: cat.color + '1a' }">
+          <component :is="cat.icon" class="h-7 w-7" :style="{ color: cat.color }" stroke-width="1" />
+        </div>
+        <h3 class="mb-4 font-serif text-xl font-semibold text-slate-800">{{ cat.name }}</h3>
+        <p class="mb-8 text-sm leading-relaxed text-slate-500 italic line-clamp-2">"{{ cat.tagline }}"</p>
+        <div class="mt-auto flex flex-wrap justify-center gap-2">
+          <span v-for="type in cat.types" :key="type"
+            class="rounded-full bg-slate-50 px-3 py-1 text-[10px] font-medium text-slate-400 transition-colors hover:bg-white hover:text-[#99001B] hover:shadow-sm">
+            {{ type }}
+          </span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Subtitle -->
-    <p class="mx-auto mb-10" style="font-family: 'Inter', sans-serif; font-size: 1.25rem; color: #4A4A4A; max-width: 600px; line-height: 1.7;">
-      Fini les dates décevants et la solitude prolongée. Compaatible analyse ta personnalité en profondeur pour te présenter <strong style="color: #1A1A1A;">la personne la plus compatible avec toi</strong>.
-    </p>
-
-    <!-- CTA with glassmorphism container -->
-    <div class="inline-block p-1.5 rounded-full mb-5" style="background: rgba(255,255,255,0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 32px rgba(153,0,27,0.08);">
-      <button class="inline-flex items-center gap-3 px-9 py-4.5 rounded-full text-white font-medium text-lg transition-all" style="background: #99001B; box-shadow: 0 4px 20px rgba(153,0,27,0.3);">
-        Participe à l'expérience
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div class="mt-20 flex justify-center">
+      <button class="group relative flex items-center justify-center rounded-full bg-[#99001B] px-12 py-4 text-sm font-semibold text-white shadow-lg transition-all hover:scale-105 hover:bg-[#b30020] hover:shadow-[#99001B]/20">
+        Faire le test de personnalité
       </button>
-    </div>
-
-    <!-- Price badge -->
-    <div class="inline-flex items-center gap-1.5 px-4.5 py-2 rounded-full bg-white border text-sm font-medium mb-12" style="border-color: #E8E8E8; color: #1A1A1A;">
-      <span style="text-decoration: line-through; opacity: 0.7; color: #4A4A4A;">19,99€</span>
-      →
-      <span style="color: #99001B; font-weight: 700;">GRATUIT</span>
-      · 1ère édition
-    </div>
-
-    <!-- Trust badges -->
-    <div class="flex flex-wrap justify-center gap-8">
-      <div class="flex items-center gap-2 text-sm font-medium" style="color: #4A4A4A;">
-        <svg class="w-4.5 h-4.5" fill="#99001B" viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg>
-        Données 100% confidentielles
-      </div>
-      <div class="flex items-center gap-2 text-sm font-medium" style="color: #4A4A4A;">
-        <svg class="w-4.5 h-4.5" fill="#99001B" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        1 seul match par mois
-      </div>
-      <div class="flex items-center gap-2 text-sm font-medium" style="color: #4A4A4A;">
-        <svg class="w-4.5 h-4.5" fill="#99001B" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        Sans abonnement
-      </div>
     </div>
   </div>
 </section>
-
-<!--
-DESIGN SYSTEM — Compaatible
-Direction: Sérieux romantique, élégant, premium
-
-COLORS:
-- Primary Red: #99001B (CTA, accents, icons)
-- Dark Red: #7A0016 (hover states)
-- Light Red: #B5001F (secondary accents)
-- Black: #1A1A1A (headings, text emphasis)
-- Cream: #FBF9F7 (backgrounds)
-- White: #FEFEFE (cards, containers)
-- Gray Dark: #4A4A4A (body text)
-- Gray Main: #5C5C5C (secondary text)
-- Gray Medium: #787878 (tertiary text)
-- Gray Light: #E8E8E8 (borders)
-- Gray Lighter: #F5F5F5 (subtle backgrounds)
-- Red accent shadows: rgba(153, 0, 27, 0.08-0.4)
-
-FONTS:
-- Headings: 'Playfair Display', serif (weight 600-700)
-- Body: 'Inter', sans-serif (weight 300-600)
-- Quotes: 'Cormorant Garamond', serif
-
-STYLE:
-- Rounded corners: 20-24px for cards, 9999px for buttons/badges
-- Glassmorphism: rgba(255,255,255,0.5) + backdrop-filter: blur(8px) + border rgba(255,255,255,0.8)
-- Subtle shadows: 0 4px 20px rgba(0,0,0,0.05) for cards
-- Red accent shadows: 0 4px 20px rgba(153,0,27,0.3) for CTAs
-- Hover: translateY(-2px to -6px) with enhanced shadow
-- Section padding: ~100px vertical
-- Decorative radial gradients with rgba(153,0,27,0.05-0.08)
-- Trust badges with red filled icons
-- Price display: strikethrough old + bold red FREE
-- Pulse glow animation on primary CTA
--->
 ```
+
+## Colors
+
+### Brand
+- Primary Red: `#99001B`
+- Red Dark (hover): `#7A0016` / `#b30020`
+- Red Light: `#B5001F`
+- Cream Background: `#FBF9F7`
+- White: `#FEFEFE`
+- Black Text: `#1A1A1A`
+
+### Personality Category Colors
+- **Architectes du Cœur** (Purple): `#6B3FA0` — bg light: `#6B3FA0/10` → `rgba(107,63,160,0.1)`
+- **Âmes Lumineuses** (Green): `#2D8B57` — bg light: `#2D8B57/10`
+- **Gardiens du Lien** (Teal): `#0F766E` — bg light: `#0F766E/10`
+- **Flammes Libres** (Amber): `#D97706` — bg light: `#D97706/10`
+
+### Grays
+- Dark: `#4A4A4A`
+- Main: `#5C5C5C`
+- Medium: `#787878`
+- Light: `#E8E8E8`
+- Lighter: `#F5F5F5`
+
+## Typography
+
+### Font Families
+- **Headings (serif)**: `'Playfair Display', serif` — used for h1-h4, decorative text
+- **Body (sans)**: `'Inter', sans-serif` — used for body, labels, buttons
+- **Quotes**: `'Cormorant Garamond', serif` — used for blockquotes
+
+### Heading Styles
+- H1: `font-serif text-4xl md:text-5xl font-bold italic text-slate-800`
+- H2: `font-serif text-3xl md:text-4xl font-semibold text-slate-800`
+- H3: `font-serif text-xl font-semibold text-slate-800`
+- Labels: `text-[10px] md:text-[11px] font-medium uppercase tracking-widest text-[#99001B]`
+
+### Body Text
+- Regular: `text-sm leading-relaxed text-slate-500`
+- Italic accent: `font-serif italic text-slate-500 opacity-80`
+
+## Components
+
+### Buttons
+- **Primary**: `rounded-full bg-[#99001B] px-12 py-4 text-sm font-semibold text-white shadow-lg hover:scale-105 hover:bg-[#b30020]`
+- **Secondary**: `rounded-full border border-slate-200 px-10 py-3 text-xs font-medium text-slate-900 hover:border-slate-900 hover:bg-slate-900 hover:text-white`
+- **Pill Badge**: `rounded-full bg-[#99001B]/5 px-4 py-1 text-[11px] font-medium text-[#99001B]`
+
+### Cards
+- Container: `rounded-[2.5rem] bg-white p-8 shadow-sm`
+- Hover: `hover:-translate-y-2 hover:shadow-xl hover:shadow-[#99001B]/5`
+- Transition: `transition-all duration-500`
+
+### Decorative Elements
+- Ambient blur: `absolute rounded-full bg-[#99001B]/5 blur-3xl`
+- Section background: `bg-[#FBF9F7]` (cream) or `bg-white`
+
+## Spacing & Layout
+- Container max-width: `max-w-7xl` (1280px)
+- Section padding: `py-24` (6rem)
+- Card gap: `gap-8` (2rem)
+- Scale: **refined** (small, elegant, Apple/Notion-like)
+
+## Animations
+- Card hover lift: `hover:-translate-y-2` with `duration-500`
+- Button scale: `hover:scale-105`
+- Icon scale on group hover: `group-hover:scale-110`
+- Smooth transitions: `transition-all duration-500` / `duration-700`
+- Cubic bezier (from existing site): `cubic-bezier(0.165, 0.84, 0.44, 1)`
+
+## Vibe Direction
+- **Warm Romantic**: soft backgrounds, rounded shapes, warm tones, italic serif accents
+- Generous whitespace, light shadows, subtle color accents
+- Category colors used as tints (10% opacity backgrounds, colored icons)
+- Romantic language in subtitles and labels

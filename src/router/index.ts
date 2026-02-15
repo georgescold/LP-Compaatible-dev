@@ -62,6 +62,16 @@ const router = createRouter({
       path: '/confidentialite',
       name: 'confidentialite',
       component: () => import('../views/ConfidentialiteView.vue')
+    },
+    {
+      path: '/types-de-personnalite',
+      name: 'personality-types',
+      component: () => import('../views/PersonalityTypesView.vue')
+    },
+    {
+      path: '/personnalite/:id',
+      name: 'personality-detail',
+      component: () => import('../views/PersonalityDetailView.vue')
     }
   ],
   scrollBehavior() {
