@@ -160,7 +160,7 @@ import heroBackground from '../assets/image test site (2).webp'
 
 .underline-svg {
   position: absolute;
-  bottom: -2px;
+  bottom: -6px;
   left: 0;
   width: 100%;
   height: 12px;

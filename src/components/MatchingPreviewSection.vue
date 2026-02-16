@@ -794,51 +794,14 @@ function animatePercentage() {
   color: #1A1A1A;
 }
 
-/* Responsive */
+/* Responsive — cards ALWAYS side by side, just smaller */
 @media (max-width: 900px) {
-  .matching-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
+  .profile-card {
+    width: 220px;
   }
 
   .compatibility-circle {
-    margin: -16px 0;
-    order: 0;
-  }
-
-  .card-sophie {
-    order: -1;
-    transform: translateY(20px);
-  }
-
-  .card-thomas {
-    order: 1;
-    transform: translateY(20px);
-  }
-
-  .is-visible .card-sophie,
-  .is-visible .card-thomas {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  .profile-card {
-    width: 280px;
-  }
-}
-
-@media (max-width: 580px) {
-  .matching-section {
-    padding: 60px 0 80px;
-  }
-
-  .profile-card {
-    width: 80%;
-    max-width: 300px;
-  }
-
-  .compatibility-circle {
-    margin: -12px 0;
+    margin: 0 -20px;
   }
 
   .circle-ring {
@@ -847,69 +810,19 @@ function animatePercentage() {
   }
 
   .circle-number {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 
-  .circle-label {
-    font-size: 0.5rem;
-  }
-
-  .traits-row {
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 12px;
-  }
-
-  .trait-pill {
-    padding: 5px 10px;
-  }
-
-  .trait-text {
-    font-size: 0.65rem;
-  }
-
-  .trait-icon-box {
-    width: 20px;
-    height: 20px;
-  }
-
-  .trait-check {
-    width: 14px;
-    height: 14px;
-  }
-
-  .matching-tagline {
-    font-size: 0.9rem;
-    padding: 0 16px;
-  }
-
-  .floating-heart {
-    display: none;
-  }
-}
-
-@media (max-width: 400px) {
-  .profile-card {
-    width: 92%;
-    max-width: 280px;
-  }
-
-  .matching-container {
-    padding: 0 4px;
+  .circle-symbol {
+    font-size: 0.75rem;
   }
 
   .card-body {
-    padding: 10px 12px 14px;
+    padding: 12px 14px 16px;
   }
 
   .card-name {
     font-size: 1.1rem;
-  }
-
-  .personality-tag {
-    padding: 6px 8px;
-    gap: 6px;
   }
 
   .personality-name {
@@ -924,18 +837,31 @@ function animatePercentage() {
     font-size: 0.72rem;
   }
 
-  .card-hobbies {
-    gap: 3px;
-  }
-
   .hobby-pill {
     font-size: 0.55rem;
     padding: 2px 6px;
   }
+}
+
+@media (max-width: 680px) {
+  .matching-section {
+    padding: 60px 0 80px;
+  }
+
+  .profile-card {
+    width: 42%;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .compatibility-circle {
+    margin: 0 -16px;
+    flex-shrink: 0;
+  }
 
   .circle-ring {
-    width: 88px;
-    height: 88px;
+    width: 80px;
+    height: 80px;
   }
 
   .circle-number {
@@ -943,17 +869,306 @@ function animatePercentage() {
   }
 
   .circle-symbol {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 
-  .matching-tagline {
-    font-size: 0.82rem;
+  .circle-label {
+    font-size: 0.45rem;
+  }
+
+  .card-body {
+    padding: 8px 10px 12px;
+  }
+
+  .card-name {
+    font-size: 0.95rem;
+    margin-bottom: 1px;
+  }
+
+  .card-city {
+    font-size: 0.55rem;
+    margin-bottom: 6px;
+  }
+
+  .personality-tag {
+    padding: 5px 6px;
+    gap: 5px;
+    border-radius: 0.75rem;
+    margin-bottom: 5px;
+  }
+
+  .personality-avatar {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    max-width: 22px !important;
+    max-height: 22px !important;
+  }
+
+  .personality-name {
+    font-size: 0.58rem;
+  }
+
+  .personality-category {
+    font-size: 0.45rem;
+  }
+
+  .card-tagline {
+    font-size: 0.62rem;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-hobbies {
+    gap: 3px;
+  }
+
+  .hobby-pill {
+    font-size: 0.48rem;
+    padding: 2px 5px;
+  }
+
+  .verified-badge {
+    top: 6px;
+    left: 6px;
+    padding: 3px 6px;
+    gap: 3px;
+  }
+
+  .verified-badge span {
+    font-size: 6px;
+  }
+
+  .verified-logo {
+    width: 10px !important;
+    height: 10px !important;
+    max-width: 10px !important;
+    max-height: 10px !important;
+  }
+
+  .floating-heart {
+    display: none;
+  }
+
+  .traits-row {
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 0 8px;
   }
 
-  .section-label {
+  .trait-pill {
+    padding: 4px 8px;
+    gap: 5px;
+  }
+
+  .trait-text {
     font-size: 0.6rem;
-    padding: 5px 12px;
+  }
+
+  .trait-icon-box {
+    width: 18px;
+    height: 18px;
+  }
+
+  .trait-check {
+    width: 14px;
+    height: 14px;
+  }
+
+  .matching-tagline {
+    font-size: 0.85rem;
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 440px) {
+  .matching-section {
+    padding: 50px 0 60px;
+  }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  .section-label {
+    font-size: 0.55rem;
+    padding: 4px 10px;
+  }
+
+  .matching-container {
+    padding: 0;
+  }
+
+  .profile-card {
+    width: 40%;
+    border-radius: 1.25rem;
+  }
+
+  .card-sophie {
+    transform: translateX(-10px) rotate(-2deg);
+  }
+
+  .card-thomas {
+    transform: translateX(10px) rotate(2deg);
+  }
+
+  .is-visible .card-sophie {
+    transform: translateX(0) rotate(-1.5deg);
+  }
+
+  .is-visible .card-thomas {
+    transform: translateX(0) rotate(1.5deg);
+  }
+
+  .compatibility-circle {
+    margin: 0 -14px;
+  }
+
+  .circle-ring {
+    width: 68px;
+    height: 68px;
+    box-shadow: 0 8px 24px rgba(139, 45, 74, 0.12), 0 0 40px rgba(139, 45, 74, 0.04);
+  }
+
+  .circle-number {
+    font-size: 1.2rem;
+  }
+
+  .circle-symbol {
+    font-size: 0.55rem;
+  }
+
+  .circle-label {
+    font-size: 0.4rem;
+    letter-spacing: 0.08em;
+  }
+
+  .card-photo {
+    aspect-ratio: 3/4;
+  }
+
+  .card-body {
+    padding: 6px 8px 10px;
+  }
+
+  .card-name {
+    font-size: 0.82rem;
+  }
+
+  .card-city {
+    font-size: 0.48rem;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+
+  .personality-tag {
+    padding: 4px 5px;
+    gap: 4px;
+    border-radius: 0.6rem;
+    margin-bottom: 4px;
+  }
+
+  .personality-avatar {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+  }
+
+  .personality-name {
+    font-size: 0.5rem;
+  }
+
+  .personality-category {
+    font-size: 0.4rem;
+  }
+
+  .card-tagline {
+    font-size: 0.52rem;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .hobby-pill {
+    font-size: 0.42rem;
+    padding: 1px 4px;
+  }
+
+  .card-hobbies {
+    gap: 2px;
+  }
+
+  .traits-row {
+    gap: 4px;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .trait-pill {
+    padding: 3px 6px;
+    gap: 4px;
+  }
+
+  .trait-text {
+    font-size: 0.52rem;
+  }
+
+  .trait-icon-box {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trait-check {
+    width: 12px;
+    height: 12px;
+  }
+
+  .matching-tagline {
+    font-size: 0.78rem;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-card {
+    width: 39%;
+  }
+
+  .card-name {
+    font-size: 0.75rem;
+  }
+
+  .card-tagline {
+    display: none;
+  }
+
+  .circle-ring {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle-number {
+    font-size: 1.05rem;
+  }
+
+  .compatibility-circle {
+    margin: 0 -12px;
+  }
+
+  .trait-pill {
+    padding: 2px 5px;
+  }
+
+  .trait-text {
+    font-size: 0.48rem;
+  }
+
+  .matching-tagline {
+    font-size: 0.72rem;
   }
 }
 </style>
