@@ -798,6 +798,7 @@ function animatePercentage() {
 @media (max-width: 900px) {
   .matching-container {
     flex-direction: column;
+    align-items: center;
     gap: 0;
   }
 
@@ -832,7 +833,12 @@ function animatePercentage() {
   }
 
   .profile-card {
-    width: 260px;
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .compatibility-circle {
+    margin: -12px 0;
   }
 
   .circle-ring {
@@ -844,55 +850,110 @@ function animatePercentage() {
     font-size: 1.6rem;
   }
 
+  .circle-label {
+    font-size: 0.5rem;
+  }
+
   .traits-row {
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 12px;
   }
 
   .trait-pill {
-    padding: 6px 12px;
+    padding: 5px 10px;
   }
 
   .trait-text {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 
   .trait-icon-box {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .trait-check {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .matching-tagline {
+    font-size: 0.9rem;
+    padding: 0 16px;
+  }
+
+  .floating-heart {
+    display: none;
   }
 }
 
 @media (max-width: 400px) {
   .profile-card {
-    width: 100%;
-    max-width: 260px;
+    width: 92%;
+    max-width: 280px;
   }
 
   .matching-container {
-    padding: 0 8px;
+    padding: 0 4px;
   }
 
   .card-body {
-    padding: 12px;
+    padding: 10px 12px 14px;
+  }
+
+  .card-name {
+    font-size: 1.1rem;
+  }
+
+  .personality-tag {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .personality-name {
+    font-size: 0.65rem;
+  }
+
+  .personality-category {
+    font-size: 0.5rem;
+  }
+
+  .card-tagline {
+    font-size: 0.72rem;
   }
 
   .card-hobbies {
-    gap: 4px;
+    gap: 3px;
   }
 
   .hobby-pill {
-    font-size: 0.65rem;
-    padding: 3px 7px;
+    font-size: 0.55rem;
+    padding: 2px 6px;
+  }
+
+  .circle-ring {
+    width: 88px;
+    height: 88px;
+  }
+
+  .circle-number {
+    font-size: 1.4rem;
+  }
+
+  .circle-symbol {
+    font-size: 0.7rem;
   }
 
   .matching-tagline {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     padding: 0 8px;
+  }
+
+  .section-label {
+    font-size: 0.6rem;
+    padding: 5px 12px;
   }
 }
 </style>

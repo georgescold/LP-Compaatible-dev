@@ -213,4 +213,56 @@ const techCards = [
     font-size: 1.15rem;
   }
 }
+
+@media (max-width: 400px) {
+  .tech-section {
+    padding: 50px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-header p {
+    font-size: 0.9rem;
+  }
+
+  .cards-grid {
+    gap: 20px;
+  }
+
+  .tech-card {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .stat-number {
+    font-size: 1.7rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .tech-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .tech-card p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}
 </style>

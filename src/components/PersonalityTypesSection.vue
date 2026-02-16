@@ -108,3 +108,58 @@ const categoriesWithTypes = personalityCategories.map(cat => ({
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  :deep(.grid) {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  section :deep(.px-6) {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  section :deep(.mb-16) {
+    margin-bottom: 2.5rem !important;
+  }
+
+  section :deep(.text-4xl) {
+    font-size: 1.75rem !important;
+  }
+
+  section :deep(.text-lg),
+  section :deep(.md\\:text-xl) {
+    font-size: 0.95rem !important;
+  }
+
+  section :deep(.p-8) {
+    padding: 1.25rem !important;
+  }
+
+  section :deep(.text-2xl) {
+    font-size: 1.25rem !important;
+  }
+
+  section :deep(.mb-8) {
+    margin-bottom: 1.25rem !important;
+  }
+
+  section :deep(.mt-20) {
+    margin-top: 3rem !important;
+  }
+
+  section :deep(.px-12) {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+}
+</style>
