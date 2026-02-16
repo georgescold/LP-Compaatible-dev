@@ -52,17 +52,17 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
       </div>
 
       <button class="mobile-toggle" @click="toggleMenu" aria-label="Menu">
-        <Menu v-if="!isMenuOpen" class="icon" />
-        <X v-else class="icon" />
+        <Menu class="icon" />
       </button>
     </div>
 
-    <div :class="['mobile-overlay', { 'is-open': isMenuOpen }]" @click="toggleMenu"></div>
-    <div :class="['mobile-panel', { 'is-open': isMenuOpen }]">
-      <div class="mobile-header">
-        <span class="mobile-title">Menu</span>
-        <button @click="toggleMenu" class="close-btn" aria-label="Fermer le menu"><X /></button>
-      </div>
+    <Teleport to="body">
+      <div :class="['mobile-overlay', { 'is-open': isMenuOpen }]" @click="toggleMenu"></div>
+      <div :class="['mobile-panel', { 'is-open': isMenuOpen }]">
+        <div class="mobile-header">
+          <span class="mobile-title">Menu</span>
+          <button @click="toggleMenu" class="close-btn" aria-label="Fermer le menu"><X /></button>
+        </div>
       <nav class="mobile-nav">
         <a href="/#technologie" class="mobile-link" @click="toggleMenu">Le principe</a>
         <a href="/#process" class="mobile-link" @click="toggleMenu">Comment ça marche ?</a>
@@ -74,6 +74,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <button class="btn-primary" style="width:100%;justify-content:center;" @click="toggleMenu(); openLoginModal()">Connexion</button>
       </div>
     </div>
+    </Teleport>
   </header>
 
   <!-- Login Modal -->
@@ -180,81 +181,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 .mobile-toggle .icon { width: 28px; height: 28px; }
 
-.mobile-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 104;
-}
-
-.mobile-overlay.is-open { opacity: 1; pointer-events: auto; }
-
-.mobile-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 85%;
-  max-width: 360px;
-  background: white;
-  z-index: 105;
-  transform: translateX(100%);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-panel.is-open { transform: translateX(0); }
-
-.mobile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3rem;
-}
-
-.mobile-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-black);
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  color: var(--color-black);
-  cursor: pointer;
-}
-
-.mobile-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.mobile-link {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--color-black);
-  text-decoration: none;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--color-gray-light);
-  transition: color 0.2s ease;
-}
-
-.mobile-link:hover { color: var(--color-red-pure); }
-
-.mobile-footer {
-  margin-top: auto;
-  padding-top: 2rem;
-}
-
 @media (max-width: 768px) {
   .desktop-only { display: none; }
   .mobile-toggle { display: block; }
@@ -281,5 +207,92 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   .logo-icon {
     width: 26px;
   }
+}
+</style>
+
+<!-- Global styles for Teleported mobile menu (outside scoped) -->
+<style>
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9998;
+}
+
+.mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 360px;
+  background: #FFFFFF;
+  z-index: 9999;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-panel.is-open {
+  transform: translateX(0);
+}
+
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.mobile-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #1A1A1A;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mobile-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid #E8E8E8;
+  transition: color 0.2s ease;
+}
+
+.mobile-link:hover {
+  color: #8B2D4A;
+}
+
+.mobile-footer {
+  margin-top: auto;
+  padding-top: 2rem;
 }
 </style>
