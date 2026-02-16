@@ -47,4 +47,35 @@
     font-size: 0.8rem;
   }
 }
+
+@media (max-width: 400px) {
+  .quote-section {
+    padding: 32px 0;
+  }
+
+  .quote-text {
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+
+  .quote-author {
+    font-size: 0.72rem;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .quote-section {
+    padding: 28px 0;
+  }
+
+  .quote-text {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .quote-author {
+    font-size: 0.68rem;
+  }
+}
 </style>

@@ -162,4 +162,83 @@ const categoriesWithTypes = personalityCategories.map(cat => ({
     padding-right: 2rem !important;
   }
 }
+
+@media (max-width: 360px) {
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  section :deep(.px-6) {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  section :deep(.text-4xl) {
+    font-size: 1.5rem !important;
+  }
+
+  section :deep(.text-lg),
+  section :deep(.md\:text-xl) {
+    font-size: 0.85rem !important;
+  }
+
+  section :deep(.p-8) {
+    padding: 1rem !important;
+  }
+
+  section :deep(.text-2xl) {
+    font-size: 1.1rem !important;
+  }
+
+  section :deep(.text-base) {
+    font-size: 0.82rem !important;
+  }
+
+  section :deep(.mb-16) {
+    margin-bottom: 2rem !important;
+  }
+
+  section :deep(.mt-20) {
+    margin-top: 2.5rem !important;
+  }
+
+  section :deep(.px-12) {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  section :deep(.py-4) {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  section :deep(.text-sm) {
+    font-size: 0.78rem !important;
+  }
+
+  :deep(.grid) {
+    gap: 12px !important;
+  }
+
+  section :deep(.text-xs) {
+    font-size: 0.65rem !important;
+  }
+
+  section :deep(.h-20) {
+    height: 4rem !important;
+  }
+
+  section :deep(.w-20) {
+    width: 4rem !important;
+  }
+
+  section :deep(.h-12) {
+    height: 2.5rem !important;
+  }
+
+  section :deep(.w-12) {
+    width: 2.5rem !important;
+  }
+}
 </style>

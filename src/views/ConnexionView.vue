@@ -854,4 +854,135 @@ function handleBack() {
     margin-bottom: 32px;
   }
 }
+
+@media (max-width: 400px) {
+  .connexion-page {
+    padding: 20px 12px;
+    padding-top: 72px;
+  }
+
+  .main-card {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .card-header {
+    margin-bottom: 28px;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    padding: 6px 12px;
+  }
+
+  .form-input {
+    padding: 14px 14px 14px 44px;
+    font-size: 0.875rem;
+    border-radius: 14px;
+  }
+
+  .submit-btn {
+    padding: 16px 28px;
+    font-size: 0.95rem;
+  }
+
+  .inscription-link-row {
+    margin-top: 28px;
+    padding-top: 24px;
+  }
+
+  .inscription-link-row p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .connexion-page {
+    padding: 16px 10px;
+    padding-top: 64px;
+  }
+
+  .back-nav {
+    top: 20px;
+    left: 12px;
+  }
+
+  .back-button {
+    font-size: 0.8rem;
+  }
+
+  .main-card {
+    padding: 20px 14px;
+  }
+
+  .card-title {
+    font-size: 1.35rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .logo-text {
+    font-size: 1.4rem;
+  }
+
+  .logo-area img {
+    height: 28px;
+  }
+
+  .logo-area {
+    margin-bottom: 24px;
+    gap: 8px;
+  }
+
+  .form-input {
+    padding: 12px 12px 12px 40px;
+    font-size: 0.82rem;
+  }
+
+  .submit-btn {
+    padding: 14px 24px;
+    font-size: 0.9rem;
+  }
+
+  .trust-row {
+    margin-top: 32px;
+  }
+
+  .error-text {
+    font-size: 0.78rem;
+  }
+
+  .forgot-link {
+    font-size: 0.78rem;
+  }
+
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .success-text {
+    font-size: 0.9rem;
+  }
+
+  .success-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 24px;
+  }
+
+  .success-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
 </style>

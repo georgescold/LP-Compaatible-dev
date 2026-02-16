@@ -53,3 +53,90 @@ const profiles = [
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Tablet */
+@media (max-width: 768px) {
+  section :deep(.py-24) {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  section :deep(.mb-16) {
+    margin-bottom: 2.5rem !important;
+  }
+
+  section :deep(.text-3xl),
+  section :deep(.md\:text-4xl),
+  section :deep(.lg\:text-5xl) {
+    font-size: 1.75rem !important;
+  }
+
+  section :deep(.text-lg) {
+    font-size: 1rem !important;
+  }
+
+  section :deep(.gap-6) {
+    gap: 16px !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  section :deep(.py-24) {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  section :deep(.text-3xl) {
+    font-size: 1.5rem !important;
+  }
+
+  section :deep(.text-lg) {
+    font-size: 0.9rem !important;
+  }
+
+  section :deep(.p-9) {
+    padding: 1.25rem !important;
+  }
+
+  section :deep(.text-xl) {
+    font-size: 1.1rem !important;
+  }
+
+  section :deep(.text-sm) {
+    font-size: 0.8rem !important;
+  }
+
+  section :deep(.text-4xl) {
+    font-size: 2rem !important;
+  }
+}
+
+/* Very small mobile (iPhone SE, Galaxy S) */
+@media (max-width: 360px) {
+  section :deep(.text-3xl) {
+    font-size: 1.3rem !important;
+  }
+
+  section :deep(.mb-5) {
+    margin-bottom: 0.75rem !important;
+  }
+
+  section :deep(.p-9) {
+    padding: 1rem !important;
+  }
+
+  section :deep(.text-xl) {
+    font-size: 1rem !important;
+  }
+
+  section :deep(.text-sm) {
+    font-size: 0.75rem !important;
+  }
+
+  section :deep(.mb-16) {
+    margin-bottom: 2rem !important;
+  }
+}
+</style>

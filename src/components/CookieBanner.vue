@@ -172,4 +172,38 @@ onMounted(() => {
     justify-content: center;
   }
 }
+
+@media (max-width: 400px) {
+  .cookie-banner {
+    padding: 14px 12px;
+  }
+
+  .cookie-text p {
+    font-size: 0.78rem;
+  }
+
+  .cookie-btn {
+    font-size: 0.78rem;
+    padding: 8px 18px;
+  }
+
+  .cookie-actions {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cookie-banner {
+    padding: 12px 10px;
+  }
+
+  .cookie-text p {
+    font-size: 0.72rem;
+  }
+
+  .cookie-btn {
+    font-size: 0.72rem;
+    padding: 7px 14px;
+  }
+}
 </style>

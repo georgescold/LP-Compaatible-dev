@@ -285,5 +285,90 @@ function formatDate(dateString: string): string {
   .section-subtitle {
     font-size: 0.95rem;
   }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .card-content {
+    padding: 18px;
+  }
+
+  .card-cover {
+    height: 130px;
+  }
+
+  .section-actions {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 400px) {
+  .blog-section {
+    padding: 60px 12px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    padding: 6px 14px;
+  }
+
+  .article-title {
+    font-size: 1rem;
+  }
+
+  .article-excerpt {
+    font-size: 0.8rem;
+  }
+
+  .card-footer {
+    font-size: 0.7rem;
+  }
+
+  .card-cover {
+    height: 110px;
+  }
+
+  .card-content {
+    padding: 14px;
+  }
+
+  .see-all-link {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .blog-section {
+    padding: 50px 10px;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .article-card {
+    border-radius: 16px;
+  }
+
+  .article-title {
+    font-size: 0.95rem;
+  }
+
+  .article-excerpt {
+    font-size: 0.75rem;
+  }
+
+  .card-content {
+    padding: 12px;
+  }
 }
 </style>

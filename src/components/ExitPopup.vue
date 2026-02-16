@@ -492,4 +492,85 @@ onUnmounted(() => {
     font-size: 1.75rem;
   }
 }
+
+@media (max-width: 360px) {
+  .popup-overlay {
+    padding: 0.5rem;
+  }
+
+  .popup-container {
+    border-radius: 1.5rem;
+  }
+
+  .popup-content {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+
+  .popup-title {
+    font-size: 1.5rem;
+  }
+
+  .popup-subtitle {
+    font-size: 0.875rem;
+    max-width: 250px;
+  }
+
+  .popup-badge {
+    font-size: 10px;
+    padding: 0.2rem 0.75rem;
+  }
+
+  .popup-price {
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .price-value.free {
+    font-size: 1.5rem;
+  }
+
+  .popup-urgency {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .popup-urgency p {
+    font-size: 0.72rem;
+  }
+
+  .popup-features li {
+    font-size: 0.78rem;
+    gap: 0.5rem;
+  }
+
+  .check-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .popup-cta {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.82rem;
+  }
+
+  .popup-skip {
+    font-size: 0.68rem;
+  }
+
+  .popup-logo {
+    height: 36px;
+    margin-bottom: 1rem;
+  }
+
+  .popup-close {
+    top: 1rem;
+    right: 1rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .popup-close svg {
+    width: 12px;
+    height: 12px;
+  }
+}
 </style>

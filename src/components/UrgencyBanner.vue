@@ -131,4 +131,35 @@ const { formattedHours, formattedMinutes, formattedSeconds } = useCountdown(47, 
     font-size: 0.7rem;
   }
 }
+
+@media (max-width: 360px) {
+  .urgency-banner {
+    padding: 8px 8px;
+  }
+
+  .banner-content {
+    font-size: 0.62rem;
+    gap: 4px;
+  }
+
+  .badge-free {
+    padding: 2px 6px;
+    font-size: 0.6rem;
+  }
+
+  .price-new {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+  }
+
+  .countdown span {
+    padding: 2px 4px;
+    font-size: 0.62rem;
+  }
+
+  .countdown {
+    margin-left: 2px;
+    gap: 2px;
+  }
+}
 </style>
