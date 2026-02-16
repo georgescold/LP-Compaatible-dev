@@ -202,4 +202,38 @@ import IconArrowRight from './icons/IconArrowRight.vue'
     padding: 4px;
   }
 }
+
+@media (max-width: 360px) {
+  .final-cta {
+    padding: 50px 0;
+  }
+
+  .free-badge {
+    font-size: 0.7rem;
+    padding: 6px 14px;
+    gap: 8px;
+  }
+
+  .final-subtitle {
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+
+  .price-original {
+    font-size: 1rem;
+  }
+
+  .price-free {
+    font-size: 2rem;
+  }
+
+  .btn-large {
+    font-size: 0.9rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .cta-note {
+    font-size: 0.8rem;
+  }
+}
 </style>

@@ -313,4 +313,39 @@ import heroBackground from '../assets/image test site (2).webp'
     font-size: 1rem;
   }
 }
+
+@media (max-width: 360px) {
+  .hero {
+    padding: 32px 0 50px;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    gap: 6px;
+  }
+
+  .glass-container .btn-primary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .discount-badge {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+  }
+
+  .hero-trust-item {
+    font-size: 0.75rem;
+  }
+}
 </style>

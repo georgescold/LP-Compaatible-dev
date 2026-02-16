@@ -396,4 +396,61 @@ const features = [
     height: 24px;
   }
 }
+
+@media (max-width: 400px) {
+  .comparison-section {
+    padding: 50px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header p {
+    font-size: 0.9rem;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1.2fr 0.8fr 0.8fr;
+    padding: 10px 12px;
+    font-size: 0.75rem;
+  }
+
+  .table-header .competitor-col,
+  .table-header .brand-col {
+    font-size: 0.7rem;
+  }
+
+  .table-row .feature-col {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .icon-cross,
+  .icon-check {
+    width: 20px;
+    height: 20px;
+  }
+
+  .comparison-table {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 340px) {
+  .table-header,
+  .table-row {
+    padding: 8px 10px;
+    font-size: 0.7rem;
+  }
+
+  .table-row .feature-col {
+    font-size: 0.68rem;
+  }
+}
 </style>

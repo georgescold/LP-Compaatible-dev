@@ -238,5 +238,34 @@ a.router-link-active:focus-visible {
   outline-offset: 4px;
 }
 
+/* ===== GLOBAL RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .container-main {
+    padding: 0 1rem;
+  }
+
+  .btn-primary {
+    padding: 0.9rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .btn-secondary {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container-main {
+    padding: 0 0.75rem;
+  }
+
+  .btn-primary {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    gap: 0.5rem;
+  }
+}
+
 /* ===== LOGO HANDLING ===== */
 /* Transparent PNG logo — no blend mode needed */

@@ -1089,6 +1089,72 @@ async function handleSubmit() {
   .inscription-title {
     font-size: 1.4rem;
   }
+
+  .inscription-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="number"],
+  .form-group input[type="password"],
+  .form-group input[type="tel"] {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+
+  .orientation-option {
+    padding: 12px 14px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+  }
+
+  .submit-btn {
+    padding: 16px 24px;
+    font-size: 0.95rem;
+  }
+
+  .trust-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .trust-item {
+    font-size: 0.75rem;
+  }
+
+  .checkbox-text {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .inscription-page {
+    padding: 12px 8px 32px;
+  }
+
+  .inscription-form {
+    padding: 16px 12px;
+  }
+
+  .inscription-title {
+    font-size: 1.25rem;
+  }
+
+  .orientation-option {
+    padding: 10px 10px;
+    font-size: 0.75rem;
+  }
 }
 
 /* Screen reader only */

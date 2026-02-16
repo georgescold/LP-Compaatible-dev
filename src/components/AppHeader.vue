@@ -187,16 +187,22 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   .header-container {
     display: flex;
     justify-content: space-between;
+    padding: 0 24px;
   }
 }
 
 @media (max-width: 480px) {
   .header {
     padding: 12px 0;
+    height: 64px;
   }
 
   .header.is-scrolled {
     padding: 10px 0;
+  }
+
+  .header-container {
+    padding: 0 16px;
   }
 
   .logo {
@@ -206,6 +212,21 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
   .logo-icon {
     width: 26px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-container {
+    padding: 0 12px;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+    gap: 6px;
+  }
+
+  .logo-icon {
+    width: 24px;
   }
 }
 </style>

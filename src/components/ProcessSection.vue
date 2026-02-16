@@ -298,4 +298,40 @@ const steps: Step[] = [
     font-size: 1.2rem;
   }
 }
+
+@media (max-width: 400px) {
+  .how-it-works {
+    padding: 50px 12px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .step-card {
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  .step-badge {
+    font-size: 0.7rem;
+    padding: 5px 12px;
+  }
+
+  .step-heading {
+    font-size: 1.1rem;
+  }
+
+  .step-description {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}
 </style>

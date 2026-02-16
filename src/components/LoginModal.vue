@@ -458,4 +458,45 @@ const closeModal = () => {
     font-size: 1.875rem;
   }
 }
+
+@media (max-width: 360px) {
+  .login-modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-card {
+    border-radius: 20px;
+  }
+
+  .modal-content {
+    padding: 32px 18px;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.875rem;
+    margin-bottom: 24px;
+  }
+
+  .form-input {
+    padding: 12px 16px 12px 42px;
+    font-size: 0.875rem;
+  }
+
+  .submit-btn {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .footer-note {
+    font-size: 0.85rem;
+  }
+
+  .divider {
+    margin: 24px 0;
+  }
+}
 </style>
