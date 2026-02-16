@@ -4,22 +4,22 @@ import { Brain, ShieldCheck, GitCompareArrows } from 'lucide-vue-next'
 const techCards = [
   {
     icon: Brain,
-    title: 'Test de personnalité approfondi',
-    description: 'Inspiré du modèle psychométrique Big Five scientifiquement reconnu. En quelques minutes, notre test révèle qui tu es vraiment, au-delà des apparences.',
-    stat: '~15',
-    statLabel: 'minutes'
+    title: 'Le test le plus complet du marché',
+    description: 'Basé sur le Big Five, le modèle de référence en psychologie scientifique, notre test explore 30 facettes de ta personnalité. Là où les autres apps se contentent de quelques questions, nous allons en profondeur pour comprendre qui tu es vraiment.',
+    stat: '120',
+    statLabel: 'questions'
   },
   {
     icon: ShieldCheck,
     title: 'Anonymat total garanti',
-    description: 'Personne ne saura que tu participes. Tes données sont soigneusement protégées et ton identité n\'est révélée qu\'à ton match.',
+    description: 'Zéro compromis sur ta vie privée. Tes données sont protégées et ton identité n\'est révélée qu\'à ton match, au moment que tu choisis. Pas de profil public, pas de swipe, pas d\'exposition.',
     stat: '100%',
     statLabel: 'confidentiel'
   },
   {
     icon: GitCompareArrows,
-    title: 'Analyse de compatibilité',
-    description: 'Nous analysons 30 dimensions de ta personnalité pour identifier la personne avec laquelle tu as le plus de chances de construire une relation durable.',
+    title: 'La compatibilité profonde, pas le hasard',
+    description: 'Notre algorithme croise 30 dimensions psychologiques pour calculer un score de compatibilité réelle. On ne te propose pas quelqu\'un qui te ressemble, on identifie la personne avec qui ça peut vraiment durer.',
     stat: '30',
     statLabel: 'dimensions'
   }
@@ -30,10 +30,10 @@ const techCards = [
   <section id="technologie" class="tech-section">
     <div class="container-main">
       <div class="section-header">
-        <span class="section-label">Notre Technologie</span>
-        <h2>La démarche scientifique au service de l'amour</h2>
+        <span class="section-label">La référence en compatibilité profonde</span>
+        <h2>La seule plateforme qui matche sur qui tu es vraiment</h2>
         <p>
-          Nous combinons les dernières avancées en psychologie de la personnalité avec une méthode d'analyse propriétaire pour des matchs d'une précision inégalée.
+          Les apps de rencontre classiques se basent sur des photos et des bios. Compaatible est la première plateforme française à utiliser le modèle Big Five, la référence mondiale en psychologie, pour calculer une compatibilité réelle entre deux personnalités.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ const techCards = [
 
 .tech-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(153, 0, 27, 0.08);
+  box-shadow: 0 20px 40px rgba(139, 45, 74, 0.08);
 }
 
 .card-icon {
@@ -113,13 +113,13 @@ const techCards = [
   justify-content: center;
   margin-bottom: 25px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 8px 24px rgba(153, 0, 27, 0.2), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(139, 45, 74, 0.2), inset 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 .tech-card:hover .card-icon {
   transform: translateY(-4px) scale(1.02);
   background: var(--color-red-dark);
-  box-shadow: 0 12px 30px rgba(153, 0, 27, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(139, 45, 74, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 .icon {

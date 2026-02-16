@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import IconArrowRight from './icons/IconArrowRight.vue'
+import logoUrl from '../assets/nouveau logo compaatible.png'
 
 const isVisible = ref(false)
 const hasBeenShown = ref(false)
@@ -37,6 +38,14 @@ function closePopup(): void {
   isVisible.value = false
   document.body.style.overflow = ''
 }
+
+// Expose forceShow for dev panel testing (bypasses localStorage check)
+function forceShow(): void {
+  isVisible.value = true
+  document.body.style.overflow = 'hidden'
+}
+
+defineExpose({ forceShow })
 
 function handleMouseLeave(e: MouseEvent): void {
   // Detect when mouse leaves the viewport from the top (intent to close tab/leave)
@@ -85,63 +94,66 @@ onUnmounted(() => {
 
           <!-- Content -->
           <div class="popup-content">
+            <!-- Logo centered -->
+            <img :src="logoUrl" alt="Compaatible" class="popup-logo" />
+
             <!-- Decorative badge -->
             <div class="popup-badge">
-              <span class="badge-emoji">🎁</span>
-              <span>Offre exclusive</span>
+              <svg class="badge-heart" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              OFFRE EXCLUSIVE
             </div>
 
             <!-- Main heading -->
             <h2 class="popup-title">
-              Attends ! <span>C'est gratuit.</span>
+              Attends ! C'est <span>gratuit.</span>
             </h2>
 
             <!-- Subtitle -->
             <p class="popup-subtitle">
-              Tu es sur le point de quitter, mais as-tu vu que la <strong>1ère édition de Compaatible est entièrement gratuite</strong> ?
+              "La 1ère édition est entièrement gratuite. Ne laisse pas passer ta chance."
             </p>
 
             <!-- Price display -->
             <div class="popup-price">
-              <div class="price-box price-old-box">
-                <span class="price-label">Prix normal</span>
+              <div class="price-box">
+                <span class="price-label">Prix habituel</span>
                 <span class="price-value crossed">19,99€</span>
               </div>
-              <div class="price-arrow">→</div>
-              <div class="price-box price-new-box">
-                <span class="price-label">1ère édition</span>
+              <div class="price-divider"></div>
+              <div class="price-box">
+                <span class="price-label">Édition #1</span>
                 <span class="price-value free">0€</span>
               </div>
             </div>
 
             <!-- Urgency message -->
             <div class="popup-urgency">
-              <div class="urgency-icon">⚡</div>
               <p>
-                <strong>Cette offre ne sera plus jamais disponible.</strong><br>
-                La première édition est un événement unique pour lancer Compaatible. Les prochaines éditions seront payantes.
+                <strong>Dernière chance :</strong> Cet avantage fondateur ne sera plus jamais proposé aux futurs membres.
               </p>
             </div>
 
             <!-- Features -->
             <ul class="popup-features">
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                Test de personnalité complet (30 dimensions)
+                <span>Test de personnalité (30 dimensions)</span>
               </li>
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                3 matchs ultra-compatibles garantis
+                <span>3 matchs ultra-compatibles garantis</span>
               </li>
               <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                Aucun paiement, aucune carte bancaire
+                <span>Aucun paiement requis</span>
               </li>
             </ul>
 
@@ -158,8 +170,8 @@ onUnmounted(() => {
           </div>
 
           <!-- Decorative elements -->
-          <div class="popup-decoration popup-decoration-1"></div>
-          <div class="popup-decoration popup-decoration-2"></div>
+          <div class="popup-decoration decor-top"></div>
+          <div class="popup-decoration decor-bottom"></div>
         </div>
       </div>
     </Transition>
@@ -170,284 +182,292 @@ onUnmounted(() => {
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: rgba(26, 26, 26, 0.4);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  padding: 20px;
+  padding: 1rem;
 }
 
 .popup-container {
-  background: white;
-  border-radius: 24px;
-  max-width: 520px;
+  background: #FEFEFE;
+  border-radius: 2.5rem;
+  max-width: 440px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
   position: relative;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 50px rgba(139, 45, 74, 0.1);
+  overflow: hidden;
 }
 
 .popup-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
   border: none;
-  background: var(--color-white-cream);
+  background: #FBF9F7;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   z-index: 10;
 }
 
 .popup-close svg {
-  width: 20px;
-  height: 20px;
-  color: var(--color-gray-dark);
+  width: 14px;
+  height: 14px;
+  color: #787878;
 }
 
 .popup-close:hover {
-  background: var(--color-gray-light);
+  background: #8B2D4A;
   transform: rotate(90deg);
 }
 
+.popup-close:hover svg {
+  color: white;
+}
+
 .popup-content {
-  padding: 50px 40px 40px;
+  padding: 2.5rem 2rem 2rem;
   text-align: center;
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-logo {
+  height: 42px;
+  width: auto;
+  margin-bottom: 1.25rem;
+  opacity: 0.9;
 }
 
 .popup-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--color-red-pure) 0%, var(--color-red-dark) 100%);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-size: 0.85rem;
+  gap: 0.5rem;
+  background: rgba(139, 45, 74, 0.05);
+  color: #8B2D4A;
+  padding: 0.25rem 1rem;
+  border-radius: 9999px;
+  font-size: 11px;
   font-weight: 600;
-  margin-bottom: 25px;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
 }
 
-.badge-emoji {
-  font-size: 1.1rem;
+.badge-heart {
+  width: 12px;
+  height: 12px;
 }
 
 .popup-title {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--color-black);
-  line-height: 1.2;
-  margin-bottom: 15px;
+  color: #1A1A1A;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
 }
 
 .popup-title span {
-  color: var(--color-red-pure);
-  display: block;
+  color: #8B2D4A;
 }
 
 .popup-subtitle {
-  font-size: 1.05rem;
-  color: var(--color-gray-dark);
-  line-height: 1.6;
-  margin-bottom: 30px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #5C5C5C;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  max-width: 280px;
 }
 
-.popup-subtitle strong {
-  color: var(--color-black);
-}
-
-/* Price display */
 .popup-price {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 25px;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #FBF9F7;
+  border-radius: 1.5rem;
 }
 
 .price-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
 }
 
 .price-label {
-  font-size: 0.75rem;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-gray-main);
+  color: #787878;
+  margin-bottom: 2px;
 }
 
 .price-value {
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
 .price-value.crossed {
-  color: var(--color-gray-main);
+  color: #787878;
   text-decoration: line-through;
   opacity: 0.5;
 }
 
 .price-value.free {
-  color: var(--color-red-pure);
-  font-size: 2.5rem;
+  color: #8B2D4A;
+  font-size: 1.75rem;
 }
 
-.price-arrow {
-  font-size: 1.5rem;
-  color: var(--color-gray-light);
+.price-divider {
+  width: 1px;
+  height: 30px;
+  background: #E8E8E8;
 }
 
-/* Urgency message */
 .popup-urgency {
-  background: linear-gradient(135deg, rgba(153, 0, 27, 0.08) 0%, rgba(153, 0, 27, 0.03) 100%);
-  border: 1px solid rgba(153, 0, 27, 0.15);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 25px;
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  text-align: left;
-}
-
-.urgency-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
+  background: rgba(217, 119, 6, 0.05);
+  border: 1px solid rgba(217, 119, 6, 0.1);
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  max-width: 320px;
 }
 
 .popup-urgency p {
-  font-size: 0.9rem;
-  color: var(--color-black);
-  line-height: 1.5;
+  font-size: 0.8rem;
+  color: #4A4A4A;
+  line-height: 1.4;
   margin: 0;
 }
 
 .popup-urgency strong {
-  color: var(--color-red-pure);
+  color: #D97706;
 }
 
-/* Features list */
 .popup-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 30px;
+  margin: 0 0 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.6rem;
+  width: 100%;
 }
 
 .popup-features li {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 0.95rem;
-  color: var(--color-black);
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #5C5C5C;
+  text-align: left;
 }
 
-.popup-features svg {
-  width: 20px;
-  height: 20px;
-  color: var(--color-red-pure);
+.check-svg {
+  width: 18px;
+  height: 18px;
+  color: #8B2D4A;
   flex-shrink: 0;
+  opacity: 0.8;
 }
 
-/* CTA Button */
 .popup-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 0.75rem;
   width: 100%;
-  background: linear-gradient(135deg, var(--color-red-pure) 0%, var(--color-red-dark) 100%);
+  background: #8B2D4A;
   color: white;
-  padding: 18px 30px;
-  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 9999px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.3);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 10px 20px rgba(139, 45, 74, 0.2);
 }
 
 .popup-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(153, 0, 27, 0.4);
+  transform: scale(1.02);
+  background: #A03558;
 }
 
 .popup-cta .cta-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
 }
 
 .popup-cta:hover .cta-icon {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
-/* Skip button */
 .popup-skip {
-  margin-top: 15px;
+  margin-top: 1rem;
   background: none;
   border: none;
-  color: var(--color-gray-main);
-  font-size: 0.85rem;
+  color: #787878;
+  font-size: 0.75rem;
   cursor: pointer;
-  text-decoration: underline;
-  transition: color 0.3s ease;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
 
 .popup-skip:hover {
-  color: var(--color-black);
+  opacity: 1;
+  text-decoration: underline;
 }
 
-/* Decorations */
 .popup-decoration {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
+  filter: blur(40px);
 }
 
-.popup-decoration-1 {
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.06) 0%, transparent 70%);
-  top: -50px;
-  right: -50px;
-}
-
-.popup-decoration-2 {
+.decor-top {
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
-  bottom: -30px;
-  left: -30px;
+  background: rgba(139, 45, 74, 0.08);
+  top: -75px;
+  right: -75px;
 }
 
-/* Transitions */
+.decor-bottom {
+  width: 100px;
+  height: 100px;
+  background: rgba(217, 119, 6, 0.05);
+  bottom: -50px;
+  left: -50px;
+}
+
 .popup-enter-active,
 .popup-leave-active {
-  transition: all 0.4s ease;
+  transition: opacity 0.4s ease;
 }
 
 .popup-enter-active .popup-container,
 .popup-leave-active .popup-container {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .popup-enter-from,
@@ -457,51 +477,19 @@ onUnmounted(() => {
 
 .popup-enter-from .popup-container,
 .popup-leave-to .popup-container {
-  transform: scale(0.9) translateY(20px);
+  transform: scale(0.95) translateY(10px);
   opacity: 0;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .popup-container {
-    border-radius: 20px;
-    margin: 10px;
+    border-radius: 2rem;
   }
-
   .popup-content {
-    padding: 40px 25px 30px;
+    padding: 2rem 1.5rem 1.5rem;
   }
-
   .popup-title {
-    font-size: 1.7rem;
-  }
-
-  .popup-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .popup-price {
-    gap: 15px;
-  }
-
-  .price-value {
-    font-size: 1.5rem;
-  }
-
-  .price-value.free {
-    font-size: 2rem;
-  }
-
-  .popup-urgency {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-
-  .popup-cta {
-    padding: 16px 24px;
-    font-size: 1rem;
+    font-size: 1.75rem;
   }
 }
 </style>

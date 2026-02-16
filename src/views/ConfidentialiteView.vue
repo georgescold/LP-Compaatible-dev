@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <span class="logo-text">Compaatible</span>
         </router-link>
         <h1>Politique de Confidentialité</h1>
-        <p class="last-update">Dernière mise à jour : 9 février 2025</p>
+        <p class="last-update">Dernière mise à jour : 16 février 2026</p>
       </header>
 
       <main class="legal-content">
@@ -84,6 +84,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
             <li><strong>L'exécution du contrat :</strong> Le traitement est nécessaire à la fourniture du service auquel vous avez souscrit</li>
             <li><strong>Votre consentement :</strong> Pour l'envoi de communications commerciales et l'utilisation de certains cookies</li>
             <li><strong>L'intérêt légitime :</strong> Pour l'amélioration de nos services et la sécurité de la plateforme</li>
+            <li><strong>Votre consentement (cession commerciale) :</strong> Pour la mise à disposition de données anonymisées ou pseudonymisées à des tiers partenaires à des fins commerciales (voir section 6)</li>
           </ul>
         </section>
 
@@ -97,12 +98,24 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
             <li><strong>Partenaires analytiques :</strong> Services d'analyse de trafic pour améliorer le service</li>
             <li><strong>Autorités compétentes :</strong> En cas d'obligation légale</li>
           </ul>
-          <p>Nous pouvons également utiliser des données anonymisées et agrégées à des fins de recherche, d'analyse statistique ou de développement commercial, dans le respect de la réglementation applicable.</p>
+        </section>
+
+        <!-- Cession commerciale -->
+        <section class="legal-section">
+          <h2>6. Utilisation commerciale et cession des données</h2>
+          <p>En utilisant le Service et en acceptant la présente politique, vous consentez expressément à ce que vos données, sous forme <strong>anonymisée ou pseudonymisée</strong>, puissent être :</p>
+          <ul>
+            <li><strong>Utilisées à des fins d'études et de recherche :</strong> Analyse de tendances comportementales, études statistiques sur la compatibilité relationnelle, recherche en psychologie appliquée</li>
+            <li><strong>Cédées ou mises à disposition de tiers partenaires :</strong> Entreprises, organismes de recherche ou partenaires commerciaux, à des fins d'analyse de marché, de marketing ciblé, de développement de produits ou de services complémentaires</li>
+            <li><strong>Agrégées dans des rapports ou bases de données :</strong> Destinés à des partenaires commerciaux, sans qu'aucune identification directe des utilisateurs ne soit possible</li>
+          </ul>
+          <p><strong>Garanties :</strong> Les données cédées à des tiers ne permettront jamais l'identification directe d'un utilisateur. Seules des données anonymisées (sans nom, email ou photo) ou pseudonymisées (avec identifiant technique non réversible) seront partagées.</p>
+          <p><strong>Droit d'opposition :</strong> Vous pouvez à tout moment vous opposer à cette utilisation commerciale de vos données en nous contactant à <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a>. Ce retrait n'affecte pas la licéité des traitements effectués avant votre opposition.</p>
         </section>
 
         <!-- Transferts -->
         <section class="legal-section">
-          <h2>6. Transferts de données</h2>
+          <h2>7. Transferts de données</h2>
           <p>Certains de nos prestataires sont situés en dehors de l'Union Européenne (notamment aux États-Unis). Ces transferts sont encadrés par :</p>
           <ul>
             <li>Les clauses contractuelles types approuvées par la Commission Européenne</li>
@@ -112,7 +125,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 
         <!-- Conservation -->
         <section class="legal-section">
-          <h2>7. Durée de conservation</h2>
+          <h2>8. Durée de conservation</h2>
           <p>Vos données sont conservées :</p>
           <ul>
             <li><strong>Données de compte :</strong> Pendant toute la durée d'utilisation du service, puis archivées 3 ans après la dernière activité</li>
@@ -120,12 +133,12 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
             <li><strong>Données de transaction :</strong> 10 ans (obligation comptable)</li>
             <li><strong>Données techniques :</strong> 13 mois maximum</li>
           </ul>
-          <p>Vous pouvez demander la suppression de vos données à tout moment (voir section 8).</p>
+          <p>Vous pouvez demander la suppression de vos données à tout moment (voir section 9).</p>
         </section>
 
         <!-- Droits -->
         <section class="legal-section">
-          <h2>8. Vos droits</h2>
+          <h2>9. Vos droits</h2>
           <p>Conformément au RGPD, vous disposez des droits suivants :</p>
           <ul>
             <li><strong>Droit d'accès :</strong> Obtenir une copie de vos données personnelles</li>
@@ -136,13 +149,13 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
             <li><strong>Droit d'opposition :</strong> Vous opposer au traitement de vos données</li>
             <li><strong>Droit de retrait du consentement :</strong> Retirer votre consentement à tout moment</li>
           </ul>
-          <p>Pour exercer ces droits, contactez-nous à : <a href="mailto:loysb2b@gmail.com">loysb2b@gmail.com</a></p>
+          <p>Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a></p>
           <p>Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (Commission Nationale de l'Informatique et des Libertés) : <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a></p>
         </section>
 
         <!-- Sécurité -->
         <section class="legal-section">
-          <h2>9. Sécurité des données</h2>
+          <h2>10. Sécurité des données</h2>
           <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données :</p>
           <ul>
             <li>Chiffrement des données sensibles (mots de passe)</li>
@@ -154,7 +167,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 
         <!-- Cookies -->
         <section class="legal-section">
-          <h2>10. Cookies</h2>
+          <h2>11. Cookies</h2>
           <p>Notre site utilise des cookies pour :</p>
           <ul>
             <li><strong>Cookies essentiels :</strong> Nécessaires au fonctionnement du site (authentification, session)</li>
@@ -165,22 +178,22 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 
         <!-- Mineurs -->
         <section class="legal-section">
-          <h2>11. Protection des mineurs</h2>
+          <h2>12. Protection des mineurs</h2>
           <p>Le Service est strictement réservé aux personnes majeures (18 ans et plus). Nous ne collectons pas sciemment de données concernant des mineurs. Si nous découvrons qu'un mineur s'est inscrit, son compte sera immédiatement supprimé.</p>
         </section>
 
         <!-- Modifications -->
         <section class="legal-section">
-          <h2>12. Modifications de la politique</h2>
+          <h2>13. Modifications de la politique</h2>
           <p>Cette politique peut être modifiée pour refléter les évolutions légales ou nos pratiques. Les modifications importantes vous seront notifiées par email ou notification sur le Site.</p>
         </section>
 
         <!-- Contact -->
         <section class="legal-section">
-          <h2>13. Contact</h2>
+          <h2>14. Contact</h2>
           <p>Pour toute question relative à cette politique ou à vos données personnelles :</p>
           <ul>
-            <li><strong>Email :</strong> <a href="mailto:loysb2b@gmail.com">loysb2b@gmail.com</a></li>
+            <li><strong>Email :</strong> <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a></li>
             <li><strong>Adresse :</strong> 14 Bis Rue de la Carrière, 02190 La Malmaison, France</li>
           </ul>
         </section>
@@ -244,7 +257,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 .legal-logo {
-  width: 48px;
+  width: 30px;
   height: auto;
 }
 
@@ -353,8 +366,36 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 @media (max-width: 600px) {
+  .legal-page {
+    padding: 24px 16px 60px;
+  }
+
   .legal-content {
     padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .legal-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.15rem;
+  }
+
+  .legal-section p,
+  .legal-section ul li {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .legal-page {
+    padding: 16px 12px 40px;
+  }
+
+  .legal-content {
+    padding: 24px 16px;
   }
 }
 </style>

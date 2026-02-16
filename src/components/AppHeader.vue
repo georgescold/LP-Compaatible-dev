@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Menu, X } from 'lucide-vue-next'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 import LoginModal from './LoginModal.vue'
 
 const isMenuOpen = ref(false)
@@ -34,10 +34,10 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 <template>
   <header :class="['header', { 'is-scrolled': isScrolled }]">
     <div class="container-main header-container">
-      <a href="#" class="logo">
-        <img :src="logoImage" alt="Logo Compaatible" class="logo-icon" />
+      <router-link to="/" class="logo">
+        <img :src="logoImage" alt="Logo Compaatible" class="logo-icon" width="32" height="32" />
         Compaatible
-      </a>
+      </router-link>
 
       <nav class="nav-menu desktop-only">
         <a href="/#technologie" class="nav-link">Le principe</a>
@@ -61,7 +61,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     <div :class="['mobile-panel', { 'is-open': isMenuOpen }]">
       <div class="mobile-header">
         <span class="mobile-title">Menu</span>
-        <button @click="toggleMenu" class="close-btn"><X /></button>
+        <button @click="toggleMenu" class="close-btn" aria-label="Fermer le menu"><X /></button>
       </div>
       <nav class="mobile-nav">
         <a href="/#technologie" class="mobile-link" @click="toggleMenu">Le principe</a>
@@ -124,8 +124,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 
 .logo-icon {
-  width: 52px;
-  height: auto;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -255,7 +255,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   padding-top: 2rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .desktop-only { display: none; }
   .mobile-toggle { display: block; }
   .header-container {
@@ -279,7 +279,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   }
 
   .logo-icon {
-    width: 40px;
+    width: 26px;
   }
 }
 </style>

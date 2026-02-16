@@ -1,4 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { supabase } from '../lib/supabase'
+
+// Routes that require authentication
+const authRequiredRoutes = ['profil', 'resultats']
 
 const router = createRouter({
   history: createWebHistory(),
@@ -72,11 +76,45 @@ const router = createRouter({
       path: '/personnalite/:id',
       name: 'personality-detail',
       component: () => import('../views/PersonalityDetailView.vue')
+    },
+    // 404 Catch-all
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/HomeView.vue'),
+      beforeEnter: (_to, _from, next) => {
+        // Redirect to home for unknown routes
+        next({ name: 'home' })
+      }
     }
   ],
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth', top: 80 }
+    }
     return { top: 0 }
   }
+})
+
+// Global auth guard
+router.beforeEach(async (to, _from, next) => {
+  if (authRequiredRoutes.includes(to.name as string)) {
+    // Allow demo mode for resultats and profil
+    if (to.name === 'resultats' && to.params.id === 'demo') {
+      return next()
+    }
+    if (to.name === 'profil' && to.query.demo === 'true') {
+      return next()
+    }
+
+    const { data: { session } } = await supabase.auth.getSession()
+    const sessionUserId = sessionStorage.getItem('compaatible_user_id')
+
+    if (!session && !sessionUserId) {
+      return next({ name: 'connexion' })
+    }
+  }
+  next()
 })
 
 export default router

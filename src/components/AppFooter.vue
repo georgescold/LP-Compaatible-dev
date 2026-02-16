@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import IconHeart from './icons/IconHeart.vue'
+import logoImage from '../assets/nouveau logo compaatible.png'
+import instagramIcon from '../assets/Instagram_icon.png'
 
 const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="bg-black text-white py-16 pb-8">
+  <footer class="bg-[#1A1A1A] text-white py-16 pb-8">
     <div class="container-main">
       <!-- Footer Content -->
       <div class="flex flex-wrap justify-between items-start gap-10 mb-10">
         <!-- Brand -->
         <div class="max-w-xs">
-          <a href="#" class="font-serif text-2xl font-bold text-white no-underline flex items-center gap-2.5 mb-4">
-            <div class="w-10 h-10 bg-red-pure rounded-full flex items-center justify-center">
-              <IconHeart class="w-5 h-5 fill-white" />
-            </div>
+          <router-link to="/" class="font-serif text-2xl font-bold text-white no-underline flex items-center gap-2.5 mb-4">
+            <img :src="logoImage" alt="Logo Compaatible" class="w-8 h-8 object-contain" width="32" height="32" />
             Compaatible
-          </a>
+          </router-link>
           <p class="text-white/60 text-sm leading-relaxed">
             Une approche différente des rencontres pour des relations qui durent.
           </p>
@@ -38,6 +37,10 @@ const currentYear = new Date().getFullYear()
           <nav class="flex flex-col gap-2.5">
             <a href="mailto:contact@compaatible.fr" class="text-white/60 text-sm no-underline hover:text-white transition-colors">contact@compaatible.fr</a>
             <a href="#" class="text-white/60 text-sm no-underline hover:text-white transition-colors">FAQ</a>
+            <span class="flex items-center gap-2 text-white/60 text-sm">
+              <img :src="instagramIcon" alt="Instagram" class="w-5 h-5 object-contain opacity-60 hover:opacity-100 transition-opacity" width="20" height="20" />
+              Instagram
+            </span>
           </nav>
         </div>
       </div>

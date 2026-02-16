@@ -9,20 +9,24 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
-    question: 'Combien de matchs vais-je recevoir ?',
-    answer: 'Tu reçois 3 matchs classés par ordre de compatibilité. Tu peux contacter celui qui te correspond le plus - ses coordonnées sont incluses. Si les deux autres t\'intriguent aussi, tu peux les débloquer individuellement pour un petit supplément. Notre priorité : des connexions qui ont vraiment du sens.'
+    question: 'Comment ça marche concrètement ?',
+    answer: 'Inscris-toi, passe le test de personnalité (environ 15 minutes), et laisse-nous faire. Le 13 de chaque mois, tu reçois tes 3 matchs classés par compatibilité. Pas de swipe, pas de profil à optimiser. Juste toi, tel que tu es.'
   },
   {
-    question: 'Comment calculez-vous la compatibilité ?',
-    answer: 'Notre méthode d\'analyse compare tes réponses sur 30 dimensions clés de personnalité : ouverture d\'esprit, stabilité émotionnelle, convivialité, conscience, extraversion et leurs sous-facettes. Chaque profil est comparé aux autres en tenant compte de tes critères (âge, localisation, etc.). Le résultat ? Un pourcentage de compatibilité qui reflète vraiment votre potentiel ensemble.'
+    question: 'À quoi servent les 16 types de personnalité ?',
+    answer: 'Chaque type de personnalité a ses forces, ses zones de fragilité et surtout ses compatibilités naturelles. Ton type t\'aide à comprendre comment tu aimes, ce dont tu as besoin, et avec quel profil tu as le plus de chances de construire quelque chose de durable. Nous avons écrit des articles détaillés sur chaque type et leurs compatibilités, consultables dans l\'onglet Blog.'
   },
   {
-    question: 'Et si je ne trouve pas l\'amour ?',
-    answer: 'Notre objectif, c\'est que tu n\'aies plus jamais besoin de nous. Mais si ça ne marche pas du premier coup, tu pourras retenter l\'expérience à un tarif réduit. On croit en notre méthode, et on veut que tu trouves la bonne personne.'
+    question: 'C\'est fiable scientifiquement ?',
+    answer: 'Notre test repose sur le modèle Big Five (OCEAN), utilisé dans plus de 3 000 études scientifiques à travers le monde. C\'est la référence en psychologie de la personnalité depuis plus de 40 ans. On n\'a rien inventé, on l\'a juste appliqué à l\'amour.'
   },
   {
-    question: 'Quand vais-je recevoir mes résultats ?',
-    answer: 'Les matchs sont révélés le 13 de chaque mois. Du 1er au 9, les inscriptions sont ouvertes. Du 10 au 12, nous analysons les compatibilités. Le 13, tu découvres tes 3 matchs ! Tu recevras une notification dès que tes compatibilités seront disponibles.'
+    question: 'Pourquoi le 13 du mois ?',
+    answer: 'On ne fonctionne pas comme les autres apps. Au lieu de te noyer sous les profils, on prend le temps d\'analyser les compatibilités entre tous les participants. Cette fenêtre mensuelle garantit un pool suffisant pour des matchs de qualité.'
+  },
+  {
+    question: 'C\'est disponible dans ma ville ?',
+    answer: 'Compaatible est disponible partout en France. Notre algorithme prend en compte ta localisation pour te proposer des matchs accessibles géographiquement, tout en priorisant la compatibilité de personnalité.'
   }
 ]
 
@@ -96,7 +100,7 @@ const contentStyle = (index: number) => {
 <style scoped>
 .faq-section {
   position: relative;
-  background-color: var(--color-white-cream);
+  background-color: #FFFFFF;
   padding: 120px 24px;
   overflow: hidden;
 }
@@ -114,7 +118,7 @@ const contentStyle = (index: number) => {
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
 }
 
 .bottom-left {
@@ -122,7 +126,7 @@ const contentStyle = (index: number) => {
   left: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.03) 0%, transparent 70%);
 }
 
 /* HEADER */
@@ -134,34 +138,34 @@ const contentStyle = (index: number) => {
 }
 
 .faq-label {
-  display: inline-block;
-  padding: 8px 20px;
-  background: white;
-  border: 1px solid var(--color-gray-light);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 45, 74, 0.05);
+  padding: 6px 16px;
   border-radius: 9999px;
-  color: var(--color-gray-dark);
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.6875rem;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--color-red-pure);
   margin-bottom: 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .faq-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.2rem, 5vw, 3.2rem);
-  color: var(--color-black);
+  color: #1A1A1A;
   font-weight: 600;
   margin-bottom: 16px;
   line-height: 1.2;
 }
 
 .faq-subtitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 1.15rem;
-  color: var(--color-gray-dark);
+  color: #64748b;
   max-width: 500px;
   margin: 0 auto;
   line-height: 1.6;
@@ -180,13 +184,13 @@ const contentStyle = (index: number) => {
 
 .faq-card {
   background: var(--color-white);
-  border: 1px solid var(--color-gray-light);
+  border: none;
   border-radius: 20px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  box-shadow: var(--shadow-card);
 }
 
 /* Red accent bar */
@@ -206,8 +210,8 @@ const contentStyle = (index: number) => {
 
 .faq-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(153, 0, 27, 0.2);
-  box-shadow: 0 12px 30px rgba(153, 0, 27, 0.06);
+  border-color: rgba(139, 45, 74, 0.2);
+  box-shadow: var(--shadow-elevated);
 }
 
 .faq-card:hover::before {
@@ -216,8 +220,8 @@ const contentStyle = (index: number) => {
 
 .faq-card.is-open {
   background: white;
-  border-color: rgba(153, 0, 27, 0.15);
-  box-shadow: 0 15px 40px rgba(153, 0, 27, 0.08);
+  border-color: rgba(139, 45, 74, 0.15);
+  box-shadow: var(--shadow-elevated);
 }
 
 .faq-card.is-open::before {
@@ -242,7 +246,7 @@ const contentStyle = (index: number) => {
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--color-black);
+  color: #334155;
   padding-right: 20px;
   transition: color 0.3s ease;
 }
@@ -264,7 +268,7 @@ const contentStyle = (index: number) => {
 }
 
 .is-open .faq-icon-box {
-  background: rgba(153, 0, 27, 0.1);
+  background: rgba(139, 45, 74, 0.1);
   transform: rotate(180deg);
 }
 
@@ -294,7 +298,7 @@ const contentStyle = (index: number) => {
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--color-gray-dark);
+  color: #64748b;
   font-weight: 300;
   max-width: 90%;
 }
@@ -344,7 +348,7 @@ const contentStyle = (index: number) => {
 
 /* ACCESSIBILITY */
 .faq-trigger:focus-visible {
-  box-shadow: inset 0 0 0 2px rgba(153, 0, 27, 0.4);
+  box-shadow: inset 0 0 0 2px rgba(139, 45, 74, 0.4);
   border-radius: 20px;
 }
 </style>

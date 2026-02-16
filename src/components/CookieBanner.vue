@@ -133,7 +133,7 @@ onMounted(() => {
 .cookie-btn-accept {
   background: var(--color-red-pure);
   color: white;
-  box-shadow: 0 2px 10px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 2px 10px rgba(139, 45, 74, 0.3);
 }
 
 .cookie-btn-accept:hover {

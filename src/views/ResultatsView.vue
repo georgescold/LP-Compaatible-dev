@@ -1,13 +1,43 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../lib/supabase'
 import { domainDescriptions, domainOrder, domainIcons } from '../data/bigfive-results'
 import type { Scores, DomainResult, FacetResult } from '../lib/scoring'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
+import { getPersonalityTypeFromScores, getTypeById, getCategoryForType, type PersonalityType } from '../data/personality-types'
+import PersonalityReveal from '../components/PersonalityReveal.vue'
+import DevPanel from '../components/DevPanel.vue'
+
+// Import all personality SVGs dynamically
+const avatarModules = import.meta.glob('@/assets/16 personnalités svg/*.svg', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
+
+function getAvatarUrl(filename: string): string {
+  const key = Object.keys(avatarModules).find(k => k.includes(filename))
+  return key ? avatarModules[key] : ''
+}
+
+// Import category logo SVGs
+const categoryLogoModules = import.meta.glob('@/assets/catégories svg/*.svg', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
+
+const categoryLogoFiles: Record<string, string> = {
+  architectes: 'architectes du coeur.svg',
+  ames: 'ames lumineuses.svg',
+  gardiens: 'gardiens du lien.svg',
+  flammes: 'flammes libres.svg'
+}
+
+function getCategoryLogoUrl(categoryId: string): string {
+  const filename = categoryLogoFiles[categoryId]
+  if (!filename) return ''
+  const key = Object.keys(categoryLogoModules).find(k => k.includes(filename))
+  return key ? categoryLogoModules[key] : ''
+}
 
 const route = useRoute()
 const router = useRouter()
+
+const isDemo = computed(() => route.params.id === 'demo')
 
 const loading = ref(true)
 const error = ref('')
@@ -18,6 +48,21 @@ const selectedTier = ref<'free' | 'paid' | null>(null)
 const tierSaving = ref(false)
 const tierSaved = ref(false)
 const currentTier = ref<'free' | 'paid'>('free') // Current tier from DB (to prevent downgrade)
+
+// Personality type
+const personalityType = ref<PersonalityType | null>(null)
+const personalityCategory = computed(() => {
+  if (!personalityType.value) return null
+  return getCategoryForType(personalityType.value.id)
+})
+const avatarUrl = computed(() => {
+  if (!personalityType.value) return ''
+  return getAvatarUrl(personalityType.value.avatarFile)
+})
+const categoryLogoUrl = computed(() => {
+  if (!personalityCategory.value) return ''
+  return getCategoryLogoUrl(personalityCategory.value.id)
+})
 
 // Celebration overlay (first view)
 const showCelebration = ref(false)
@@ -74,6 +119,7 @@ onMounted(async () => {
       }}
     } as unknown as Scores
     userName.value = 'Visiteur'
+    personalityType.value = getPersonalityTypeFromScores(scores.value) || null
     loading.value = false
     return
   }
@@ -81,14 +127,48 @@ onMounted(async () => {
   try {
     const { data: result, error: fetchError } = await supabase
       .from('test_results')
-      .select('scores, user_id')
+      .select('scores, user_id, personality_type')
       .eq('id', id)
       .single()
 
     if (fetchError) throw fetchError
     if (!result) throw new Error('Résultat introuvable')
 
+    // Verify the current user owns these results
+    const { data: { session } } = await supabase.auth.getSession()
+    const sessionUserId = sessionStorage.getItem('compaatible_user_id')
+
+    if (session?.user?.id || sessionUserId) {
+      // Fetch the user row to compare IDs
+      let currentUserId = sessionUserId
+      if (session?.user?.id && !currentUserId) {
+        const { data: currentUser } = await supabase
+          .from('users')
+          .select('id')
+          .eq('auth_id', session.user.id)
+          .single()
+        currentUserId = currentUser?.id || null
+      }
+      if (currentUserId && currentUserId !== result.user_id) {
+        error.value = 'Tu n\'as pas accès à ces résultats.'
+        loading.value = false
+        return
+      }
+    } else {
+      // No auth at all — redirect to login
+      router.push('/connexion')
+      return
+    }
+
     scores.value = result.scores as Scores
+
+    // Determine personality type: from DB or compute from scores
+    if (result.personality_type) {
+      personalityType.value = getTypeById(result.personality_type) || null
+    }
+    if (!personalityType.value && scores.value) {
+      personalityType.value = getPersonalityTypeFromScores(scores.value) || null
+    }
 
     // Fetch user name and current tier
     const { data: user } = await supabase
@@ -124,6 +204,19 @@ function dismissCelebration() {
   showCelebration.value = false
 }
 
+async function saveSelectedTagline(tagline: string) {
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.user?.id) return
+    await supabase
+      .from('users')
+      .update({ custom_tagline: tagline })
+      .eq('auth_id', session.user.id)
+  } catch (e) {
+    console.error('Failed to save tagline:', e)
+  }
+}
+
 function toggleDomain(id: string) {
   expandedDomainId.value = expandedDomainId.value === id ? null : id
 }
@@ -148,6 +241,18 @@ function getPercentage(domain: DomainResult | undefined): number {
   return pct
 }
 
+// Computed scores for PersonalityReveal (converts Scores to { O: number, C: number, ... })
+const revealScores = computed(() => {
+  if (!scores.value) return { O: 0, C: 0, E: 0, A: 0, N: 0 }
+  return {
+    O: getPercentage(scores.value.O),
+    C: getPercentage(scores.value.C),
+    E: getPercentage(scores.value.E),
+    A: getPercentage(scores.value.A),
+    N: getPercentage(scores.value.N)
+  }
+})
+
 function getFacetPercentage(facet: FacetResult | undefined, domainKey?: string): number {
   if (!facet || facet.count === 0) return 0
   const avg = facet.score / facet.count
@@ -162,14 +267,14 @@ function getFacetPercentage(facet: FacetResult | undefined, domainKey?: string):
 function getBadgeText(result: string, domainKey?: string): string {
   // Invert label for Stability (N)
   if (domainKey === 'N') {
-    if (result === 'low') return 'Forte' // Low Neuroticism = High Stability
-    if (result === 'high') return 'Faible' // High Neuroticism = Low Stability
+    if (result === 'low') return 'Élevée' // Low Neuroticism = High Stability
+    if (result === 'high') return 'Basse' // High Neuroticism = Low Stability
     return 'Équilibrée'
   }
 
-  if (result === 'high') return 'Fort'
+  if (result === 'high') return 'Élevé'
   if (result === 'neutral') return 'Équilibré'
-  return 'Faible'
+  return 'Bas'
 }
 
 function getScoreText(domainKey: string, result: string): string {
@@ -222,15 +327,30 @@ async function selectTier(tier: 'free' | 'paid') {
 
       if (updateError) throw updateError
     } else {
-      // Fallback to sessionStorage for users who just registered
+      // Fallback: try to get auth session from sessionStorage email
       const userId = sessionStorage.getItem('compaatible_user_id')
       if (userId) {
-        const { error: updateError } = await supabase
+        // Use auth_id if possible by looking up the user
+        const { data: userData } = await supabase
           .from('users')
-          .update({ tier })
+          .select('auth_id')
           .eq('id', userId)
+          .single()
 
-        if (updateError) throw updateError
+        if (userData?.auth_id) {
+          const { error: updateError } = await supabase
+            .from('users')
+            .update({ tier })
+            .eq('auth_id', userData.auth_id)
+          if (updateError) throw updateError
+        } else {
+          // Last resort: update by id (may fail with RLS but at least we try)
+          const { error: updateError } = await supabase
+            .from('users')
+            .update({ tier })
+            .eq('id', userId)
+          if (updateError) throw updateError
+        }
       } else {
         console.warn('No auth session or sessionStorage ID found, tier not saved')
       }
@@ -286,9 +406,21 @@ function goHome() {
         <!-- Hero Section -->
         <section class="hero">
           <div class="container">
+            <!-- Personality Type Avatar -->
+            <div v-if="personalityType && avatarUrl" class="personality-avatar-container">
+              <div class="personality-avatar-circle" :style="{ borderColor: personalityCategory?.color || '#8B2D4A' }">
+                <img :src="avatarUrl" :alt="personalityType.name" class="personality-avatar-img" />
+              </div>
+              <div class="personality-type-badge" :style="{ background: personalityCategory?.color || '#8B2D4A' }">
+                <img v-if="categoryLogoUrl" :src="categoryLogoUrl" :alt="personalityCategory?.name" class="h-5 w-5 object-contain" />
+                <span v-else>{{ personalityType.emoji }}</span>
+                {{ personalityType.name }}
+              </div>
+            </div>
+
             <div class="badge-premium">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#99001B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              Analyse Big Five terminée
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#8B2D4A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Analyse de personnalité terminée
             </div>
             <h1 class="hero-title">
               Ton profil de personnalité est prêt<span v-if="userName">, <span class="highlight">{{ userName }}
@@ -327,9 +459,9 @@ function goHome() {
                     ></div>
                   </div>
                   <div class="progress-labels">
-                    <span>Faible</span>
+                    <span>Bas</span>
                     <span class="score-value">{{ getPercentage(getDomain(key)) }}%</span>
-                    <span>Fort</span>
+                    <span>Élevé</span>
                   </div>
                 </div>
               </div>
@@ -505,7 +637,7 @@ function goHome() {
                   </ul>
 
                   <button class="tier-cta tier-cta-premium" :disabled="tierSaving || currentTier === 'paid'">
-                    <span v-if="currentTier === 'paid'">✅ Plan actuel</span>
+                    <span v-if="currentTier === 'paid'" class="flex items-center justify-center gap-2"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> Plan actuel</span>
                     <span v-else-if="tierSaving && selectedTier === 'paid'">Traitement...</span>
                     <span v-else>Commencer gratuitement</span>
                   </button>
@@ -536,7 +668,7 @@ function goHome() {
               </p>
               <div class="cta-actions">
                 <div class="cta-button-wrapper">
-                  <router-link to="/profil" class="btn-primary">
+                  <router-link :to="isDemo ? '/profil?demo=true' : '/profil'" class="btn-primary">
                     Voir mon profil
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </router-link>
@@ -547,8 +679,8 @@ function goHome() {
               </div>
               <div class="trust-indicators">
                 <div class="trust-item">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#99001B"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  Approche fondée sur la recherche scientifique
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#8B2D4A"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  Basé sur la psychologie profonde
                 </div>
               </div>
             </div>
@@ -557,29 +689,22 @@ function goHome() {
       </template>
     </main>
 
-    <!-- Celebration Overlay (first view) -->
-    <transition name="celebration-fade">
-      <div v-if="showCelebration" class="celebration-overlay">
-        <div class="confetti-container" aria-hidden="true">
-          <div v-for="i in 16" :key="i" :class="`confetti confetti-${i}`"></div>
-        </div>
-        <div class="celebration-card">
-          <div class="celebration-illustration">
-            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 10L63 25L78 28L63 31L60 46L57 31L42 28L57 25L60 10Z" fill="#C5960A" class="celebration-sparkle-1" />
-              <path d="M25 40L27 50L37 52L27 54L25 64L23 54L13 52L23 50L25 40Z" fill="#C5960A" class="celebration-sparkle-2" />
-              <path d="M95 35L96.5 42L103.5 43.5L96.5 45L95 52L93.5 45L86.5 43.5L93.5 42L95 35Z" fill="#99001B" class="celebration-sparkle-3" />
-              <path d="M60 85C60 85 35 70 35 52C35 42 43 35 52 35C55.5 35 58.5 36.5 60 40C61.5 36.5 64.5 35 68 35C77 35 85 42 85 52C85 70 60 85 60 85Z" fill="#99001B" />
-            </svg>
-          </div>
-          <h2 class="celebration-title">Félicitations, {{ userName }} !</h2>
-          <p class="celebration-subtitle">Ton profil de personnalité est maintenant complet. Tu es prêt(e) pour le matching.</p>
-          <button class="celebration-cta" @click="dismissCelebration">
-            Découvrir mes résultats
-          </button>
-        </div>
-      </div>
-    </transition>
+    <!-- Personality Reveal Overlay (first view) -->
+    <PersonalityReveal
+      v-if="showCelebration && personalityType && personalityCategory"
+      :personality-type="personalityType"
+      :category="personalityCategory"
+      :user-name="userName"
+      :result-id="(route.params.id as string)"
+      :scores="revealScores"
+      :avatar-url="avatarUrl"
+      :category-logo-url="categoryLogoUrl"
+      @close="dismissCelebration"
+      @finish="dismissCelebration"
+      @tagline-selected="saveSelectedTagline"
+    />
+
+    <DevPanel />
   </div>
 </template>
 
@@ -626,7 +751,7 @@ function goHome() {
 }
 
 .logo img {
-  width: 40px;
+  width: 24px;
   height: auto;
 }
 
@@ -669,13 +794,13 @@ function goHome() {
 .top-right {
   top: -200px;
   right: -100px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.06) 0%, transparent 70%);
 }
 
 .bottom-left {
   bottom: -200px;
   left: -100px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.04) 0%, transparent 70%);
 }
 
 /* Loading / Error */
@@ -711,6 +836,47 @@ function goHome() {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Personality Avatar */
+.personality-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.personality-avatar-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.personality-avatar-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.personality-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
 
 /* Hero Section */
 .hero {
@@ -809,7 +975,7 @@ function goHome() {
 .icon-box {
   width: 40px;
   height: 40px;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -904,8 +1070,8 @@ function goHome() {
 }
 
 .detail-card.is-expanded {
-  border-color: rgba(153, 0, 27, 0.3);
-  box-shadow: 0 8px 32px rgba(153, 0, 27, 0.05);
+  border-color: rgba(139, 45, 74, 0.3);
+  box-shadow: 0 8px 32px rgba(139, 45, 74, 0.05);
 }
 
 .detail-card-trigger {
@@ -962,7 +1128,7 @@ function goHome() {
   width: fit-content;
 }
 
-.badge-high { background: rgba(153, 0, 27, 0.1); color: var(--color-red-pure); }
+.badge-high { background: rgba(139, 45, 74, 0.1); color: var(--color-red-pure); }
 .badge-neutral { background: #F3F4F6; color: var(--color-gray-dark); }
 .badge-low { background: #E5E7EB; color: var(--color-gray-medium); }
 
@@ -1054,7 +1220,7 @@ function goHome() {
   flex-shrink: 0;
 }
 
-.indicator-high { background-color: var(--color-red-pure); box-shadow: 0 0 8px rgba(153, 0, 27, 0.4); }
+.indicator-high { background-color: var(--color-red-pure); box-shadow: 0 0 8px rgba(139, 45, 74, 0.4); }
 .indicator-neutral { background-color: var(--color-gray-medium); }
 .indicator-low { background-color: var(--color-gray-light); }
 
@@ -1146,13 +1312,13 @@ function goHome() {
 }
 
 .tier-featured {
-  border-color: rgba(153, 0, 27, 0.2);
+  border-color: rgba(139, 45, 74, 0.2);
   background: linear-gradient(to bottom right, #ffffff, #fffdfd);
 }
 
 .tier-card.is-selected {
   border-color: var(--color-red-pure);
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.12);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.12);
 }
 
 .tier-card.is-disabled {
@@ -1195,7 +1361,7 @@ function goHome() {
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(153, 0, 27, 0.2);
+  box-shadow: 0 4px 12px rgba(139, 45, 74, 0.2);
   font-family: 'Inter', sans-serif;
 }
 
@@ -1217,8 +1383,8 @@ function goHome() {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, rgba(153, 0, 27, 0.08) 0%, rgba(153, 0, 27, 0.03) 100%);
-  border: 1px solid rgba(153, 0, 27, 0.15);
+  background: linear-gradient(135deg, rgba(139, 45, 74, 0.08) 0%, rgba(139, 45, 74, 0.03) 100%);
+  border: 1px solid rgba(139, 45, 74, 0.15);
   color: var(--color-red-pure);
   padding: 6px 16px;
   border-radius: 9999px;
@@ -1335,13 +1501,13 @@ function goHome() {
   background: var(--color-red-pure);
   color: white;
   border: none;
-  box-shadow: 0 4px 15px rgba(153, 0, 27, 0.25);
+  box-shadow: 0 4px 15px rgba(139, 45, 74, 0.25);
 }
 
 .tier-cta-premium:hover:not(:disabled) {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 6px 20px rgba(139, 45, 74, 0.3);
 }
 
 .is-selected .tier-cta:not(.tier-cta-premium) {
@@ -1426,7 +1592,7 @@ function goHome() {
 
 .cta-button-wrapper {
   padding: 6px;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   border-radius: 9999px;
 }
 
@@ -1444,13 +1610,13 @@ function goHome() {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 6px 24px rgba(139, 45, 74, 0.4);
 }
 
 .btn-secondary-link {
@@ -1522,155 +1688,4 @@ function goHome() {
   }
 }
 
-/* ===== CELEBRATION OVERLAY ===== */
-.celebration-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(26, 26, 26, 0.4);
-  backdrop-filter: blur(12px);
-  padding: 24px;
-}
-
-.celebration-card {
-  background: #FEFEFE;
-  border-radius: 24px;
-  padding: 48px 32px;
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  position: relative;
-  z-index: 10;
-  animation: celebrationCardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes celebrationCardEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.celebration-illustration {
-  margin-bottom: 24px;
-}
-
-.celebration-sparkle-1 { animation: celebrationFloat 3s ease-in-out infinite; }
-.celebration-sparkle-2 { animation: celebrationFloat 4s ease-in-out infinite 0.5s; }
-.celebration-sparkle-3 { animation: celebrationFloat 3.5s ease-in-out infinite 1s; }
-
-@keyframes celebrationFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.1); }
-}
-
-.celebration-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1A1A1A;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-
-.celebration-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
-  color: #5C5C5C;
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-.celebration-cta {
-  background: #99001B;
-  color: #FEFEFE;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 16px 32px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
-}
-
-.celebration-cta:hover {
-  background: #7A0016;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(153, 0, 27, 0.4);
-}
-
-/* CSS Confetti System */
-.confetti-container {
-  position: absolute;
-  top: -20px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  top: -10%;
-  animation: confettiFall linear forwards;
-}
-
-@keyframes confettiFall {
-  to {
-    transform: translateY(110vh) rotate(720deg);
-  }
-}
-
-.confetti-1 { left: 5%; background: #99001B; animation-duration: 4s; animation-delay: 0s; }
-.confetti-2 { left: 15%; background: #C5960A; animation-duration: 3.5s; animation-delay: 0.5s; }
-.confetti-3 { left: 25%; background: #FBF9F7; animation-duration: 5s; animation-delay: 0.2s; border: 1px solid #E8E8E8; }
-.confetti-4 { left: 35%; background: #99001B; animation-duration: 4.2s; animation-delay: 0.8s; }
-.confetti-5 { left: 45%; background: #C5960A; animation-duration: 3.8s; animation-delay: 0.3s; }
-.confetti-6 { left: 55%; background: #99001B; animation-duration: 4.5s; animation-delay: 1.2s; }
-.confetti-7 { left: 65%; background: #FBF9F7; animation-duration: 3.2s; animation-delay: 0.1s; border: 1px solid #E8E8E8; }
-.confetti-8 { left: 75%; background: #C5960A; animation-duration: 4.8s; animation-delay: 0.6s; }
-.confetti-9 { left: 85%; background: #99001B; animation-duration: 3.6s; animation-delay: 1.5s; }
-.confetti-10 { left: 95%; background: #C5960A; animation-duration: 4.1s; animation-delay: 0.4s; }
-.confetti-11 { left: 10%; background: #99001B; width: 6px; height: 12px; animation-duration: 4.4s; animation-delay: 2s; }
-.confetti-12 { left: 30%; background: #C5960A; width: 12px; height: 8px; animation-duration: 3.9s; animation-delay: 1.8s; }
-.confetti-13 { left: 50%; background: #FBF9F7; width: 8px; height: 8px; animation-duration: 4.7s; animation-delay: 2.2s; border: 1px solid #E8E8E8; }
-.confetti-14 { left: 70%; background: #99001B; width: 10px; height: 4px; animation-duration: 3.3s; animation-delay: 1.3s; }
-.confetti-15 { left: 90%; background: #C5960A; width: 6px; height: 6px; animation-duration: 4.6s; animation-delay: 2.5s; }
-.confetti-16 { left: 20%; background: #99001B; width: 8px; height: 12px; animation-duration: 4.2s; animation-delay: 2.1s; }
-
-/* Celebration transition */
-.celebration-fade-enter-active,
-.celebration-fade-leave-active {
-  transition: opacity 0.4s ease;
-}
-
-.celebration-fade-enter-from,
-.celebration-fade-leave-to {
-  opacity: 0;
-}
-
-@media (max-width: 640px) {
-  .celebration-card {
-    padding: 32px 24px;
-  }
-  .celebration-title {
-    font-size: 1.5rem;
-  }
-  .celebration-subtitle {
-    font-size: 1rem;
-  }
-}
 </style>

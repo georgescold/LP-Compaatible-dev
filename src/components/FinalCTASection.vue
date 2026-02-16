@@ -16,7 +16,7 @@ import IconArrowRight from './icons/IconArrowRight.vue'
       </h2>
 
       <p class="final-subtitle">
-        Rejoins les personnes qui ont choisi une approche différente pour trouver l'amour.
+        Passe le test, découvre ton type de personnalité et rencontre quelqu'un qui te correspond vraiment.
       </p>
 
       <div class="price-display">
@@ -41,7 +41,7 @@ import IconArrowRight from './icons/IconArrowRight.vue'
 
 <style scoped>
 .final-cta {
-  background: var(--color-white-cream);
+  background: var(--color-white-warm);
   text-align: center;
   padding: 100px 0;
   position: relative;
@@ -70,14 +70,15 @@ import IconArrowRight from './icons/IconArrowRight.vue'
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 600;
-  color: var(--color-black);
+  color: #1A1A1A;
   line-height: 1.2;
   margin-bottom: 20px;
 }
 
 .final-subtitle {
   font-size: 1.25rem;
-  color: var(--color-gray-dark);
+  color: #64748b;
+  font-family: 'Playfair Display', serif;
   max-width: 500px;
   margin: 0 auto 30px;
   line-height: 1.6;
@@ -117,7 +118,7 @@ import IconArrowRight from './icons/IconArrowRight.vue'
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(153, 0, 27, 0.08);
+  box-shadow: 0 8px 32px rgba(139, 45, 74, 0.08);
   margin-bottom: 20px;
 }
 
@@ -136,21 +137,20 @@ import IconArrowRight from './icons/IconArrowRight.vue'
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  box-shadow: 0 0 0 0 rgba(153, 0, 27, 0.4);
+  box-shadow: 0 0 0 0 rgba(139, 45, 74, 0.4);
   animation: pulse-glow 2s infinite;
 }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(153, 0, 27, 0.3); }
-  70% { box-shadow: 0 0 0 16px rgba(153, 0, 27, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(153, 0, 27, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(139, 45, 74, 0.3); }
+  70% { box-shadow: 0 0 0 16px rgba(139, 45, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 45, 74, 0); }
 }
 
 .cta-note {
   margin-top: 0;
   font-size: 0.9rem;
   color: var(--color-gray-dark);
-  font-style: italic;
 }
 
 @media (max-width: 768px) {

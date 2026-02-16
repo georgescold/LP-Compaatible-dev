@@ -138,7 +138,7 @@ const rawQuestions = [
   // === O5 - Intellect (minus) ===
   { id: '95a3f20c-f933-4d19-a2c1-a7dbdf63c562', text: 'Les questions philosophiques ou abstraites ne m\'intéressent pas', keyed: 'minus', domain: 'O', facet: 5 },
   // === A5 - Modesty (minus) ===
-  { id: '7df44711-4cd4-4b05-8830-73fcc3ebdab5', text: 'Je pense que je vaux mieux que la moyenne des gens', keyed: 'minus', domain: 'A', facet: 5 },
+  { id: '7df44711-4cd4-4b05-8830-73fcc3ebdab5', text: 'Je pense mériter plus de reconnaissance que ce que je reçois', keyed: 'minus', domain: 'A', facet: 5 },
   // === C5 - Self-discipline (plus) ===
   { id: '9d3cb5c7-955c-43a4-b6c7-b07ed01dcbd9', text: 'Quand je me fixe un objectif, je m\'y tiens jusqu\'au bout', keyed: 'plus', domain: 'C', facet: 5 },
   // === N6 - Vulnerability (plus) ===
@@ -150,11 +150,11 @@ const rawQuestions = [
   // === A6 - Sympathy (plus) ===
   { id: 'c2038c12-7a37-47a8-9983-831bd6692aab', text: 'Je ressens de l\'empathie pour les personnes qui ont moins de chance que moi', keyed: 'plus', domain: 'A', facet: 6 },
   // === C6 - Cautiousness (minus) ===
-  { id: '956f3e17-ff17-4af5-a52f-9222b8968106', text: 'Je fonce souvent sans peser le pour et le contre', keyed: 'minus', domain: 'C', facet: 6 },
+  { id: '956f3e17-ff17-4af5-a52f-9222b8968106', text: 'Je prends souvent des décisions sur un coup de tête', keyed: 'minus', domain: 'C', facet: 6 },
   // === N1 - Anxiety (plus) ===
   { id: '4d81238b-5407-47d4-88e5-dc0e38aa14f5', text: 'J\'ai peur de beaucoup de choses au quotidien, même sans danger réel', keyed: 'plus', domain: 'N', facet: 1 },
   // === E1 - Friendliness (minus) ===
-  { id: '9f9166f0-fa94-4c14-a91d-3eecd8395794', text: 'Je préfère éviter les conversations avec les gens que je connais peu', keyed: 'minus', domain: 'E', facet: 1 },
+  { id: '9f9166f0-fa94-4c14-a91d-3eecd8395794', text: 'Je n\'éprouve pas le besoin de me faire de nouveaux amis', keyed: 'minus', domain: 'E', facet: 1 },
   // === O1 - Imagination (plus) ===
   { id: '23a1034f-fab7-4887-a66e-5ef4eaafb25e', text: 'Je passe du temps à rêver ou à imaginer des choses qui n\'existent pas', keyed: 'plus', domain: 'O', facet: 1 },
   // === A1 - Trust (plus) ===
@@ -176,7 +176,7 @@ const rawQuestions = [
   // === E3 - Assertiveness (plus) ===
   { id: '2452f034-8273-4f71-9122-a40f5ead31ba', text: 'J\'aime prendre les décisions quand personne ne se lance', keyed: 'plus', domain: 'E', facet: 3 },
   // === O3 - Emotionality (minus) ===
-  { id: '2a300001-6e05-4c79-b8b5-2ccae4c3d463', text: 'Je suis rarement submergé(e) par mes émotions', keyed: 'minus', domain: 'O', facet: 3 },
+  { id: '2a300001-6e05-4c79-b8b5-2ccae4c3d463', text: 'Je vis mes émotions de manière plutôt modérée et contenue', keyed: 'minus', domain: 'O', facet: 3 },
   // === A3 - Altruism (minus) ===
   { id: 'cd54bd76-ca9c-4030-b325-bb8d896bcb3f', text: 'Les problèmes des autres ne me touchent pas beaucoup', keyed: 'minus', domain: 'A', facet: 3 },
   // === C3 - Dutifulness (minus) ===
@@ -192,7 +192,7 @@ const rawQuestions = [
   // === C4 - Achievement-striving (minus) ===
   { id: '3890bb43-2695-4b8d-b289-ee10d11cc884', text: 'Je ne me donne pas à fond dans mon travail ou mes études', keyed: 'minus', domain: 'C', facet: 4 },
   // === N5 - Immoderation (minus) ===
-  { id: '49a85680-53aa-4208-86b5-dccc7a6f8e37', text: 'Je sais bien me contrôler face à mes envies et impulsions', keyed: 'minus', domain: 'N', facet: 5 },
+  { id: '49a85680-53aa-4208-86b5-dccc7a6f8e37', text: 'Je résiste facilement aux tentations du quotidien', keyed: 'minus', domain: 'N', facet: 5 },
   // === E5 - Excitement-seeking (plus) ===
   { id: '10f90fa9-649c-4631-ac4c-3dd3f751597d', text: 'Il m\'arrive de prendre des risques juste pour le frisson', keyed: 'plus', domain: 'E', facet: 5 },
   // === O5 - Intellect (minus) ===
@@ -210,7 +210,67 @@ const rawQuestions = [
   // === A6 - Sympathy (minus) ===
   { id: '48bee420-60c0-45cd-be43-3893dbc1969a', text: 'Je préfère ne pas trop penser à la souffrance des autres', keyed: 'minus', domain: 'A', facet: 6 },
   // === C6 - Cautiousness (minus) ===
-  { id: 'ea3327ea-3529-4be4-8e2d-2174731ae4d7', text: 'J\'agis d\'abord et je réfléchis aux conséquences après', keyed: 'minus', domain: 'C', facet: 6 }
+  { id: 'ea3327ea-3529-4be4-8e2d-2174731ae4d7', text: 'Je me lance dans les choses sans trop réfléchir aux risques', keyed: 'minus', domain: 'C', facet: 6 },
+  // === N1 - Anxiety (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000001', text: 'Je reste serein(e) même quand l\'avenir est incertain', keyed: 'minus', domain: 'N', facet: 1 },
+  // === E1 - Friendliness (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000002', text: 'Je ne ressens pas le besoin de créer des liens avec les gens que je rencontre', keyed: 'minus', domain: 'E', facet: 1 },
+  // === O1 - Imagination (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000003', text: 'Je préfère me concentrer sur le concret plutôt que de laisser vagabonder mon esprit', keyed: 'minus', domain: 'O', facet: 1 },
+  // === A1 - Trust (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000004', text: 'Je me méfie des intentions des gens que je ne connais pas bien', keyed: 'minus', domain: 'A', facet: 1 },
+  // === C1 - Self-efficacy (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000005', text: 'Il m\'arrive de douter de ma capacité à mener les choses à bien', keyed: 'minus', domain: 'C', facet: 1 },
+  // === N2 - Anger (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000006', text: 'Même dans les situations frustrantes, je garde mon calme sans difficulté', keyed: 'minus', domain: 'N', facet: 2 },
+  // === E2 - Gregariousness (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000007', text: 'Les grands rassemblements sociaux m\'épuisent plus qu\'ils ne m\'amusent', keyed: 'minus', domain: 'E', facet: 2 },
+  // === O2 - Artistic interests (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000008', text: 'Une œuvre d\'art ou un beau paysage peut m\'émouvoir profondément', keyed: 'plus', domain: 'O', facet: 2 },
+  // === A2 - Morality (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000009', text: 'Je reste honnête même quand mentir serait plus avantageux pour moi', keyed: 'plus', domain: 'A', facet: 2 },
+  // === C2 - Orderliness (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000010', text: 'J\'ai besoin d\'un environnement ordonné pour me sentir bien', keyed: 'plus', domain: 'C', facet: 2 },
+  // === N3 - Depression (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000011', text: 'Je me sens globalement satisfait(e) de la personne que je suis', keyed: 'minus', domain: 'N', facet: 3 },
+  // === E3 - Assertiveness (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000012', text: 'Je préfère laisser quelqu\'un d\'autre prendre les commandes dans un groupe', keyed: 'minus', domain: 'E', facet: 3 },
+  // === O3 - Emotionality (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000013', text: 'Je ne suis pas du genre à pleurer facilement devant un film ou une histoire', keyed: 'minus', domain: 'O', facet: 3 },
+  // === A3 - Altruism (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000014', text: 'Aider les autres me procure une vraie satisfaction personnelle', keyed: 'plus', domain: 'A', facet: 3 },
+  // === C3 - Dutifulness (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000015', text: 'Je respecte mes engagements même quand cela me demande un effort', keyed: 'plus', domain: 'C', facet: 3 },
+  // === N4 - Self-consciousness (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000016', text: 'Le regard des autres sur moi ne me préoccupe pas vraiment', keyed: 'minus', domain: 'N', facet: 4 },
+  // === E4 - Activity level (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000017', text: 'J\'aime avoir des journées bien remplies avec beaucoup d\'activités', keyed: 'plus', domain: 'E', facet: 4 },
+  // === O4 - Adventurousness (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000018', text: 'Découvrir un lieu inconnu ou une culture différente me passionne', keyed: 'plus', domain: 'O', facet: 4 },
+  // === A4 - Cooperation (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000019', text: 'En cas de désaccord, je cherche toujours un compromis plutôt que le conflit', keyed: 'plus', domain: 'A', facet: 4 },
+  // === C4 - Achievement-striving (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000020', text: 'Je me contente souvent du minimum quand une tâche ne m\'intéresse pas', keyed: 'minus', domain: 'C', facet: 4 },
+  // === N5 - Immoderation (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000021', text: 'Quand quelque chose me fait plaisir, j\'ai tendance à en abuser', keyed: 'plus', domain: 'N', facet: 5 },
+  // === E5 - Excitement-seeking (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000022', text: 'Je n\'ai pas besoin de sensations fortes pour me sentir vivant(e)', keyed: 'minus', domain: 'E', facet: 5 },
+  // === O5 - Intellect (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000023', text: 'Je suis curieux(se) de comprendre comment le monde fonctionne en profondeur', keyed: 'plus', domain: 'O', facet: 5 },
+  // === A5 - Modesty (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000024', text: 'Je n\'aime pas me mettre en avant ou me vanter de mes accomplissements', keyed: 'plus', domain: 'A', facet: 5 },
+  // === C5 - Self-discipline (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000025', text: 'Je me laisse facilement distraire quand je devrais me concentrer', keyed: 'minus', domain: 'C', facet: 5 },
+  // === N6 - Vulnerability (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000026', text: 'Face à un imprévu, je me sens facilement déstabilisé(e) et stressé(e)', keyed: 'plus', domain: 'N', facet: 6 },
+  // === E6 - Cheerfulness (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000027', text: 'Je ne suis pas quelqu\'un de particulièrement enthousiaste ou expressif', keyed: 'minus', domain: 'E', facet: 6 },
+  // === O6 - Liberalism (minus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000028', text: 'Les valeurs traditionnelles sont un repère important pour moi dans la vie', keyed: 'minus', domain: 'O', facet: 6 },
+  // === A6 - Sympathy (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000029', text: 'La détresse d\'une personne, même inconnue, me touche sincèrement', keyed: 'plus', domain: 'A', facet: 6 },
+  // === C6 - Cautiousness (plus) ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000030', text: 'Je prends le temps de bien réfléchir avant de m\'engager dans quelque chose', keyed: 'plus', domain: 'C', facet: 6 }
 ] as const
 
 export const questions: Question[] = rawQuestions.map((q, i) => ({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <span class="logo-text">Compaatible</span>
         </router-link>
         <h1>Mentions Légales</h1>
-        <p class="last-update">Dernière mise à jour : 9 février 2025</p>
+        <p class="last-update">Dernière mise à jour : 16 février 2026</p>
       </header>
 
       <main class="legal-content">
@@ -31,8 +31,8 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
             <li><strong>Nom :</strong> Loys Coquelle</li>
             <li><strong>Statut :</strong> Entrepreneur Individuel (EI)</li>
             <li><strong>SIRET :</strong> 989 331 418 00016</li>
-            <li><strong>Adresse :</strong> 14 Bis Rue de la Carrière, 02190 La Malmaison, France</li>
-            <li><strong>Email :</strong> <a href="mailto:loysb2b@gmail.com">loysb2b@gmail.com</a></li>
+            <li><strong>Adresse du siège :</strong> 14 Bis Rue de la Carrière, 02190 La Malmaison, France</li>
+            <li><strong>Email :</strong> <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a></li>
           </ul>
           <p><strong>Directeur de la publication :</strong> Loys Coquelle</p>
         </section>
@@ -60,8 +60,8 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
         <section class="legal-section">
           <h2>4. Protection des données personnelles</h2>
           <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez de droits sur vos données personnelles.</p>
-          <p>Pour plus d'informations sur la collecte et le traitement de vos données, veuillez consulter notre <router-link to="/confidentialite">Politique de Confidentialité</router-link>.</p>
-          <p>Pour exercer vos droits, contactez-nous à : <a href="mailto:loysb2b@gmail.com">loysb2b@gmail.com</a></p>
+          <p>Les données collectées peuvent être utilisées à des fins d'amélioration du service, d'analyse statistique, et potentiellement cédées ou mises à disposition de tiers partenaires à des fins commerciales, sous forme anonymisée ou pseudonymisée, dans le respect de la réglementation applicable. Pour plus de détails, veuillez consulter notre <router-link to="/confidentialite">Politique de Confidentialité</router-link>.</p>
+          <p>Pour exercer vos droits, contactez-nous à : <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a></p>
         </section>
 
         <!-- Cookies -->
@@ -83,15 +83,22 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <p>Compaatible est un outil de mise en relation basé sur un algorithme de compatibilité. L'éditeur ne garantit pas le succès des relations issues du service et s'engage uniquement à une obligation de moyens, non de résultat.</p>
         </section>
 
+        <!-- Médiation -->
+        <section class="legal-section">
+          <h2>7. Médiation de la consommation</h2>
+          <p>Conformément aux articles L611-1 et R612-1 du Code de la consommation, en cas de litige non résolu, vous pouvez recourir gratuitement au service de médiation de la consommation. Le médiateur sera désigné conformément à la réglementation en vigueur. Les coordonnées du médiateur compétent seront communiquées sur simple demande à <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a>.</p>
+          <p>Vous pouvez également déposer une réclamation sur la plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a></p>
+        </section>
+
         <!-- Droit applicable -->
         <section class="legal-section">
-          <h2>7. Droit applicable</h2>
+          <h2>8. Droit applicable</h2>
           <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, et après tentative de résolution amiable, les tribunaux français seront seuls compétents.</p>
         </section>
 
         <!-- Liens -->
         <section class="legal-section">
-          <h2>8. Liens utiles</h2>
+          <h2>9. Liens utiles</h2>
           <ul class="legal-links">
             <li><router-link to="/cgu">Conditions Générales d'Utilisation</router-link></li>
             <li><router-link to="/confidentialite">Politique de Confidentialité</router-link></li>
@@ -148,7 +155,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 .legal-logo {
-  width: 48px;
+  width: 30px;
   height: auto;
 }
 
@@ -249,8 +256,36 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 @media (max-width: 600px) {
+  .legal-page {
+    padding: 24px 16px 60px;
+  }
+
   .legal-content {
     padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .legal-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.15rem;
+  }
+
+  .legal-section p,
+  .legal-section ul li {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .legal-page {
+    padding: 16px 12px 40px;
+  }
+
+  .legal-content {
+    padding: 24px 16px;
   }
 }
 </style>

@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../lib/supabase'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 
 const router = useRouter()
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -78,10 +78,26 @@ const handleContinue = async () => {
       .getPublicUrl(filePath)
 
     if (urlData?.publicUrl) {
-      await supabase
+      const { error: updateError } = await supabase
         .from('users')
         .update({ profile_photo_url: urlData.publicUrl })
         .eq('id', userId.value)
+
+      if (updateError) {
+        console.error('Profile photo update failed:', updateError.message)
+        // Try with auth_id as fallback
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          const { error: fallbackError } = await supabase
+            .from('users')
+            .update({ profile_photo_url: urlData.publicUrl })
+            .eq('auth_id', user.id)
+
+          if (fallbackError) {
+            console.error('Fallback update also failed:', fallbackError.message)
+          }
+        }
+      }
     }
 
     router.push('/test')
@@ -234,7 +250,7 @@ const goBack = () => {
   width: 800px;
   height: 800px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -245,7 +261,7 @@ const goBack = () => {
   width: 600px;
   height: 600px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -293,7 +309,7 @@ const goBack = () => {
 }
 
 .app-logo {
-  height: 48px;
+  height: 34px;
   object-fit: contain;
 }
 
@@ -357,7 +373,7 @@ const goBack = () => {
   left: 0;
   width: 100%;
   height: 8px;
-  background: rgba(153, 0, 27, 0.2);
+  background: rgba(139, 45, 74, 0.2);
   z-index: -1;
 }
 
@@ -410,7 +426,7 @@ const goBack = () => {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -511,7 +527,7 @@ const goBack = () => {
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(153, 0, 27, 0.08);
+  box-shadow: 0 8px 32px rgba(139, 45, 74, 0.08);
 }
 
 .primary-cta {
@@ -528,13 +544,13 @@ const goBack = () => {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
 }
 
 .primary-cta:hover:not(:disabled) {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 6px 24px rgba(139, 45, 74, 0.4);
 }
 
 .primary-cta:disabled {

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ClipboardList, Microscope, Heart } from 'lucide-vue-next'
+import { ClipboardList, Microscope } from 'lucide-vue-next'
 import FadeInSection from './FadeInSection.vue'
+import logoImage from '@/assets/nouveau logo compaatible.png'
 
 interface Step {
   title: string
   description: string
   label: string
   icon: any
+  isLogo?: boolean
 }
 
 const steps: Step[] = [
@@ -23,7 +25,8 @@ const steps: Step[] = [
     description: 'Ton profil est comparé aux autres participants sur 30 dimensions de personnalité.'
   },
   {
-    icon: Heart,
+    icon: null,
+    isLogo: true,
     label: 'Le 13',
     title: 'Tu découvres tes matchs',
     description: 'Tu reçois 3 profils ultra-compatibles. Choisis celui qui te parle le plus et lance la conversation !'
@@ -50,7 +53,8 @@ const steps: Step[] = [
           <FadeInSection :delay="index * 200" class="step-wrapper">
             <div class="step-card">
               <div class="icon-container">
-                <component :is="step.icon" :size="28" color="#FEFEFE" :stroke-width="1.5" />
+                <img v-if="step.isLogo" :src="logoImage" alt="" class="w-7 h-7 object-contain" />
+                <component v-else :is="step.icon" :size="28" color="#FEFEFE" :stroke-width="1.5" />
               </div>
 
               <div class="step-content">
@@ -102,7 +106,7 @@ const steps: Step[] = [
   right: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
 }
 
 .bottom-left {
@@ -110,7 +114,7 @@ const steps: Step[] = [
   left: -5%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.03) 0%, transparent 70%);
 }
 
 /* Header */
@@ -120,13 +124,18 @@ const steps: Step[] = [
 }
 
 .label {
-  display: inline-block;
-  color: var(--color-red-pure);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 45, 74, 0.05);
+  padding: 6px 16px;
+  border-radius: 9999px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 0.6875rem;
+  font-weight: 500;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-red-pure);
   margin-bottom: 16px;
 }
 
@@ -134,7 +143,7 @@ const steps: Step[] = [
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 600;
-  color: var(--color-black);
+  color: #1A1A1A;
   line-height: 1.2;
 }
 
@@ -162,7 +171,7 @@ const steps: Step[] = [
 
 /* Card Style */
 .step-card {
-  background: white;
+  background: rgba(255,255,255,0.8);
   padding: 44px 30px;
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -172,13 +181,14 @@ const steps: Step[] = [
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border: 1px solid rgba(232, 232, 232, 0.5);
+  border: none;
+  backdrop-filter: blur(8px);
 }
 
 .step-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(153, 0, 27, 0.08);
-  border-color: rgba(153, 0, 27, 0.1);
+  box-shadow: 0 20px 40px rgba(139, 45, 74, 0.12);
+  border-color: rgba(139, 45, 74, 0.1);
 }
 
 /* Icon Container */
@@ -191,7 +201,7 @@ const steps: Step[] = [
   align-items: center;
   justify-content: center;
   margin-bottom: 28px;
-  box-shadow: 0 8px 16px rgba(153, 0, 27, 0.2);
+  box-shadow: 0 8px 16px rgba(139, 45, 74, 0.2);
   position: relative;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
@@ -201,14 +211,14 @@ const steps: Step[] = [
   position: absolute;
   inset: -4px;
   border-radius: 24px;
-  border: 1px solid rgba(153, 0, 27, 0.1);
+  border: 1px solid rgba(139, 45, 74, 0.1);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .step-card:hover .icon-container {
   transform: scale(1.05);
-  box-shadow: 0 12px 24px rgba(153, 0, 27, 0.25);
+  box-shadow: 0 12px 24px rgba(139, 45, 74, 0.25);
 }
 
 .step-card:hover .icon-container::after {
@@ -224,7 +234,7 @@ const steps: Step[] = [
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-red-pure);
-  background: rgba(153, 0, 27, 0.08);
+  background: rgba(139, 45, 74, 0.08);
   padding: 6px 14px;
   border-radius: 20px;
   margin-bottom: 16px;
@@ -234,7 +244,7 @@ const steps: Step[] = [
   font-family: 'Playfair Display', serif;
   font-size: 1.35rem;
   font-weight: 600;
-  color: var(--color-black);
+  color: #1A1A1A;
   margin-bottom: 12px;
   line-height: 1.3;
 }
@@ -242,7 +252,7 @@ const steps: Step[] = [
 .step-description {
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
-  color: var(--color-gray-dark);
+  color: #64748b;
   line-height: 1.7;
 }
 
@@ -259,6 +269,14 @@ const steps: Step[] = [
     display: flex;
     align-items: center;
     margin-top: 60px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .step-wrapper {
+    max-width: 100%;
+    width: 100%;
   }
 }
 

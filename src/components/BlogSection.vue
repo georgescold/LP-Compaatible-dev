@@ -78,7 +78,7 @@ function formatDate(dateString: string): string {
   right: -10%;
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
 }
 
 .blur-bottom {
@@ -86,7 +86,7 @@ function formatDate(dateString: string): string {
   left: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.03) 0%, transparent 70%);
 }
 
 /* Header */
@@ -162,8 +162,8 @@ function formatDate(dateString: string): string {
 
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(153, 0, 27, 0.08);
-  border-color: rgba(153, 0, 27, 0.15);
+  box-shadow: 0 12px 32px rgba(139, 45, 74, 0.08);
+  border-color: rgba(139, 45, 74, 0.15);
 }
 
 .card-cover {

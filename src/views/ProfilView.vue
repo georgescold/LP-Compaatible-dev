@@ -1,31 +1,74 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { supabase } from '../lib/supabase'
 import { domainDescriptions, domainOrder, domainIcons } from '../data/bigfive-results'
 import type { Scores, DomainResult } from '../lib/scoring'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 import DashboardNav from '../components/dashboard/DashboardNav.vue'
 import CountdownCard from '../components/dashboard/CountdownCard.vue'
 import MatchCard from '../components/dashboard/MatchCard.vue'
 import UserCard from '../components/UserCard.vue'
 import { useDevCalendar } from '../composables/useDevCalendar'
 import {
-  Mail, MapPin, Calendar, Heart, LogOut, RefreshCw, Info,
+  Mail, MapPin, Calendar, LogOut, RefreshCw, Info,
   ChevronRight, CheckCircle, AlertCircle,
   Sparkles, Crown, ArrowRight, Instagram,
   Pencil, Save, X, Camera, MessageCircle
 } from 'lucide-vue-next'
 import smsIconImg from '@/assets/sms-icon.png'
 import instaIconImg from '@/assets/Instagram_icon.png'
+import { getTypeById, getCategoryForType, getPersonalityTypeFromScores, type PersonalityType, type PersonalityCategory } from '../data/personality-types'
+import PersonalityCard from '../components/PersonalityCard.vue'
+import PersonalityReveal from '../components/PersonalityReveal.vue'
+import ExitPopup from '../components/ExitPopup.vue'
+import DevPanel from '../components/DevPanel.vue'
+
+// Import all personality SVGs dynamically
+const avatarModules = import.meta.glob('@/assets/16 personnalités svg/*.svg', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
+
+function getAvatarUrl(filename: string): string {
+  const key = Object.keys(avatarModules).find(k => k.includes(filename))
+  return key ? avatarModules[key] : ''
+}
+
+// Import category logo SVGs
+const categoryLogoModules = import.meta.glob('@/assets/catégories svg/*.svg', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
+
+const categoryLogoFiles: Record<string, string> = {
+  architectes: 'architectes du coeur.svg',
+  ames: 'ames lumineuses.svg',
+  gardiens: 'gardiens du lien.svg',
+  flammes: 'flammes libres.svg'
+}
+
+function getCategoryLogoUrl(categoryId: string): string {
+  const filename = categoryLogoFiles[categoryId]
+  if (!filename) return ''
+  const key = Object.keys(categoryLogoModules).find(k => k.includes(filename))
+  return key ? categoryLogoModules[key] : ''
+}
 
 const router = useRouter()
+const route = useRoute()
 const { today: devToday, setDate, clearDate, isOverridden, presets, isDev } = useDevCalendar()
 
 // State
 const loading = ref(true)
 const error = ref('')
 const activeTab = ref('accueil')
+
+// Personality type theming
+const userPersonalityType = ref<PersonalityType | null>(null)
+const userCategory = ref<PersonalityCategory | null>(null)
+const userAvatarUrl = ref('')
+const userCategoryLogoUrl = computed(() => {
+  if (!userCategory.value) return ''
+  return getCategoryLogoUrl(userCategory.value.id)
+})
+const userCustomTagline = ref('')
+const themeColor = computed(() => userCategory.value?.color || '#8B2D4A')
+const themeBgColor = computed(() => userCategory.value?.bgColor || '#FBF9F7')
 
 // Subscription logic
 const isUpgrading = ref(false)
@@ -47,7 +90,7 @@ const userInfo = ref({
   showInstagram: true,
   createdAt: '',
   profilePhotoUrl: '',
-  bannerColor: '#99001B'
+  bannerColor: '#8B2D4A'
 })
 
 // Hobbies from test results
@@ -77,19 +120,10 @@ const editForm = ref({
   orientation: '', // raw DB value
   instagram: '',
   showPhone: true,
-  showInstagram: true,
-  bannerColor: '#99001B'
+  showInstagram: true
 })
 
-// Available banner colors
-const bannerColors = [
-  { id: 'red', color: '#99001B', label: 'Rouge' },
-  { id: 'blue', color: '#1B4D99', label: 'Bleu' },
-  { id: 'purple', color: '#6B1B99', label: 'Violet' },
-  { id: 'green', color: '#1B7A4D', label: 'Vert' },
-  { id: 'gold', color: '#99791B', label: 'Or' },
-  { id: 'black', color: '#1A1A1A', label: 'Noir' },
-]
+// Banner color is now automatically set by personality category (no manual override)
 
 // Raw orientation value (DB key) for editing
 const rawOrientation = ref('')
@@ -109,8 +143,7 @@ function startEditing() {
     orientation: rawOrientation.value,
     instagram: userInfo.value.instagram,
     showPhone: userInfo.value.showPhone,
-    showInstagram: userInfo.value.showInstagram,
-    bannerColor: userInfo.value.bannerColor
+    showInstagram: userInfo.value.showInstagram
   }
   isEditing.value = true
 }
@@ -178,6 +211,20 @@ async function handlePhotoChange(event: Event) {
   }
 }
 
+async function saveSelectedTagline(tagline: string) {
+  userCustomTagline.value = tagline
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.user?.id) return
+    await supabase
+      .from('users')
+      .update({ custom_tagline: tagline })
+      .eq('auth_id', session.user.id)
+  } catch (e) {
+    console.error('Failed to save tagline:', e)
+  }
+}
+
 async function saveProfile() {
   isSaving.value = true
   try {
@@ -194,8 +241,7 @@ async function saveProfile() {
         sexual_orientation: editForm.value.orientation,
         instagram: editForm.value.instagram || null,
         show_phone: editForm.value.showPhone,
-        show_instagram: editForm.value.showInstagram,
-        banner_color: editForm.value.bannerColor
+        show_instagram: editForm.value.showInstagram
       })
       .eq('auth_id', session.user.id)
 
@@ -210,7 +256,6 @@ async function saveProfile() {
     userInfo.value.instagram = editForm.value.instagram
     userInfo.value.showPhone = editForm.value.showPhone
     userInfo.value.showInstagram = editForm.value.showInstagram
-    userInfo.value.bannerColor = editForm.value.bannerColor
     rawOrientation.value = editForm.value.orientation
     userName.value = editForm.value.firstName
 
@@ -223,7 +268,39 @@ async function saveProfile() {
 }
 
 // Session data
-const currentSession = ref<any>(null)
+interface SessionData {
+  id: string
+  name: string
+  registration_start: string
+  registration_end: string
+  matching_start: string
+  matching_end: string
+  reveal_date: string
+}
+
+interface MatchData {
+  id: string
+  matchName: string
+  age: number
+  city: string
+  compatibilityScore: number
+  unlocked: boolean
+  bannerColor: string
+  isUser1: boolean
+  avatarUrl: string
+  personalityTypeName: string
+  // UserCard fields (for unlocked display)
+  photoUrl: string
+  phone: string
+  instagram: string
+  showPhone: boolean
+  showInstagram: boolean
+  hobbies: string[]
+  customTagline: string
+  personalityTypeId: string
+}
+
+const currentSession = ref<SessionData | null>(null)
 const isParticipating = ref(false)
 const presenceValidated = ref(false)
 const participantCount = ref(0)
@@ -233,8 +310,27 @@ const scores = ref<Scores | null>(null)
 const resultId = ref<string | null>(null)
 const hasResults = computed(() => scores.value !== null)
 
+// Dev: reveal animation trigger
+const showDevReveal = ref(false)
+const exitPopupRef = ref<InstanceType<typeof ExitPopup> | null>(null)
+const revealScores = computed(() => {
+  if (!scores.value) return { O: 0, C: 0, E: 0, A: 0, N: 0 }
+  const getPercentage = (domain: DomainResult | undefined) => {
+    if (!domain || domain.count === 0) return 0
+    const avg = domain.score / domain.count
+    return Math.round((avg / 5) * 100)
+  }
+  return {
+    O: getPercentage(scores.value.O),
+    C: getPercentage(scores.value.C),
+    E: getPercentage(scores.value.E),
+    A: getPercentage(scores.value.A),
+    N: 100 - getPercentage(scores.value.N) // Inverted for Stability
+  }
+})
+
 // Matches
-const userMatches = ref<any[]>([])
+const userMatches = ref<MatchData[]>([])
 
 // ===== Interactive Constellation =====
 const constellationRef = ref<HTMLElement | null>(null)
@@ -503,7 +599,7 @@ const countdownTarget = computed(() => {
   const phase = sessionPhase.value
   if (phase === 'upcoming') return currentSession.value.registration_start + 'T00:00:00'
   if (phase === 'registration') return currentSession.value.registration_end + 'T23:59:59'
-  if (phase === 'validation' || phase === 'matching' || phase === 'between') return currentSession.value.reveal_date + 'T00:00:00'
+  if (phase === 'matching' || phase === 'between') return currentSession.value.reveal_date + 'T00:00:00'
   return ''
 })
 
@@ -511,7 +607,7 @@ const countdownLabel = computed(() => {
   const phase = sessionPhase.value
   if (phase === 'upcoming') return 'Ouverture des inscriptions dans'
   if (phase === 'registration') return 'Clôture des inscriptions dans'
-  if (phase === 'validation' || phase === 'matching' || phase === 'between') return 'Matching en cours, annonce des matchs dans...'
+  if (phase === 'matching' || phase === 'between') return 'Matching en cours, annonce des matchs dans...'
   return 'Prochaine session dans'
 })
 
@@ -522,7 +618,7 @@ const romanticMessage = computed(() => {
     case 'registration':
       return "Les inscriptions sont ouvertes. Chaque profil compte, y compris le tien."
     case 'matching':
-      return "Notre algorithme est à l'œuvre... La compatibilité ne ment jamais."
+      return "Nous analysons les profils... La compatibilité ne ment jamais."
     case 'between':
       return "Patience... Les plus belles rencontres méritent d'attendre."
     case 'revealed':
@@ -533,45 +629,72 @@ const romanticMessage = computed(() => {
 })
 
 // ===== DEV ONLY: Fake matches for 'revealed' phase =====
-const DEV_FAKE_MATCHES = [
+const devMatchTypes = [
+  getTypeById('papillon-empathique'),
+  getTypeById('mentor-solaire'),
+  getTypeById('reveur-romantique')
+]
+
+const DEV_FAKE_MATCHES: MatchData[] = [
   {
     id: 'dev-match-1',
-    partnerId: 'dev-partner-1',
     matchName: 'Camille',
     compatibilityScore: 87,
     unlocked: false,
     city: 'Paris',
     age: 26,
-    instagram: '@camille.music',
-    phone: '+33612345678',
-    bannerColor: '#6B1B99',
-    isUser1: true
+    bannerColor: devMatchTypes[0] ? getCategoryForType(devMatchTypes[0])?.color || '#2D8B57' : '#2D8B57',
+    isUser1: true,
+    avatarUrl: devMatchTypes[0] ? getAvatarUrl(devMatchTypes[0].avatarFile) : '',
+    personalityTypeName: devMatchTypes[0]?.name || 'Le Papillon Empathique',
+    photoUrl: '',
+    phone: '06 12 34 56 78',
+    instagram: 'camille.paris',
+    showPhone: true,
+    showInstagram: true,
+    hobbies: ['yoga', 'lecture', 'cuisine', 'voyage'],
+    customTagline: 'Sensible aux belles choses et aux belles âmes',
+    personalityTypeId: 'papillon-empathique'
   },
   {
     id: 'dev-match-2',
-    partnerId: 'dev-partner-2',
     matchName: 'Léa',
     compatibilityScore: 74,
     unlocked: true,
     city: 'Lyon',
     age: 24,
-    instagram: '@lea.art',
-    phone: '+33698765432',
-    bannerColor: '#1B4D99',
-    isUser1: true
+    bannerColor: devMatchTypes[1] ? getCategoryForType(devMatchTypes[1])?.color || '#2D8B57' : '#2D8B57',
+    isUser1: true,
+    avatarUrl: devMatchTypes[1] ? getAvatarUrl(devMatchTypes[1].avatarFile) : '',
+    personalityTypeName: devMatchTypes[1]?.name || 'Le Mentor Solaire',
+    photoUrl: '',
+    phone: '06 98 76 54 32',
+    instagram: 'lea.lyon',
+    showPhone: true,
+    showInstagram: true,
+    hobbies: ['musique_ecoute', 'randonnee', 'cinema', 'photographie'],
+    customTagline: 'La vie est trop courte pour ne pas oser',
+    personalityTypeId: 'mentor-solaire'
   },
   {
     id: 'dev-match-3',
-    partnerId: 'dev-partner-3',
     matchName: 'Jade',
     compatibilityScore: 62,
     unlocked: false,
     city: 'Bordeaux',
     age: 27,
-    instagram: null,
-    phone: '+33655443322',
-    bannerColor: '#99791B',
-    isUser1: true
+    bannerColor: devMatchTypes[2] ? getCategoryForType(devMatchTypes[2])?.color || '#2D8B57' : '#2D8B57',
+    isUser1: true,
+    avatarUrl: devMatchTypes[2] ? getAvatarUrl(devMatchTypes[2].avatarFile) : '',
+    personalityTypeName: devMatchTypes[2]?.name || 'Le Rêveur Romantique',
+    photoUrl: '',
+    phone: '06 55 44 33 22',
+    instagram: 'jade.bdx',
+    showPhone: false,
+    showInstagram: true,
+    hobbies: ['dessin', 'meditation', 'nature', 'ecriture'],
+    customTagline: 'Rêveuse assumée, romantique dans l\'âme',
+    personalityTypeId: 'reveur-romantique'
   }
 ]
 
@@ -635,6 +758,108 @@ async function joinWithPlan(plan: 'free' | 'paid') {
 
 // Fetch data
 onMounted(async () => {
+  // DEMO MODE: Bypass Supabase for testing
+  if (route.query.demo === 'true') {
+    userName.value = 'Visiteur'
+    userTier.value = 'free'
+    userInfo.value = {
+      firstName: 'Visiteur',
+      lastName: 'Demo',
+      email: 'demo@compaatible.com',
+      city: 'Paris',
+      age: 25,
+      gender: 'femme',
+      orientation: 'Un homme',
+      instagram: '',
+      phone: '',
+      showPhone: true,
+      showInstagram: false,
+      createdAt: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+      profilePhotoUrl: '',
+      bannerColor: '#2D8B57'
+    }
+    scores.value = {
+      O: { score: 15, count: 6, result: 'high', facets: {
+        '1': { score: 3, count: 1, result: 'high' },
+        '2': { score: 3, count: 1, result: 'high' },
+        '3': { score: 3, count: 1, result: 'high' },
+        '4': { score: 2, count: 1, result: 'neutral' },
+        '5': { score: 2, count: 1, result: 'neutral' },
+        '6': { score: 2, count: 1, result: 'neutral' }
+      }},
+      C: { score: 12, count: 6, result: 'neutral', facets: {
+        '1': { score: 2, count: 1, result: 'neutral' },
+        '2': { score: 2, count: 1, result: 'neutral' },
+        '3': { score: 2, count: 1, result: 'neutral' },
+        '4': { score: 2, count: 1, result: 'neutral' },
+        '5': { score: 2, count: 1, result: 'neutral' },
+        '6': { score: 2, count: 1, result: 'neutral' }
+      }},
+      E: { score: 10, count: 6, result: 'low', facets: {
+        '1': { score: 1, count: 1, result: 'low' },
+        '2': { score: 1, count: 1, result: 'low' },
+        '3': { score: 2, count: 1, result: 'neutral' },
+        '4': { score: 2, count: 1, result: 'neutral' },
+        '5': { score: 2, count: 1, result: 'neutral' },
+        '6': { score: 2, count: 1, result: 'neutral' }
+      }},
+      A: { score: 14, count: 6, result: 'high', facets: {
+        '1': { score: 3, count: 1, result: 'high' },
+        '2': { score: 3, count: 1, result: 'high' },
+        '3': { score: 2, count: 1, result: 'neutral' },
+        '4': { score: 2, count: 1, result: 'neutral' },
+        '5': { score: 2, count: 1, result: 'neutral' },
+        '6': { score: 2, count: 1, result: 'neutral' }
+      }},
+      N: { score: 9, count: 6, result: 'low', facets: {
+        '1': { score: 1, count: 1, result: 'low' },
+        '2': { score: 1, count: 1, result: 'low' },
+        '3': { score: 2, count: 1, result: 'neutral' },
+        '4': { score: 2, count: 1, result: 'neutral' },
+        '5': { score: 1, count: 1, result: 'low' },
+        '6': { score: 2, count: 1, result: 'neutral' }
+      }}
+    } as unknown as Scores
+    resultId.value = 'demo'
+    userHobbies.value = ['Lecture', 'Yoga', 'Cuisine', 'Voyages']
+
+    // Set personality type from scores
+    const pType = getPersonalityTypeFromScores(scores.value!)
+    if (pType) {
+      userPersonalityType.value = pType
+      userCategory.value = getCategoryForType(pType.id) || null
+      userAvatarUrl.value = getAvatarUrl(pType.avatarFile)
+      userInfo.value.bannerColor = userCategory.value?.color || '#8B2D4A'
+    }
+
+    // Fake session in "revealed" phase so matches show up
+    const today = new Date()
+    const todayStr = today.toISOString().split('T')[0]
+    const pastDate = (daysAgo: number) => {
+      const d = new Date(today)
+      d.setDate(d.getDate() - daysAgo)
+      return d.toISOString().split('T')[0]
+    }
+    currentSession.value = {
+      id: 'demo-session',
+      name: 'Session Démo',
+      registration_start: pastDate(20),
+      registration_end: pastDate(10),
+      matching_start: pastDate(9),
+      matching_end: pastDate(3),
+      reveal_date: pastDate(2)
+    }
+    isParticipating.value = true
+    presenceValidated.value = true
+    participantCount.value = 147
+
+    // Inject fake matches
+    userMatches.value = [...DEV_FAKE_MATCHES]
+
+    loading.value = false
+    return
+  }
+
   try {
     const { data: { session } } = await supabase.auth.getSession()
 
@@ -680,9 +905,22 @@ onMounted(async () => {
         day: 'numeric', month: 'long', year: 'numeric'
       }),
       profilePhotoUrl: userData.profile_photo_url || '',
-      bannerColor: userData.banner_color || '#99001B'
+      bannerColor: userData.banner_color || '#8B2D4A'
     }
     rawOrientation.value = userData.sexual_orientation || ''
+    userCustomTagline.value = userData.custom_tagline || ''
+
+    // Load personality type and category theming
+    if (userData.personality_type) {
+      const pType = getTypeById(userData.personality_type)
+      if (pType) {
+        userPersonalityType.value = pType
+        userCategory.value = getCategoryForType(pType.id) || null
+        userAvatarUrl.value = getAvatarUrl(pType.avatarFile)
+        // Always set banner color to match personality category
+        userInfo.value.bannerColor = userCategory.value?.color || '#8B2D4A'
+      }
+    }
 
     // Fetch latest test results
     const { data: testData } = await supabase
@@ -696,8 +934,9 @@ onMounted(async () => {
     if (testData) {
       scores.value = testData.scores as Scores
       resultId.value = testData.id
-      // Parse hobbies if JSONB, or use empty array
-      userHobbies.value = testData.hobbies || []
+      // Parse hobbies if JSONB or string
+      const rawH = testData.hobbies
+      userHobbies.value = Array.isArray(rawH) ? rawH : (typeof rawH === 'string' ? JSON.parse(rawH) : [])
     }
 
     // Fetch current/latest session
@@ -750,9 +989,38 @@ onMounted(async () => {
 
               const { data: partnerData } = await supabase
                 .from('users')
-                .select('first_name, city, age, instagram, phone, show_phone, show_instagram, banner_color')
+                .select('id, first_name, city, age, instagram, phone, show_phone, show_instagram, banner_color, personality_type, profile_photo_url, custom_tagline')
                 .eq('id', partnerId)
                 .single()
+
+              // Get avatar URL for partner's personality type
+              let partnerAvatarUrl = ''
+              let partnerTypeName = ''
+              let partnerTypeId = ''
+              if (partnerData?.personality_type) {
+                const pType = getTypeById(partnerData.personality_type)
+                if (pType) {
+                  partnerTypeName = pType.name
+                  partnerTypeId = pType.id
+                  partnerAvatarUrl = getAvatarUrl(pType.avatarFile)
+                }
+              }
+
+              // Fetch partner hobbies from test_results
+              let partnerHobbies: string[] = []
+              if (partnerData?.id) {
+                const { data: partnerTestData } = await supabase
+                  .from('test_results')
+                  .select('hobbies')
+                  .eq('user_id', partnerData.id)
+                  .order('created_at', { ascending: false })
+                  .limit(1)
+                  .single()
+                if (partnerTestData?.hobbies) {
+                  const rawH = partnerTestData.hobbies
+                  partnerHobbies = Array.isArray(rawH) ? rawH : (typeof rawH === 'string' ? JSON.parse(rawH) : [])
+                }
+              }
 
               return {
                 id: match.id,
@@ -762,18 +1030,26 @@ onMounted(async () => {
                 unlocked: isUnlocked,
                 city: partnerData?.city,
                 age: partnerData?.age,
-                instagram: partnerData?.show_instagram !== false ? partnerData?.instagram : null,
-                phone: partnerData?.show_phone !== false ? partnerData?.phone : null,
-                bannerColor: partnerData?.banner_color || '#99001B',
-                isUser1
+                instagram: partnerData?.instagram || '',
+                phone: partnerData?.phone || '',
+                showPhone: partnerData?.show_phone !== false,
+                showInstagram: partnerData?.show_instagram !== false,
+                bannerColor: partnerData?.banner_color || '#8B2D4A',
+                isUser1,
+                avatarUrl: partnerAvatarUrl,
+                personalityTypeName: partnerTypeName,
+                photoUrl: partnerData?.profile_photo_url || '',
+                hobbies: partnerHobbies,
+                customTagline: partnerData?.custom_tagline || '',
+                personalityTypeId: partnerTypeId
               }
             }))
             userMatches.value = enrichedMatches
           }
         }
       }
-    } catch {
-      // Session tables may not exist yet, that's ok
+    } catch (sessionErr) {
+      console.warn('Session/match loading skipped:', sessionErr instanceof Error ? sessionErr.message : sessionErr)
     }
   } catch (err: any) {
     console.error('Profile load error:', err)
@@ -843,26 +1119,124 @@ async function validatePresence() {
   }
 }
 
+// Sort matches once at init: locked sides, unlocked center — positions are stable after
+const matchOrder = ref<string[]>([])
+
+function computeInitialOrder(matches: MatchData[]) {
+  const locked = matches.filter(m => !m.unlocked)
+  const unlocked = matches.filter(m => m.unlocked)
+  const half = Math.ceil(locked.length / 2)
+  return [...locked.slice(0, half), ...unlocked, ...locked.slice(half)].map(m => m.id)
+}
+
+const sortedMatches = computed(() => {
+  // If order not yet computed, compute it (first render)
+  if (matchOrder.value.length === 0 && userMatches.value.length > 0) {
+    matchOrder.value = computeInitialOrder(userMatches.value)
+  }
+  // Return matches in stable order
+  return matchOrder.value
+    .map(id => userMatches.value.find(m => m.id === id))
+    .filter(Boolean) as MatchData[]
+})
+
+// Track unlock animation phases
+const unlockingMatches = reactive(new Set<string>()) // phase 1: dissolving locked card
+const recentlyUnlocked = reactive(new Set<string>()) // phase 2: revealing unlocked card
+
+// Compute initial order once when matches are loaded
+watch(userMatches, (matches) => {
+  if (matches.length > 0 && matchOrder.value.length === 0) {
+    matchOrder.value = computeInitialOrder(matches)
+  }
+}, { immediate: true })
+
 async function unlockMatch(matchId: string) {
   const match = userMatches.value.find(m => m.id === matchId)
   if (!match) return
+  // Prevent double-click
+  if (unlockingMatches.has(matchId)) return
+
+  // Phase 1: Start dissolve animation on locked card
+  unlockingMatches.add(matchId)
 
   // DEV: Skip Supabase for fake matches
-  if (matchId.startsWith('dev-match-')) {
-    match.unlocked = true
-    return
+  if (!matchId.startsWith('dev-match-')) {
+    try {
+      const updateField = match.isUser1 ? 'unlocked_by_user1' : 'unlocked_by_user2'
+      await supabase
+        .from('matches')
+        .update({ [updateField]: true })
+        .eq('id', matchId)
+    } catch (err) {
+      console.error('Unlock match error:', err)
+      unlockingMatches.delete(matchId)
+      return
+    }
   }
 
-  try {
-    const updateField = match.isUser1 ? 'unlocked_by_user1' : 'unlocked_by_user2'
-    await supabase
-      .from('matches')
-      .update({ [updateField]: true })
-      .eq('id', matchId)
+  // Wait for dissolve to finish (card is now visually hidden at opacity:0)
+  await new Promise(resolve => setTimeout(resolve, 600))
 
-    match.unlocked = true
-  } catch (err) {
-    console.error('Unlock match error:', err)
+  // Phase 2: Swap content (card hidden) + start reveal
+  unlockingMatches.delete(matchId)
+  match.unlocked = true
+  recentlyUnlocked.add(matchId)
+
+  // Spawn particles after DOM has updated with new card content
+  await nextTick()
+  await new Promise(resolve => setTimeout(resolve, 80))
+  spawnHeartParticles(matchId)
+
+  // Clean up animation classes after reveal completes
+  setTimeout(() => {
+    recentlyUnlocked.delete(matchId)
+  }, 1000)
+}
+
+function spawnHeartParticles(matchId: string) {
+  const wrapper = document.querySelector(`[data-match-id="${matchId}"]`)
+  if (!wrapper) return
+
+  const rect = wrapper.getBoundingClientRect()
+  const hearts = ['❤️', '💕', '✨', '💖', '💗']
+  const particleCount = 10
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div')
+    particle.className = 'heart-particle'
+    particle.textContent = hearts[Math.floor(Math.random() * hearts.length)]
+
+    // Start from card center area
+    const startX = rect.left + rect.width / 2 + (Math.random() - 0.5) * rect.width * 0.4
+    const startY = rect.top + rect.height * 0.35 + (Math.random() - 0.5) * rect.height * 0.2
+
+    // Trajectories biased outward and upward
+    const angle = Math.random() * Math.PI * 2
+    const distance = 80 + Math.random() * 140
+    const tx = Math.cos(angle) * distance
+    const ty = Math.sin(angle) * distance - 60
+
+    const size = 16 + Math.random() * 16
+    const duration = 1 + Math.random() * 0.5
+    const delay = Math.random() * 0.25
+
+    particle.style.cssText = `
+      position: fixed;
+      left: ${startX}px;
+      top: ${startY}px;
+      font-size: ${size}px;
+      pointer-events: none;
+      z-index: 9999;
+      --tx: ${tx}px;
+      --ty: ${ty}px;
+      animation: heartFloat ${duration}s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation-delay: ${delay}s;
+      opacity: 0;
+    `
+
+    document.body.appendChild(particle)
+    setTimeout(() => particle.remove(), 2500)
   }
 }
 
@@ -975,6 +1349,19 @@ async function upgradeToPaid() {
             <p class="greeting-subtitle">Bienvenue dans ton espace Compaatible.</p>
           </div>
 
+          <!-- Personality Card (collectible) -->
+          <div v-if="userPersonalityType && userCategory && userAvatarUrl" class="personality-card-section">
+            <PersonalityCard
+              :personality-type="userPersonalityType"
+              :category="userCategory"
+              :avatar-url="userAvatarUrl"
+              :category-logo-url="userCategoryLogoUrl"
+              :user-name="userName"
+              :custom-tagline="userCustomTagline"
+              variant="full"
+            />
+          </div>
+
           <!-- Countdown + Illustration intégrés -->
           <div v-if="currentSession && countdownTarget" class="section-card">
             <CountdownCard :target-date="countdownTarget" :label="countdownLabel" />
@@ -984,21 +1371,21 @@ async function upgradeToPaid() {
               <div class="illustration-wrapper">
                 <svg viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg" class="destiny-svg">
                   <circle cx="200" cy="90" r="60" fill="url(#radial-glow-destiny)" fill-opacity="0.4" />
-                  <path d="M80 120C120 120 140 50 200 50C260 50 280 120 320 120" stroke="#99001B" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 4" class="thread-path" />
+                  <path d="M80 120C120 120 140 50 200 50C260 50 280 120 320 120" stroke="#8B2D4A" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 4" class="thread-path" />
                   <g class="floating-heart heart-1">
-                    <path d="M95 110C95 105 90 100 85 100C80 100 75 105 75 110C75 120 85 128 95 135C105 128 115 120 115 110C115 105 110 100 105 100C100 100 95 105 95 110Z" fill="white" stroke="#99001B" stroke-width="1.2" />
+                    <path d="M95 110C95 105 90 100 85 100C80 100 75 105 75 110C75 120 85 128 95 135C105 128 115 120 115 110C115 105 110 100 105 100C100 100 95 105 95 110Z" fill="white" stroke="#8B2D4A" stroke-width="1.2" />
                   </g>
                   <g class="floating-heart heart-2">
-                    <path d="M305 110C305 105 300 100 295 100C290 100 285 105 285 110C285 120 295 128 305 135C315 128 325 120 325 110C325 105 320 100 315 100C310 100 305 105 305 110Z" fill="#99001B" stroke="#99001B" stroke-width="1.2" />
+                    <path d="M305 110C305 105 300 100 295 100C290 100 285 105 285 110C285 120 295 128 305 135C315 128 325 120 325 110C325 105 320 100 315 100C310 100 305 105 305 110Z" fill="#8B2D4A" stroke="#8B2D4A" stroke-width="1.2" />
                   </g>
-                  <circle cx="180" cy="35" r="1.5" fill="#99001B" class="sparkle-dot s1" />
-                  <circle cx="220" cy="60" r="1" fill="#99001B" class="sparkle-dot s2" />
-                  <circle cx="140" cy="70" r="2" fill="#99001B" fill-opacity="0.3" class="sparkle-dot s3" />
-                  <circle cx="260" cy="85" r="1.5" fill="#99001B" class="sparkle-dot s4" />
-                  <path d="M200 25L202 30L207 32L202 34L200 39L198 34L193 32L198 30L200 25Z" fill="#99001B" class="sparkle-star" />
+                  <circle cx="180" cy="35" r="1.5" fill="#8B2D4A" class="sparkle-dot s1" />
+                  <circle cx="220" cy="60" r="1" fill="#8B2D4A" class="sparkle-dot s2" />
+                  <circle cx="140" cy="70" r="2" fill="#8B2D4A" fill-opacity="0.3" class="sparkle-dot s3" />
+                  <circle cx="260" cy="85" r="1.5" fill="#8B2D4A" class="sparkle-dot s4" />
+                  <path d="M200 25L202 30L207 32L202 34L200 39L198 34L193 32L198 30L200 25Z" fill="#8B2D4A" class="sparkle-star" />
                   <defs>
                     <radialGradient id="radial-glow-destiny" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(200 90) rotate(90) scale(80)">
-                      <stop stop-color="#99001B" stop-opacity="0.15" />
+                      <stop stop-color="#8B2D4A" stop-opacity="0.15" />
                       <stop offset="1" stop-color="#FBF9F7" stop-opacity="0" />
                     </radialGradient>
                   </defs>
@@ -1021,7 +1408,7 @@ async function upgradeToPaid() {
           </div>
 
           <!-- Participation confirmée -->
-          <div v-if="isParticipating && (sessionPhase === 'registration' || sessionPhase === 'validation' || sessionPhase === 'matching' || sessionPhase === 'between')" class="success-banner">
+          <div v-if="isParticipating && (sessionPhase === 'registration' || sessionPhase === 'matching' || sessionPhase === 'between')" class="success-banner">
             <CheckCircle class="w-5 h-5" />
             <span>Tu es inscrit(e) pour cette session !</span>
           </div>
@@ -1050,11 +1437,11 @@ async function upgradeToPaid() {
                   <!-- Inscription auto-validée -->
                 </div>
               </div>
-              <div class="timeline-item" :class="{ active: sessionPhase === 'validation' || sessionPhase === 'matching' || sessionPhase === 'between' }">
+              <div class="timeline-item" :class="{ active: sessionPhase === 'matching' || sessionPhase === 'between' }">
                 <div class="timeline-marker">2</div>
                 <div>
                   <p class="timeline-date">Du 10 au 12 du mois</p>
-                  <p class="timeline-label">Notre algorithme crée les matchs</p>
+                  <p class="timeline-label">Nous analysons et créons les matchs</p>
                 </div>
               </div>
               <div class="timeline-item" :class="{ active: sessionPhase === 'revealed' }">
@@ -1077,18 +1464,36 @@ async function upgradeToPaid() {
 
           <!-- Has matches -->
           <div v-if="userMatches.length" class="matches-list">
-            <MatchCard
-              v-for="match in userMatches"
+            <div
+              v-for="match in sortedMatches"
               :key="match.id"
-              :match-name="match.matchName"
-              :compatibility-score="match.compatibilityScore"
-              :unlocked="match.unlocked"
-              :instagram="match.instagram"
-              :city="match.city"
-              :age="match.age"
-              :banner-color="match.bannerColor"
-              @unlock="unlockMatch(match.id)"
-            />
+              class="match-card-wrapper"
+              :class="{
+                'is-dissolving': unlockingMatches.has(match.id),
+                'is-revealing': recentlyUnlocked.has(match.id)
+              }"
+              :data-match-id="match.id"
+            >
+              <MatchCard
+                :match-name="match.matchName"
+                :compatibility-score="match.compatibilityScore"
+                :unlocked="match.unlocked"
+                :city="match.city"
+                :age="match.age"
+                :banner-color="match.bannerColor"
+                :avatar-url="match.avatarUrl"
+                :personality-type-name="match.personalityTypeName"
+                :personality-type-id="match.personalityTypeId"
+                :hobbies="match.hobbies"
+                :photo-url="match.photoUrl"
+                :phone="match.phone"
+                :instagram="match.instagram"
+                :show-phone="match.showPhone"
+                :show-instagram="match.showInstagram"
+                :custom-tagline="match.customTagline"
+                @unlock="unlockMatch(match.id)"
+              />
+            </div>
           </div>
 
           <!-- Empty state: No match for free users (revealed session) -->
@@ -1130,7 +1535,7 @@ async function upgradeToPaid() {
             <div class="empty-premium-content">
               <!-- Status Badge with mini search animation -->
               <div class="empty-status-badge">
-                {{ sessionPhase === 'matching' || sessionPhase === 'validation' ? 'Analyse en cours' : 'Prochaine Session' }}
+                {{ sessionPhase === 'matching' ? 'Analyse en cours' : 'Prochaine Session' }}
               </div>
 
               <!-- Interactive Constellation: reveals on mouse hover -->
@@ -1150,8 +1555,8 @@ async function upgradeToPaid() {
                       </feMerge>
                     </filter>
                     <radialGradient id="cBgGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stop-color="#99001B" stop-opacity="0.06" />
-                      <stop offset="100%" stop-color="#99001B" stop-opacity="0" />
+                      <stop offset="0%" stop-color="#8B2D4A" stop-opacity="0.06" />
+                      <stop offset="100%" stop-color="#8B2D4A" stop-opacity="0" />
                     </radialGradient>
                   </defs>
                   <!-- Subtle background glow -->
@@ -1190,12 +1595,12 @@ async function upgradeToPaid() {
               </div>
 
               <h2 class="empty-premium-title">
-                {{ sessionPhase === 'matching' || sessionPhase === 'validation' ? 'La magie opère...' : 'Ton futur commence ici.' }}
+                {{ sessionPhase === 'matching' ? 'La magie opère...' : 'Ton futur commence ici.' }}
               </h2>
 
               <p class="empty-premium-subtitle">
                 <template v-if="sessionPhase === 'registration'">Les inscriptions sont en cours. Les matchs seront révélés le 13.</template>
-                <template v-else-if="sessionPhase === 'matching' || sessionPhase === 'validation' || sessionPhase === 'between'">Notre équipe analyse les affinités pour te présenter la personne la plus compatible. Un peu de patience.</template>
+                <template v-else-if="sessionPhase === 'matching' || sessionPhase === 'between'">Notre équipe analyse les affinités pour te présenter la personne la plus compatible. Un peu de patience.</template>
                 <template v-else>Inscris-toi à la prochaine session pour laisser la science trouver ton âme sœur.</template>
               </p>
             </div>
@@ -1203,7 +1608,15 @@ async function upgradeToPaid() {
             <div class="empty-preview-section">
               <p class="empty-preview-label">Aperçu de ton profil public</p>
               <div class="empty-preview-card">
-                <UserCard :user="userCardData" :hobbies="userHobbies" />
+                <UserCard
+                  :user="userCardData"
+                  :hobbies="userHobbies"
+                  :personality-type="userPersonalityType ? { name: userPersonalityType.name, emoji: userPersonalityType.emoji, tagline: userPersonalityType.tagline } : undefined"
+                  :category="userCategory ? { name: userCategory.name, color: userCategory.color, bgColor: userCategory.bgColor } : undefined"
+                  :category-logo-url="userCategoryLogoUrl"
+                  :avatar-url="userAvatarUrl"
+                  :custom-tagline="userCustomTagline"
+                />
               </div>
             </div>
           </div>
@@ -1219,29 +1632,15 @@ async function upgradeToPaid() {
             <!-- Identity Premium Card -->
             <div class="identity-card">
               <!-- Bandeau décoratif avec couleur personnalisée -->
-              <div class="profile-card-banner">
-                <div class="banner-blob banner-blob-right" :style="{ background: `radial-gradient(circle, ${(isEditing ? editForm.bannerColor : userInfo.bannerColor)}26 0%, transparent 70%)` }"></div>
-                <div class="banner-blob banner-blob-left" :style="{ background: `radial-gradient(circle, ${(isEditing ? editForm.bannerColor : userInfo.bannerColor)}1A 0%, transparent 70%)` }"></div>
-                <svg class="banner-wave" viewBox="0 0 500 150" preserveAspectRatio="none">
-                  <path d="M0,0 C150,120 350,0 500,100 L500,150 L0,150 Z" :fill="isEditing ? editForm.bannerColor : userInfo.bannerColor" fill-opacity="0.08" />
+              <div class="profile-card-banner" :style="{ backgroundColor: userInfo.bannerColor + '08' }">
+                <svg class="absolute inset-0 h-full w-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="profil-damier" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M20 0L40 20L20 40L0 20Z" :fill="userInfo.bannerColor" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#profil-damier)" />
                 </svg>
-                <!-- Banner color picker (edit mode only) -->
-                <div v-if="isEditing" class="banner-color-picker">
-                  <button class="banner-edit-trigger">
-                    <Pencil :size="14" color="#787878" />
-                  </button>
-                  <div class="banner-color-options">
-                    <button
-                      v-for="bc in bannerColors"
-                      :key="bc.id"
-                      class="banner-color-dot"
-                      :class="{ active: editForm.bannerColor === bc.color }"
-                      :style="{ background: bc.color }"
-                      :title="bc.label"
-                      @click="editForm.bannerColor = bc.color"
-                    ></button>
-                  </div>
-                </div>
               </div>
 
               <!-- Edit button -->
@@ -1310,7 +1709,7 @@ async function upgradeToPaid() {
                   </div>
 
                   <div class="info-card-item">
-                    <div class="item-icon-box"><Heart class="item-icon" /></div>
+                    <div class="item-icon-box"><img :src="logoImage" alt="" class="item-icon w-4 h-4 object-contain" /></div>
                     <div class="item-content">
                       <span class="item-label">Recherche</span>
                       <span class="item-value">{{ userInfo.orientation }}</span>
@@ -1364,23 +1763,6 @@ async function upgradeToPaid() {
                     <input v-model="editForm.instagram" type="text" class="edit-input" placeholder="ton_pseudo" />
                   </div>
 
-                  <!-- Contact preference (exclusive choice) -->
-                  <div class="edit-field">
-                    <label class="edit-label">Je préfère être contacté sur</label>
-                    <div class="edit-visibility-toggles">
-                      <label class="edit-contact-choice" :class="{ active: editForm.showPhone }" @click.prevent="editForm.showPhone = true; editForm.showInstagram = false">
-                        <span class="choice-radio" :class="{ selected: editForm.showPhone }"></span>
-                        <img :src="smsIconImg" alt="SMS" class="toggle-icon-img" />
-                        <span>SMS</span>
-                      </label>
-                      <label class="edit-contact-choice" :class="{ active: editForm.showInstagram }" @click.prevent="editForm.showInstagram = true; editForm.showPhone = false">
-                        <span class="choice-radio" :class="{ selected: editForm.showInstagram }"></span>
-                        <img :src="instaIconImg" alt="Insta" class="toggle-icon-img" />
-                        <span>Insta</span>
-                      </label>
-                    </div>
-                  </div>
-
                   <div class="edit-actions">
                     <button type="submit" class="edit-save-btn" :disabled="isSaving">
                       <Save class="edit-action-icon" />
@@ -1418,7 +1800,7 @@ async function upgradeToPaid() {
             <div class="profil-card">
               <div class="results-header-row">
                 <h2 class="card-title">Test de personnalité</h2>
-                <div v-if="hasResults" class="results-tag">✅ Complété</div>
+                <div v-if="hasResults" class="results-tag"><svg class="inline-block h-3.5 w-3.5 mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Complété</div>
                 <div v-else class="results-tag pending">⏳ En attente</div>
               </div>
 
@@ -1474,10 +1856,10 @@ async function upgradeToPaid() {
       <DashboardNav :active-tab="activeTab" @tab-change="activeTab = $event" />
     </div>
 
-    <!-- Dev Calendar Panel (dev mode only) -->
-    <div v-if="isDev" class="dev-panel">
+    <!-- Dev Panel (always visible) -->
+    <div class="dev-panel">
       <div class="dev-panel-header">
-        <span class="dev-panel-title">🗓️ Dev Calendar</span>
+        <span class="dev-panel-title">🛠️ Dev Panel</span>
         <span class="dev-phase-badge">{{ sessionPhase }}</span>
       </div>
       <div class="dev-panel-info">
@@ -1498,7 +1880,42 @@ async function upgradeToPaid() {
       <button v-if="isOverridden" class="dev-reset-btn" @click="clearDate">
         ✕ Reset à aujourd'hui
       </button>
+      <div class="dev-panel-divider"></div>
+      <button
+        class="dev-preset-btn dev-reveal-btn"
+        :class="{ disabled: !userPersonalityType }"
+        :disabled="!userPersonalityType"
+        @click="showDevReveal = true"
+      >
+        🎭 Rejouer l'annonce des résultats
+      </button>
+      <div class="dev-panel-divider"></div>
+      <button
+        class="dev-preset-btn dev-reveal-btn"
+        @click="exitPopupRef?.forceShow()"
+      >
+        🚪 Tester le popup de sortie
+      </button>
     </div>
+
+    <!-- Exit Popup (for dev testing) -->
+    <ExitPopup ref="exitPopupRef" />
+
+    <!-- Dev: Personality Reveal Overlay -->
+    <PersonalityReveal
+      v-if="showDevReveal && userPersonalityType && userCategory"
+      :personality-type="userPersonalityType"
+      :category="userCategory"
+      :user-name="userInfo.firstName"
+      :result-id="resultId || ''"
+      :scores="revealScores"
+      :avatar-url="userAvatarUrl"
+      :category-logo-url="userCategoryLogoUrl"
+      :navigate-on-finish="false"
+      @close="showDevReveal = false"
+      @finish="showDevReveal = false"
+      @tagline-selected="saveSelectedTagline"
+    />
     <!-- Plan Selection Modal -->
     <transition name="modal-fade">
       <div v-if="showPlanModal" class="plan-modal-overlay" @click.self="closePlanModal">
@@ -1522,11 +1939,11 @@ async function upgradeToPaid() {
                 </div>
                 <ul class="features-list">
                   <li class="feature-item">
-                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#99001B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#8B2D4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     <span>1 match par session</span>
                   </li>
                   <li class="feature-item">
-                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#99001B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#8B2D4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     <span>Accès aux résultats de compatibilité</span>
                   </li>
                 </ul>
@@ -1574,6 +1991,8 @@ async function upgradeToPaid() {
         </div>
       </div>
     </transition>
+
+    <DevPanel />
   </div>
 </template>
 
@@ -1598,14 +2017,14 @@ async function upgradeToPaid() {
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.06) 0%, transparent 70%);
 }
 .deco-bottom-left {
   bottom: 10%;
   left: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.04) 0%, transparent 70%);
 }
 
 /* Header */
@@ -1637,7 +2056,7 @@ async function upgradeToPaid() {
 }
 
 .logo img {
-  width: 36px;
+  width: 24px;
   height: auto;
 }
 
@@ -1744,6 +2163,12 @@ async function upgradeToPaid() {
 }
 
 /* ===== ACCUEIL TAB ===== */
+.personality-card-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
 .greeting-section {
   margin-bottom: 32px;
 }
@@ -1772,9 +2197,9 @@ async function upgradeToPaid() {
 }
 
 .tier-badge.paid {
-  background: rgba(153, 0, 27, 0.08);
+  background: rgba(139, 45, 74, 0.08);
   color: var(--color-red-pure);
-  border: 1px solid rgba(153, 0, 27, 0.15);
+  border: 1px solid rgba(139, 45, 74, 0.15);
 }
 
 .greeting-title {
@@ -1814,7 +2239,7 @@ async function upgradeToPaid() {
 
 .destiny-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(153, 0, 27, 0.1), transparent);
+  background: linear-gradient(to right, transparent, rgba(139, 45, 74, 0.1), transparent);
   margin: 0 8px 24px;
 }
 
@@ -1949,26 +2374,6 @@ async function upgradeToPaid() {
   margin-top: -12px;
 }
 
-/* Validation CTA inside countdown */
-.countdown-validation-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 32px 40px;
-  text-align: center;
-  position: relative;
-}
-
-.validation-hint {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: #4A4A4A;
-  line-height: 1.5;
-  max-width: 320px;
-  font-weight: 400;
-}
-
 .premium-button-glow-wrapper {
   position: relative;
   display: inline-flex;
@@ -1982,7 +2387,7 @@ async function upgradeToPaid() {
   transform: translate(-50%, -50%);
   width: 110%;
   height: 110%;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.15) 0%, transparent 70%);
   border-radius: 9999px;
   filter: blur(20px);
   z-index: 0;
@@ -1996,7 +2401,7 @@ async function upgradeToPaid() {
   align-items: center;
   gap: 12px;
   padding: 18px 48px;
-  background: #99001B;
+  background: #8B2D4A;
   color: #FEFEFE;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
@@ -2009,15 +2414,15 @@ async function upgradeToPaid() {
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow:
-    0 4px 20px rgba(153, 0, 27, 0.3),
+    0 4px 20px rgba(139, 45, 74, 0.3),
     0 1px 0 rgba(255, 255, 255, 0.2) inset;
 }
 
 .validate-presence-btn:hover {
-  background: #7A0016;
+  background: #6B2640;
   transform: translateY(-4px);
   box-shadow:
-    0 12px 28px rgba(153, 0, 27, 0.4),
+    0 12px 28px rgba(139, 45, 74, 0.4),
     0 1px 0 rgba(255, 255, 255, 0.25) inset;
 }
 
@@ -2113,7 +2518,7 @@ async function upgradeToPaid() {
 .timeline-item.active .timeline-marker {
   background: var(--color-red-pure);
   color: white;
-  box-shadow: 0 4px 12px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 45, 74, 0.3);
 }
 
 .timeline-date {
@@ -2166,7 +2571,7 @@ async function upgradeToPaid() {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(153, 0, 27, 0.1);
+  background: rgba(139, 45, 74, 0.1);
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
@@ -2174,9 +2579,124 @@ async function upgradeToPaid() {
 }
 
 .matches-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: center;
+  justify-items: center;
+}
+
+.match-card-wrapper {
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* ===== Phase 1: Dissolve locked card ===== */
+.match-card-wrapper.is-dissolving {
+  animation: cardDissolve 0.6s ease-out forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes cardDissolve {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.03);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* ===== Phase 2: Reveal unlocked card ===== */
+.match-card-wrapper.is-revealing {
+  animation: cardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes cardReveal {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Glow ring that pulses behind the card during reveal */
+.match-card-wrapper.is-revealing::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 2.4rem;
+  background: radial-gradient(ellipse at center, rgba(139, 45, 74, 0.25), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  animation: glowPulse 0.8s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Shimmer sweep across the card */
+.match-card-wrapper.is-revealing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  border-radius: 2rem;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  z-index: 10;
+  pointer-events: none;
+  animation: shimmerSweep 0.6s ease-out 0.2s forwards;
+  will-change: transform;
+  transform: translateX(-200%);
+  opacity: 1;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@media (max-width: 900px) {
+  .matches-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .matches-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Empty state premium */
@@ -2201,7 +2721,7 @@ async function upgradeToPaid() {
   right: -5%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
   opacity: 0.6;
 }
 
@@ -2210,7 +2730,7 @@ async function upgradeToPaid() {
   left: -5%;
   width: 250px;
   height: 250px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.03) 0%, transparent 70%);
   opacity: 0.4;
 }
 
@@ -2234,7 +2754,7 @@ async function upgradeToPaid() {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #99001B;
+  color: #8B2D4A;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   margin-bottom: 32px;
 }
@@ -2260,7 +2780,7 @@ async function upgradeToPaid() {
 
 /* Stars — no permanent animations, only mouse-driven transitions */
 .c-star {
-  fill: #99001B;
+  fill: #8B2D4A;
   opacity: 0;
   transform-origin: center;
   transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s ease;
@@ -2277,7 +2797,7 @@ async function upgradeToPaid() {
 
 /* Lines */
 .c-line {
-  stroke: #99001B;
+  stroke: #8B2D4A;
   stroke-width: 0.7;
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -2595,13 +3115,13 @@ async function upgradeToPaid() {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.4);
 }
 
 .btn-outline {
@@ -2652,33 +3172,6 @@ async function upgradeToPaid() {
   pointer-events: none;
 }
 
-.banner-blob {
-  position: absolute;
-  border-radius: 9999px;
-}
-
-.banner-blob-right {
-  top: -50px;
-  right: -30px;
-  width: 220px;
-  height: 220px;
-}
-
-.banner-blob-left {
-  top: -20px;
-  left: -40px;
-  width: 160px;
-  height: 160px;
-}
-
-.banner-wave {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  transform: rotate(180deg);
-  opacity: 0.5;
-}
 
 /* Banner color picker */
 .banner-color-picker {
@@ -2771,8 +3264,8 @@ async function upgradeToPaid() {
 }
 
 .profile-photo-wrapper.premium-ring {
-  border-color: #99001B;
-  box-shadow: 0 0 15px rgba(153, 0, 27, 0.15);
+  border-color: #8B2D4A;
+  box-shadow: 0 0 15px rgba(139, 45, 74, 0.15);
 }
 
 .profile-photo-wrapper.editable {
@@ -2819,8 +3312,8 @@ async function upgradeToPaid() {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 600;
-  color: #99001B;
-  background: rgba(153, 0, 27, 0.05);
+  color: #8B2D4A;
+  background: rgba(139, 45, 74, 0.05);
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -2857,9 +3350,9 @@ async function upgradeToPaid() {
 }
 
 .plan-badge.paid {
-  background: rgba(153, 0, 27, 0.08);
-  color: #99001B;
-  border: 1px solid rgba(153, 0, 27, 0.1);
+  background: rgba(139, 45, 74, 0.08);
+  color: #8B2D4A;
+  border: 1px solid rgba(139, 45, 74, 0.1);
 }
 
 .crown-icon {
@@ -2909,7 +3402,7 @@ async function upgradeToPaid() {
   align-items: center;
   justify-content: center;
   border: 1px solid #E8E8E8;
-  color: #99001B;
+  color: #8B2D4A;
   flex-shrink: 0;
 }
 
@@ -2959,9 +3452,9 @@ async function upgradeToPaid() {
 }
 
 .edit-profile-btn:hover {
-  background: rgba(153, 0, 27, 0.05);
-  border-color: rgba(153, 0, 27, 0.15);
-  color: #99001B;
+  background: rgba(139, 45, 74, 0.05);
+  border-color: rgba(139, 45, 74, 0.15);
+  color: #8B2D4A;
 }
 
 .edit-icon {
@@ -3018,8 +3511,8 @@ async function upgradeToPaid() {
 }
 
 .edit-input:focus {
-  border-color: #99001B;
-  box-shadow: 0 0 0 3px rgba(153, 0, 27, 0.06);
+  border-color: #8B2D4A;
+  box-shadow: 0 0 0 3px rgba(139, 45, 74, 0.06);
   background: white;
 }
 
@@ -3044,7 +3537,7 @@ async function upgradeToPaid() {
   justify-content: center;
   gap: 8px;
   padding: 12px 20px;
-  background: #99001B;
+  background: #8B2D4A;
   color: white;
   border: none;
   border-radius: 9999px;
@@ -3053,11 +3546,11 @@ async function upgradeToPaid() {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(153, 0, 27, 0.25);
+  box-shadow: 0 4px 16px rgba(139, 45, 74, 0.25);
 }
 
 .edit-save-btn:hover:not(:disabled) {
-  background: #7A0016;
+  background: #6B2640;
 }
 
 .edit-save-btn:disabled {
@@ -3083,8 +3576,8 @@ async function upgradeToPaid() {
 }
 
 .edit-cancel-btn:hover {
-  border-color: #99001B;
-  color: #99001B;
+  border-color: #8B2D4A;
+  color: #8B2D4A;
 }
 
 .edit-action-icon {
@@ -3117,12 +3610,12 @@ async function upgradeToPaid() {
 }
 
 .edit-contact-choice:hover {
-  border-color: #99001B;
+  border-color: #8B2D4A;
 }
 
 .edit-contact-choice.active {
-  border-color: #99001B;
-  background: rgba(153, 0, 27, 0.04);
+  border-color: #8B2D4A;
+  background: rgba(139, 45, 74, 0.04);
   color: #1A1A1A;
 }
 
@@ -3137,7 +3630,7 @@ async function upgradeToPaid() {
 }
 
 .choice-radio.selected {
-  border-color: #99001B;
+  border-color: #8B2D4A;
 }
 
 .choice-radio.selected::after {
@@ -3148,7 +3641,7 @@ async function upgradeToPaid() {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #99001B;
+  background: #8B2D4A;
 }
 
 .toggle-icon {
@@ -3189,7 +3682,7 @@ async function upgradeToPaid() {
   gap: 10px;
   width: 100%;
   padding: 14px 24px;
-  background: linear-gradient(135deg, #C5960A 0%, #A67C00 100%);
+  background: linear-gradient(135deg, #A13D5B 0%, #8B2D4A 50%, #6E2240 100%);
   color: white;
   border: none;
   border-radius: 9999px;
@@ -3197,14 +3690,15 @@ async function upgradeToPaid() {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(166, 124, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.02em;
 }
 
 .upgrade-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #B8890A 0%, #8C6800 100%);
+  background: linear-gradient(135deg, #B34868 0%, #9B3556 50%, #7A284A 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(166, 124, 0, 0.4);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.4), 0 2px 8px rgba(139, 45, 74, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .upgrade-btn:disabled {
@@ -3268,7 +3762,7 @@ async function upgradeToPaid() {
 .dev-phase-badge {
   padding: 2px 8px;
   border-radius: 9999px;
-  background: rgba(153, 0, 27, 0.3);
+  background: rgba(139, 45, 74, 0.3);
   color: #ff6b8a;
   font-weight: 600;
   font-size: 0.65rem;
@@ -3314,8 +3808,8 @@ async function upgradeToPaid() {
 }
 
 .dev-preset-btn.active {
-  background: rgba(153, 0, 27, 0.2);
-  border-color: #99001B;
+  background: rgba(139, 45, 74, 0.2);
+  border-color: #8B2D4A;
   color: #ff6b8a;
 }
 
@@ -3334,6 +3828,31 @@ async function upgradeToPaid() {
 
 .dev-reset-btn:hover {
   background: rgba(239, 68, 68, 0.25);
+}
+
+.dev-panel-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+}
+
+.dev-reveal-btn {
+  width: 100%;
+  background: rgba(139, 45, 74, 0.2) !important;
+  border-color: rgba(139, 45, 74, 0.4) !important;
+  color: #ff6b8a !important;
+  font-weight: 600;
+  text-align: center;
+}
+
+.dev-reveal-btn:hover:not(.disabled) {
+  background: rgba(139, 45, 74, 0.35) !important;
+  border-color: #8B2D4A !important;
+}
+
+.dev-reveal-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 @media (min-width: 768px) {
@@ -3387,7 +3906,7 @@ async function upgradeToPaid() {
   transform: translate(-50%, -50%);
   width: 80px;
   height: 80px;
-  background: rgba(153, 0, 27, 0.08);
+  background: rgba(139, 45, 74, 0.08);
   filter: blur(20px);
   border-radius: 50%;
   z-index: 1;
@@ -3428,7 +3947,7 @@ async function upgradeToPaid() {
 }
 
 .no-match-cta {
-  background: var(--color-red-pure, #99001B);
+  background: var(--color-red-pure, #8B2D4A);
   color: #FEFEFE;
   border: none;
   border-radius: 9999px;
@@ -3441,13 +3960,13 @@ async function upgradeToPaid() {
   align-items: center;
   gap: 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
 }
 
 .no-match-cta:hover:not(:disabled) {
-  background: var(--color-red-dark, #7A0016);
+  background: var(--color-red-dark, #6B2640);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 6px 24px rgba(139, 45, 74, 0.4);
 }
 
 .no-match-cta:disabled {
@@ -3458,7 +3977,7 @@ async function upgradeToPaid() {
 .no-match-promo {
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
-  color: var(--color-red-pure, #99001B);
+  color: var(--color-red-pure, #8B2D4A);
   font-weight: 500;
   margin: 0;
 }
@@ -3495,7 +4014,7 @@ async function upgradeToPaid() {
 
 .preview-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(153, 0, 27, 0.15), transparent);
+  background: linear-gradient(to right, transparent, rgba(139, 45, 74, 0.15), transparent);
   margin-bottom: 20px;
 }
 
@@ -3545,6 +4064,32 @@ async function upgradeToPaid() {
 
   .edit-row {
     grid-template-columns: 1fr;
+  }
+
+  .upgrade-btn {
+    padding: 12px 20px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .dashboard-main {
+    padding: 16px 12px 0;
+  }
+
+  .identity-card {
+    padding: 24px 16px 20px;
+    border-radius: 16px;
+  }
+
+  .identity-name {
+    font-size: 1.3rem;
+  }
+
+  .timeline-card,
+  .profil-card {
+    padding: 20px 16px;
+    border-radius: 16px;
   }
 }
 
@@ -3795,5 +4340,58 @@ async function upgradeToPaid() {
   .plan-modal-container {
     padding: 40px 24px 32px;
   }
+  .plan-modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .plan-modal-overlay {
+    padding: 12px;
+  }
+  .plan-modal-container {
+    padding: 32px 16px 24px;
+    border-radius: 16px;
+  }
+  .plan-card {
+    padding: 24px 16px;
+  }
+  .plan-name {
+    font-size: 1.25rem;
+  }
+  .plan-price {
+    font-size: 1.8rem;
+  }
+  .feature-item {
+    font-size: 0.875rem;
+  }
+}
+</style>
+
+<!-- Global styles for heart particles (appended to body) -->
+<style>
+@keyframes heartFloat {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(calc(var(--tx) * 0.05), calc(var(--ty) * 0.05)) scale(1.2) rotate(10deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(calc(var(--tx) * 0.5), calc(var(--ty) * 0.5)) scale(1) rotate(25deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(60deg);
+  }
+}
+
+.heart-particle {
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 6px rgba(139, 45, 74, 0.4));
+  line-height: 1;
 }
 </style>

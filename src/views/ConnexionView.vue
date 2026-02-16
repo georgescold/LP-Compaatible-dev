@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../lib/supabase'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 import { ArrowLeft, Mail, Lock, ShieldCheck, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-vue-next'
 
 const router = useRouter()
@@ -41,7 +41,9 @@ async function handleLogin() {
     })
 
     if (authError) {
-      if (authError.message.includes('Invalid login credentials')) {
+      if (authError.message.includes('Email not confirmed')) {
+        errorMessage.value = 'Tu dois confirmer ton email avant de te connecter. Vérifie ta boîte de réception (et tes spams) pour le lien de confirmation.'
+      } else if (authError.message.includes('Invalid login credentials')) {
         errorMessage.value = 'Email ou mot de passe incorrect. Si tu t\'es inscrit(e) avant la mise à jour, clique sur "Mot de passe oublié ?" pour en créer un.'
       } else {
         errorMessage.value = 'Une erreur est survenue. Réessaie dans quelques instants.'
@@ -53,13 +55,58 @@ async function handleLogin() {
     if (authData.user) {
       const { data: userData } = await supabase
         .from('users')
-        .select('id, first_name')
+        .select('id, first_name, personality_type')
         .eq('email', email.value.trim().toLowerCase())
         .single()
 
       if (userData) {
         sessionStorage.setItem('compaatible_user_id', userData.id)
         sessionStorage.setItem('compaatible_user_name', userData.first_name)
+
+        // Smart redirect: check if user has completed the test
+        const pendingResultId = sessionStorage.getItem('compaatible_pending_result_id')
+        if (pendingResultId) {
+          // User just finished the test before confirming email → show results
+          sessionStorage.removeItem('compaatible_pending_result_id')
+
+          // Now that user is authenticated, update personality_type if needed
+          if (!userData.personality_type) {
+            const { data: testResult } = await supabase
+              .from('test_results')
+              .select('personality_type')
+              .eq('user_id', userData.id)
+              .order('created_at', { ascending: false })
+              .limit(1)
+              .single()
+            if (testResult?.personality_type) {
+              await supabase
+                .from('users')
+                .update({ personality_type: testResult.personality_type })
+                .eq('id', userData.id)
+            }
+          }
+
+          router.push(`/resultats/${pendingResultId}`)
+          return
+        }
+
+        // Check if user has any test results
+        const { data: existingTest } = await supabase
+          .from('test_results')
+          .select('id')
+          .eq('user_id', userData.id)
+          .limit(1)
+          .single()
+
+        if (!existingTest) {
+          // No test yet → send to test
+          router.push('/test')
+          return
+        }
+
+        // Has test results → go to profile dashboard
+        router.push('/profil')
+        return
       }
     }
 
@@ -407,7 +454,7 @@ function handleBack() {
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.06) 0%, transparent 70%);
 }
 
 .deco-bottom-left {
@@ -415,7 +462,7 @@ function handleBack() {
   left: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.04) 0%, transparent 70%);
 }
 
 /* Navigation */
@@ -456,7 +503,7 @@ function handleBack() {
 }
 
 .logo-area img {
-  height: 48px;
+  height: 34px;
   width: auto;
 }
 
@@ -584,7 +631,7 @@ function handleBack() {
 
 .form-input:focus {
   border-color: var(--color-red-pure);
-  box-shadow: 0 0 0 4px rgba(153, 0, 27, 0.05);
+  box-shadow: 0 0 0 4px rgba(139, 45, 74, 0.05);
 }
 
 .form-input.input-error {
@@ -654,13 +701,13 @@ function handleBack() {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
 }
 
 .submit-btn:hover:not(:disabled) {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.4);
 }
 
 .submit-btn:disabled {
@@ -722,7 +769,7 @@ function handleBack() {
   align-items: center;
   justify-content: center;
   margin: 0 auto 32px;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
 }
 
 .success-icon {

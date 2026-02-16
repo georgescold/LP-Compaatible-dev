@@ -7,7 +7,7 @@
  *   // today.value retourne la date simulée (ou la date réelle si aucun override)
  *
  * Stocke l'override dans localStorage pour persister entre les reloads.
- * N'est actif qu'en mode développement (import.meta.env.DEV).
+ * Le panel est toujours visible pour faciliter les tests.
  */
 
 import { ref, computed } from 'vue'
@@ -16,15 +16,15 @@ const DEV_DATE_KEY = 'compaatible_dev_date'
 
 // Global reactive state (shared across all composable instances)
 const overrideDate = ref<string | null>(
-  import.meta.env.DEV ? localStorage.getItem(DEV_DATE_KEY) : null
+  localStorage.getItem(DEV_DATE_KEY)
 )
 
 export function useDevCalendar() {
-  const isDev = import.meta.env.DEV
+  const isDev = true // Panel toujours actif
 
   /** Current date string (YYYY-MM-DD) — uses override if set, else real date */
   const today = computed(() => {
-    if (isDev && overrideDate.value) {
+    if (overrideDate.value) {
       return overrideDate.value
     }
     return new Date().toISOString().split('T')[0]
@@ -32,20 +32,18 @@ export function useDevCalendar() {
 
   /** Set a specific date override */
   function setDate(dateStr: string) {
-    if (!isDev) return
     overrideDate.value = dateStr
     localStorage.setItem(DEV_DATE_KEY, dateStr)
   }
 
   /** Clear the override — use the real date */
   function clearDate() {
-    if (!isDev) return
     overrideDate.value = null
     localStorage.removeItem(DEV_DATE_KEY)
   }
 
   /** Check if we're in override mode */
-  const isOverridden = computed(() => isDev && overrideDate.value !== null)
+  const isOverridden = computed(() => overrideDate.value !== null)
 
   /** Preset dates for quick testing (based on Février 2026 session) */
   const presets = [

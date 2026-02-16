@@ -4,10 +4,10 @@ import IconCheck from './icons/IconCheck.vue'
 import IconCross from './icons/IconCross.vue'
 
 // Import des images
-import imageAutumn from '../assets/couple-autumn.jpg'
-import imageWindow from '../assets/couple-window.jpg'
-import imageBeach from '../assets/couple-beach.jpg'
-import imageSunset from '../assets/couple-sunset.jpg'
+import imageAutumn from '../assets/couple-autumn.webp'
+import imageWindow from '../assets/couple-window.webp'
+import imageBeach from '../assets/couple-beach.webp'
+import imageSunset from '../assets/couple-sunset.webp'
 
 const features = [
   'Matchs basés sur la personnalité profonde',
@@ -23,20 +23,20 @@ const features = [
     <!-- Floating Images Left -->
     <div class="floating-images floating-images-left">
       <div class="floating-frame frame-1">
-        <img :src="imageAutumn" alt="Couple en automne" />
+        <img :src="imageAutumn" alt="Couple en automne" loading="lazy" />
       </div>
       <div class="floating-frame frame-2">
-        <img :src="imageWindow" alt="Couple à la fenêtre" />
+        <img :src="imageWindow" alt="Couple à la fenêtre" loading="lazy" />
       </div>
     </div>
 
     <!-- Floating Images Right -->
     <div class="floating-images floating-images-right">
       <div class="floating-frame frame-3">
-        <img :src="imageBeach" alt="Couple à la plage" />
+        <img :src="imageBeach" alt="Couple à la plage" loading="lazy" />
       </div>
       <div class="floating-frame frame-4">
-        <img :src="imageSunset" alt="Couple au coucher de soleil" />
+        <img :src="imageSunset" alt="Couple au coucher de soleil" loading="lazy" />
       </div>
     </div>
 
@@ -114,7 +114,7 @@ const features = [
   border-radius: 20px;
   overflow: hidden;
   box-shadow:
-    0 25px 50px rgba(153, 0, 27, 0.08),
+    0 25px 50px rgba(139, 45, 74, 0.08),
     0 10px 30px rgba(0, 0, 0, 0.12);
   border: 3px solid rgba(255, 255, 255, 0.9);
   opacity: 0.92;
@@ -126,7 +126,7 @@ const features = [
   inset: 0;
   background: linear-gradient(
     145deg,
-    rgba(153, 0, 27, 0.05) 0%,
+    rgba(139, 45, 74, 0.05) 0%,
     transparent 50%,
     rgba(0, 0, 0, 0.08) 100%
   );
@@ -141,10 +141,10 @@ const features = [
   border-radius: 23px;
   background: linear-gradient(
     135deg,
-    rgba(153, 0, 27, 0.15) 0%,
+    rgba(139, 45, 74, 0.15) 0%,
     transparent 40%,
     transparent 60%,
-    rgba(153, 0, 27, 0.1) 100%
+    rgba(139, 45, 74, 0.1) 100%
   );
   z-index: -1;
 }
@@ -199,25 +199,31 @@ const features = [
 }
 
 .section-label-light {
-  display: inline-block;
-  color: var(--color-red-pure);
-  font-size: 0.9rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 45, 74, 0.05);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  color: var(--color-red-pure);
   margin-bottom: 16px;
 }
 
 .section-header h2 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--color-black);
+  color: #1A1A1A;
   margin-bottom: 20px;
 }
 
 .section-header p {
+  font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
-  color: var(--color-gray-dark);
+  color: #64748b;
 }
 
 .comparison-table {

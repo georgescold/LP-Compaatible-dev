@@ -95,6 +95,12 @@ CREATE POLICY "Users can view their own matches"
   );
 
 -- ============================================
+-- Add personality_type column to users and test_results
+-- ============================================
+ALTER TABLE users ADD COLUMN IF NOT EXISTS personality_type TEXT;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS personality_type TEXT;
+
+-- ============================================
 -- Insert first session (Février 2026)
 -- ============================================
 INSERT INTO sessions (name, registration_start, registration_end, matching_start, matching_end, reveal_date, presence_validation_start, presence_validation_end, status)

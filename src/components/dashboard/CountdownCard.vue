@@ -116,10 +116,10 @@ function pad(n: number): string {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg,
-    rgba(153, 0, 27, 0.06) 0%,
-    rgba(153, 0, 27, 0.12) 40%,
+    rgba(139, 45, 74, 0.06) 0%,
+    rgba(139, 45, 74, 0.12) 40%,
     rgba(180, 40, 60, 0.08) 70%,
-    rgba(153, 0, 27, 0.04) 100%
+    rgba(139, 45, 74, 0.04) 100%
   );
   z-index: 0;
 }
@@ -223,8 +223,8 @@ function pad(n: number): string {
 }
 
 @keyframes cardPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 2px 12px rgba(153, 0, 27, 0.04); }
-  50% { transform: scale(1.008); box-shadow: 0 6px 24px rgba(153, 0, 27, 0.1); }
+  0%, 100% { transform: scale(1); box-shadow: 0 2px 12px rgba(139, 45, 74, 0.04); }
+  50% { transform: scale(1.008); box-shadow: 0 6px 24px rgba(139, 45, 74, 0.1); }
 }
 
 @keyframes glowPulse {

@@ -1,13 +1,24 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import womanPhoto from '../assets/smiling-blonde-woman-laughing-street-cheerfully-lovely-young-lady-feeling-happy-autumn-park-compressed.jpg'
-import manPhoto from '../assets/young-hispanic-man-smiling-confident-standing-street-compressed.jpg'
+import { MapPin, Heart, Smile, Users, Star, Check } from 'lucide-vue-next'
+import womanPhoto from '../assets/smiling-blonde-woman-laughing-street-cheerfully-lovely-young-lady-feeling-happy-autumn-park-compressed.webp'
+import manPhoto from '../assets/young-hispanic-man-smiling-confident-standing-street-compressed.webp'
+import logoImage from '../assets/nouveau logo compaatible.png'
+import papillonEmpathiqueAvatar from '@/assets/16 personnalités svg/le papillon empathique.svg?url'
+import strategeSerenAvatar from '@/assets/16 personnalités svg/stratège serein.svg?url'
 
 const sectionRef = ref<HTMLElement | null>(null)
 const isVisible = ref(false)
 const hasAnimated = ref(false)
 const currentPercentage = ref(0)
 const targetPercentage = 86
+
+const traits = [
+  { label: 'Valeurs communes', icon: Heart },
+  { label: 'Humour partagé', icon: Smile },
+  { label: 'Style de vie', icon: Users },
+  { label: 'Vision du futur', icon: Star }
+]
 
 let observer: IntersectionObserver | null = null
 
@@ -54,98 +65,150 @@ function animatePercentage() {
 </script>
 
 <template>
-  <section ref="sectionRef" class="matching-preview" :class="{ 'is-visible': isVisible }">
+  <section ref="sectionRef" class="matching-section" :class="{ 'is-visible': isVisible }">
+    <!-- Decorative blurs -->
+    <div class="blur-blob blur-top"></div>
+    <div class="blur-blob blur-bottom"></div>
+
     <div class="container-main">
-      <!-- Section Label -->
-      <span class="section-label">Le pouvoir du matching</span>
+      <!-- Section header -->
+      <div class="section-header">
+        <span class="section-label">
+          <Heart class="label-icon" :size="12" fill="currentColor" />
+          LE POUVOIR DU MATCHING
+        </span>
+      </div>
 
-      <!-- Main Matching Visual -->
+      <!-- Matching Visual -->
       <div class="matching-container">
-        <!-- Left Profile (Woman) -->
-        <div class="profile profile-left">
-          <div class="profile-image">
-            <img :src="womanPhoto" alt="Sophie" />
-          </div>
-          <div class="profile-info">
-            <span class="profile-name">Sophie, 28 ans</span>
-            <span class="profile-city">Bordeaux</span>
-          </div>
-        </div>
-
-        <!-- Connection Area -->
-        <div class="connection-area">
-          <!-- Animated hearts -->
-          <div class="hearts-container">
-            <span class="heart" v-for="n in 5" :key="n">❤</span>
+        <!-- Sophie Card -->
+        <div class="profile-card card-sophie">
+          <div class="card-photo">
+            <img :src="womanPhoto" alt="Sophie" loading="lazy" />
+            <div class="verified-badge">
+              <img :src="logoImage" alt="" width="12" height="12" style="width:12px;height:12px;max-width:12px;max-height:12px;" class="verified-logo" />
+              <span>Profil vérifié</span>
+            </div>
           </div>
 
-          <!-- Connection line -->
-          <div class="connection-line">
-            <svg viewBox="0 0 200 20" preserveAspectRatio="none">
-              <path class="line-bg" d="M0,10 Q50,0 100,10 Q150,20 200,10" />
-              <path class="line-animated" d="M0,10 Q50,0 100,10 Q150,20 200,10" />
-            </svg>
-          </div>
+          <div class="card-body">
+            <div class="diamond-pattern diamond-sophie"></div>
+            <h3 class="card-name">Sophie, 28</h3>
+            <div class="card-city">
+              <MapPin :size="11" stroke-width="2.5" />
+              Bordeaux
+            </div>
 
-          <!-- Percentage Circle -->
-          <div class="percentage-container">
-            <div class="percentage-circle">
-              <svg viewBox="0 0 100 100">
-                <circle class="circle-bg" cx="50" cy="50" r="45" />
-                <circle
-                  class="circle-progress"
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  :style="{ strokeDashoffset: 283 - (283 * currentPercentage / 100) }"
-                />
-              </svg>
-              <div class="percentage-text">
-                <span class="percentage-number">{{ currentPercentage }}</span>
-                <span class="percentage-symbol">%</span>
+            <!-- Personality -->
+            <div class="personality-tag" style="background-color: rgba(45, 139, 87, 0.08);">
+              <img :src="papillonEmpathiqueAvatar" alt="" width="28" height="28" style="width:28px;height:28px;max-width:28px;max-height:28px;" class="personality-avatar" />
+              <div class="personality-text">
+                <span class="personality-name" style="color: #2D8B57;">Le Papillon Empathique</span>
+                <span class="personality-category" style="color: #2D8B57;">Âmes Lumineuses</span>
               </div>
             </div>
-            <span class="percentage-label">Compatibilité</span>
+
+            <!-- Tagline -->
+            <p class="card-tagline">
+              « Enthousiaste infatigable qui voit la magie en chaque être qu'il rencontre. »
+            </p>
+
+            <!-- Hobbies -->
+            <div class="card-hobbies">
+              <span class="hobby-pill">🧘 Yoga</span>
+              <span class="hobby-pill">✈️ Voyages</span>
+              <span class="hobby-pill">📸 Photo</span>
+              <span class="hobby-pill">🍷 Restaurants</span>
+            </div>
           </div>
         </div>
 
-        <!-- Right Profile (Man) -->
-        <div class="profile profile-right">
-          <div class="profile-image">
-            <img :src="manPhoto" alt="Thomas" />
+        <!-- Compatibility Circle -->
+        <div class="compatibility-circle">
+          <!-- Floating hearts -->
+          <span class="floating-heart fh-1"><Heart :size="14" fill="currentColor" /></span>
+          <span class="floating-heart fh-2"><Heart :size="10" fill="currentColor" /></span>
+          <span class="floating-heart fh-3"><Heart :size="12" fill="currentColor" /></span>
+          <span class="floating-heart fh-4"><Heart :size="9" fill="currentColor" /></span>
+          <span class="floating-heart fh-5"><Heart :size="11" fill="currentColor" /></span>
+
+          <div class="circle-ring">
+            <svg viewBox="0 0 100 100">
+              <circle class="ring-bg" cx="50" cy="50" r="45" />
+              <circle
+                class="ring-progress"
+                cx="50"
+                cy="50"
+                r="45"
+                :style="{ strokeDashoffset: 283 - (283 * currentPercentage / 100) }"
+              />
+            </svg>
+            <div class="circle-content">
+              <span class="circle-number">{{ currentPercentage }}</span>
+              <span class="circle-symbol">%</span>
+            </div>
           </div>
-          <div class="profile-info">
-            <span class="profile-name">Thomas, 31 ans</span>
-            <span class="profile-city">Toulouse</span>
+          <span class="circle-label">Compatibilité</span>
+        </div>
+
+        <!-- Thomas Card -->
+        <div class="profile-card card-thomas">
+          <div class="card-photo">
+            <img :src="manPhoto" alt="Thomas" loading="lazy" />
+            <div class="verified-badge">
+              <img :src="logoImage" alt="" width="12" height="12" style="width:12px;height:12px;max-width:12px;max-height:12px;" class="verified-logo" />
+              <span>Profil vérifié</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="diamond-pattern diamond-thomas"></div>
+            <h3 class="card-name">Thomas, 31</h3>
+            <div class="card-city">
+              <MapPin :size="11" stroke-width="2.5" />
+              Toulouse
+            </div>
+
+            <!-- Personality -->
+            <div class="personality-tag" style="background-color: rgba(107, 63, 160, 0.08);">
+              <img :src="strategeSerenAvatar" alt="" width="28" height="28" style="width:28px;height:28px;max-width:28px;max-height:28px;" class="personality-avatar" />
+              <div class="personality-text">
+                <span class="personality-name" style="color: #6B3FA0;">Le Stratège Serein</span>
+                <span class="personality-category" style="color: #6B3FA0;">Architectes du Cœur</span>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <p class="card-tagline">
+              « Visionnaire calme qui construit l'amour avec précision et profondeur. »
+            </p>
+
+            <!-- Hobbies -->
+            <div class="card-hobbies">
+              <span class="hobby-pill">📚 Lecture</span>
+              <span class="hobby-pill">🎧 Musique</span>
+              <span class="hobby-pill">🥾 Randonnée</span>
+              <span class="hobby-pill">🍳 Cuisine</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Compatibility traits -->
-      <div class="compatibility-traits">
-        <div class="trait" v-for="(trait, index) in ['Valeurs communes', 'Humour partagé', 'Style de vie', 'Vision du futur']" :key="index" :style="{ transitionDelay: `${1.2 + index * 0.15}s` }">
-          <span class="trait-icon">
-            <svg v-if="index === 0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-            <svg v-else-if="index === 1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-              <line x1="9" y1="9" x2="9.01" y2="9"/>
-              <line x1="15" y1="9" x2="15.01" y2="9"/>
-            </svg>
-            <svg v-else-if="index === 2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
+      <div class="traits-row">
+        <div
+          v-for="(trait, index) in traits"
+          :key="trait.label"
+          class="trait-pill"
+          :style="{ transitionDelay: `${1.2 + index * 0.15}s` }"
+        >
+          <span class="trait-icon-box">
+            <component :is="trait.icon" :size="14" />
           </span>
-          <span class="trait-text">{{ trait }}</span>
-          <span class="trait-check">✓</span>
+          <span class="trait-text">{{ trait.label }}</span>
+          <span class="trait-check">
+            <Check :size="10" />
+          </span>
         </div>
       </div>
 
@@ -158,39 +221,74 @@ function animatePercentage() {
 </template>
 
 <style scoped>
-.matching-preview {
+.matching-section {
   padding: 80px 0 100px;
-  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-white-cream) 100%);
+  background: linear-gradient(180deg, #FEFEFE 0%, #FBF9F7 100%);
   position: relative;
   overflow: hidden;
 }
 
-.matching-preview::before {
-  content: '';
+.blur-blob {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  border-radius: 9999px;
   pointer-events: none;
+}
+
+.blur-top {
+  top: -6rem;
+  left: -6rem;
+  height: 24rem;
+  width: 24rem;
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
+}
+
+.blur-bottom {
+  bottom: -4rem;
+  right: -6rem;
+  height: 16rem;
+  width: 16rem;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
 }
 
 .container-main {
   position: relative;
   z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+.section-header {
   text-align: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.is-visible .section-header {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section-label {
-  display: inline-block;
-  color: var(--color-red-pure);
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 45, 74, 0.05);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6875rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 40px;
+  text-transform: uppercase;
+  color: #8B2D4A;
+}
+
+.label-icon {
+  margin-top: -1px;
 }
 
 /* Matching Container */
@@ -198,444 +296,603 @@ function animatePercentage() {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 50px;
-}
-
-/* Profile Styles */
-.profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  opacity: 0;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.profile-left {
-  transform: translateX(-40px);
-}
-
-.profile-right {
-  transform: translateX(40px);
-}
-
-.is-visible .profile-left {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.3s;
-}
-
-.is-visible .profile-right {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.5s;
-}
-
-.profile-image {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid white;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  gap: 0;
+  margin-bottom: 48px;
   position: relative;
-  z-index: 2;
 }
 
-.profile-image img {
+/* Profile Cards */
+.profile-card {
+  width: 260px;
+  flex-shrink: 0;
+  background: #FEFEFE;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(232, 232, 232, 0.5);
+  position: relative;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card-sophie {
+  transform: translateX(-40px) rotate(-2deg);
+  z-index: 1;
+}
+
+.card-thomas {
+  transform: translateX(40px) rotate(2deg);
+  z-index: 1;
+}
+
+.is-visible .card-sophie {
+  opacity: 1;
+  transform: translateX(0) rotate(-2deg);
+  transition-delay: 0.2s;
+}
+
+.is-visible .card-thomas {
+  opacity: 1;
+  transform: translateX(0) rotate(2deg);
+  transition-delay: 0.4s;
+}
+
+
+/* Diamond pattern — pure CSS, no inline SVG */
+.diamond-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-size: 40px 40px;
+}
+
+.diamond-sophie {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='%232D8B57'/%3E%3C/svg%3E");
+}
+
+.diamond-thomas {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='%236B3FA0'/%3E%3C/svg%3E");
+}
+
+/* Photo */
+.card-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.card-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-info {
+.card-photo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.3), transparent);
+  pointer-events: none;
+}
+
+.verified-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  padding: 4px 8px;
+  border-radius: 9999px;
 }
 
-.profile-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-black);
+.verified-logo {
+  width: 12px !important;
+  height: 12px !important;
+  max-width: 12px !important;
+  max-height: 12px !important;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
-.profile-city {
-  font-size: 0.85rem;
-  color: var(--color-gray-dark);
-  font-weight: 500;
+.verified-badge span {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1A1A1A;
 }
 
-/* Connection Area */
-.connection-area {
+/* Card body */
+.card-body {
   position: relative;
-  width: 200px;
+  z-index: 1;
+  padding: 14px 16px 18px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+.card-city {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #787878;
+  margin-bottom: 10px;
 }
 
-/* Hearts animation */
-.hearts-container {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: visible;
+/* Personality tag */
+.personality-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 1rem;
+  margin-bottom: 8px;
+  overflow: hidden;
 }
 
-.heart {
-  position: absolute;
-  font-size: 12px;
-  opacity: 0;
-  color: var(--color-red-pure);
+.personality-avatar {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
-.is-visible .heart:nth-child(1) {
-  top: 10%;
-  left: 20%;
-  animation: floatHeart 4s ease-in-out infinite 1.5s;
+.personality-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
-.is-visible .heart:nth-child(2) {
-  top: 70%;
-  left: 15%;
-  animation: floatHeart 3.5s ease-in-out infinite 2s;
+.personality-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
-.is-visible .heart:nth-child(3) {
-  top: 20%;
-  right: 15%;
-  animation: floatHeart 4.2s ease-in-out infinite 1.8s;
+.personality-category {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
 }
 
-.is-visible .heart:nth-child(4) {
-  top: 65%;
-  right: 20%;
-  animation: floatHeart 3.8s ease-in-out infinite 2.3s;
+/* Tagline */
+.card-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: #787878;
+  margin: 0 0 10px;
 }
 
-.is-visible .heart:nth-child(5) {
-  top: 40%;
-  left: 5%;
-  animation: floatHeart 3.2s ease-in-out infinite 2.6s;
+/* Hobbies */
+.card-hobbies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
 }
 
-@keyframes floatHeart {
-  0%, 100% {
-    opacity: 0;
-    transform: translateY(0) scale(0.5);
-  }
-  20% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-20px) scale(1);
-  }
-  80% {
-    opacity: 0.7;
-  }
+.hobby-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: #FBF9F7;
+  border: 1px solid rgba(232, 232, 232, 0.6);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: #5C5C5C;
 }
 
-/* Connection Line */
-.connection-line {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.connection-line svg {
-  width: 100%;
-  height: 20px;
-}
-
-.line-bg {
-  fill: none;
-  stroke: var(--color-gray-light);
-  stroke-width: 2;
-}
-
-.line-animated {
-  fill: none;
-  stroke: var(--color-red-pure);
-  stroke-width: 3;
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  filter: drop-shadow(0 0 3px rgba(153, 0, 27, 0.3));
-}
-
-.is-visible .line-animated {
-  animation: drawLine 1.5s ease-out forwards 0.8s;
-}
-
-@keyframes drawLine {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Percentage Circle */
-.percentage-container {
+/* Compatibility Circle */
+.compatibility-circle {
   position: relative;
-  z-index: 3;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  margin: 0 -24px;
   opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0.7);
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.is-visible .percentage-container {
+.is-visible .compatibility-circle {
   opacity: 1;
   transform: scale(1);
-  transition-delay: 0.6s;
+  transition-delay: 0.5s;
 }
 
-.percentage-circle {
+/* Floating hearts around the circle */
+.floating-heart {
+  position: absolute;
+  color: #8B2D4A;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 3px rgba(139, 45, 74, 0.15));
+}
+
+.is-visible .floating-heart {
+  animation: heartPulseFloat 3s ease-in-out infinite;
+}
+
+.fh-1 {
+  top: -8px;
+  right: 8px;
+  opacity: 0;
+}
+.is-visible .fh-1 {
+  animation-delay: 1.2s;
+}
+
+.fh-2 {
+  top: 20px;
+  left: -6px;
+  opacity: 0;
+}
+.is-visible .fh-2 {
+  animation-delay: 1.6s;
+}
+
+.fh-3 {
+  bottom: 28px;
+  right: -10px;
+  opacity: 0;
+}
+.is-visible .fh-3 {
+  animation-delay: 2s;
+}
+
+.fh-4 {
+  bottom: 8px;
+  left: 4px;
+  opacity: 0;
+}
+.is-visible .fh-4 {
+  animation-delay: 1.4s;
+}
+
+.fh-5 {
+  top: 50%;
+  right: -14px;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+.is-visible .fh-5 {
+  animation-delay: 1.8s;
+}
+
+@keyframes heartPulseFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.7);
+  }
+  15% {
+    opacity: 0.6;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateY(-3px) scale(0.9);
+  }
+  85% {
+    opacity: 0.6;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.7);
+  }
+}
+
+.circle-ring {
   width: 120px;
   height: 120px;
   position: relative;
-  background: white;
+  background: #FEFEFE;
   border-radius: 50%;
-  box-shadow: 0 15px 50px rgba(153, 0, 27, 0.15);
+  box-shadow:
+    0 12px 40px rgba(139, 45, 74, 0.14),
+    0 0 60px rgba(139, 45, 74, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.percentage-circle svg {
+.circle-ring svg {
+  position: absolute;
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
 }
 
-.circle-bg {
+.ring-bg {
   fill: none;
-  stroke: var(--color-gray-light);
-  stroke-width: 6;
+  stroke: #F5F5F5;
+  stroke-width: 5;
 }
 
-.circle-progress {
+.ring-progress {
   fill: none;
-  stroke: var(--color-red-pure);
-  stroke-width: 6;
+  stroke: #8B2D4A;
+  stroke-width: 5;
   stroke-linecap: round;
   stroke-dasharray: 283;
   transition: stroke-dashoffset 0.05s linear;
-  filter: drop-shadow(0 0 4px rgba(153, 0, 27, 0.4));
+  filter: drop-shadow(0 0 4px rgba(139, 45, 74, 0.3));
 }
 
-.percentage-text {
-  position: absolute;
-  inset: 0;
+.is-visible .ring-progress {
+  animation: ringGlow 2.5s ease-in-out 3.5s infinite;
+}
+
+@keyframes ringGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(139, 45, 74, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(139, 45, 74, 0.5));
+  }
+}
+
+.circle-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
+  align-items: baseline;
+  gap: 1px;
+  position: relative;
+  z-index: 1;
 }
 
-.percentage-number {
+.circle-number {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--color-red-pure);
+  color: #8B2D4A;
   line-height: 1;
 }
 
-.percentage-symbol {
+.circle-symbol {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-red-pure);
-  margin-top: 5px;
+  color: #8B2D4A;
 }
 
-.percentage-label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-black);
+.circle-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
+  color: #1A1A1A;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-.is-visible .percentage-label {
+.is-visible .circle-label {
   opacity: 1;
   transition-delay: 1.5s;
 }
 
-/* Compatibility Traits */
-.compatibility-traits {
+/* Traits */
+.traits-row {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin-bottom: 32px;
   flex-wrap: wrap;
 }
 
-.trait {
+.trait-pill {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 8px 16px;
   background: white;
-  border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  cursor: default;
+  border-radius: 9999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   opacity: 0;
   transform: translateY(15px);
-  transition: all 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.is-visible .trait {
+.is-visible .trait-pill {
   opacity: 1;
   transform: translateY(0);
 }
 
-.trait-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--color-red-pure);
-}
-
-.trait-icon svg {
-  width: 100%;
-  height: 100%;
+.trait-icon-box {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(139, 45, 74, 0.06);
+  color: #8B2D4A;
 }
 
 .trait-text {
-  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
   font-weight: 500;
-  color: var(--color-black);
+  color: #1A1A1A;
 }
 
 .trait-check {
   width: 18px;
   height: 18px;
-  background: var(--color-red-pure);
-  color: white;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  font-weight: bold;
+  border-radius: 50%;
+  background: #8B2D4A;
+  color: white;
 }
 
 /* Tagline */
 .matching-tagline {
-  font-size: 1.1rem;
-  color: var(--color-gray-dark);
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #787878;
   max-width: 500px;
   margin: 0 auto;
   line-height: 1.6;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.is-visible .matching-tagline {
+  opacity: 1;
+  transition-delay: 1.8s;
 }
 
 .matching-tagline strong {
-  color: var(--color-black);
+  color: #1A1A1A;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .matching-preview {
-    padding: 60px 0 80px;
-  }
-
+@media (max-width: 900px) {
   .matching-container {
     flex-direction: column;
-    gap: 30px;
+    gap: 0;
   }
 
-  .profile-left, .profile-right {
-    transform: translateY(30px);
+  .compatibility-circle {
+    margin: -16px 0;
+    order: 0;
   }
 
-  .is-visible .profile-left,
-  .is-visible .profile-right {
-    transform: translateY(0);
+  .card-sophie {
+    order: -1;
+    transform: translateY(20px);
   }
 
-  .connection-area {
-    width: 100%;
-    height: 150px;
+  .card-thomas {
+    order: 1;
+    transform: translateY(20px);
   }
 
-  .connection-line {
-    transform: rotate(90deg);
-    width: 150px;
-    left: 50%;
-    margin-left: -75px;
+  .is-visible .card-sophie,
+  .is-visible .card-thomas {
+    transform: translateY(0) rotate(0deg);
   }
 
-  .profile-image {
-    width: 120px;
-    height: 120px;
-  }
-
-  .percentage-circle {
-    width: 100px;
-    height: 100px;
-  }
-
-  .percentage-number {
-    font-size: 1.8rem;
-  }
-
-  .compatibility-traits {
-    gap: 12px;
-  }
-
-  .trait {
-    padding: 8px 14px;
-  }
-
-  .trait-text {
-    font-size: 0.8rem;
+  .profile-card {
+    width: 280px;
   }
 }
 
-@media (max-width: 480px) {
-  .profile-image {
+@media (max-width: 580px) {
+  .matching-section {
+    padding: 60px 0 80px;
+  }
+
+  .profile-card {
+    width: 260px;
+  }
+
+  .circle-ring {
     width: 100px;
     height: 100px;
   }
 
-  .profile-name {
-    font-size: 1rem;
+  .circle-number {
+    font-size: 1.6rem;
   }
 
-  .percentage-circle {
-    width: 90px;
-    height: 90px;
+  .traits-row {
+    gap: 8px;
   }
 
-  .percentage-number {
-    font-size: 1.5rem;
-  }
-
-  .trait {
+  .trait-pill {
     padding: 6px 12px;
   }
 
-  .trait-icon {
-    width: 16px;
-    height: 16px;
+  .trait-text {
+    font-size: 0.7rem;
   }
 
-  .trait-text {
-    font-size: 0.75rem;
+  .trait-icon-box {
+    width: 22px;
+    height: 22px;
   }
 
   .trait-check {
-    width: 14px;
-    height: 14px;
-    font-size: 8px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .profile-card {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .matching-container {
+    padding: 0 8px;
+  }
+
+  .card-body {
+    padding: 12px;
+  }
+
+  .card-hobbies {
+    gap: 4px;
+  }
+
+  .hobby-pill {
+    font-size: 0.65rem;
+    padding: 3px 7px;
+  }
+
+  .matching-tagline {
+    font-size: 0.85rem;
+    padding: 0 8px;
   }
 }
 </style>

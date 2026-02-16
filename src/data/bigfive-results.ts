@@ -67,7 +67,7 @@ export const domainDescriptions: Record<string, DomainDescription> = {
     }
   },
   C: {
-    title: 'Conscience',
+    title: 'Conscienciosité',
     shortDescription: 'Organisation, discipline et contr\u00f4le des impulsions.',
     description: 'Les personnes consciencieuses sont organis\u00e9es, fiables et d\u00e9termin\u00e9es. Elles planifient et atteignent leurs objectifs avec rigueur. Un score bas traduit une approche plus spontan\u00e9e et d\u00e9contract\u00e9e de la vie.',
     scoreText: {

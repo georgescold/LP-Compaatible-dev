@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <span class="logo-text">Compaatible</span>
         </router-link>
         <h1>Conditions Générales d'Utilisation</h1>
-        <p class="last-update">Dernière mise à jour : 9 février 2025</p>
+        <p class="last-update">Dernière mise à jour : 16 février 2026</p>
       </header>
 
       <main class="legal-content">
@@ -110,7 +110,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <div class="highlight-box">
             <p><strong>Obligation de moyens :</strong> L'éditeur s'engage à mettre en œuvre tous les moyens raisonnables pour fournir un service de qualité. Il s'agit d'une obligation de moyens, non de résultat.</p>
           </div>
-          <p>Notre algorithme analyse les réponses au test selon une méthodologie propriétaire. <strong>Les résultats ne garantissent en aucun cas le succès d'une relation.</strong></p>
+          <p>Nous analysons les réponses au test selon une méthodologie propriétaire. <strong>Les résultats ne garantissent en aucun cas le succès d'une relation.</strong></p>
           <p>Compaatible est un outil conçu pour faciliter les rencontres entre personnes compatibles, mais ne peut être tenu responsable :</p>
           <ul>
             <li>De l'issue des rencontres entre utilisateurs</li>
@@ -129,8 +129,10 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 
         <!-- Données personnelles -->
         <section class="legal-section">
-          <h2>10. Données personnelles</h2>
+          <h2>10. Données personnelles et cession à des tiers</h2>
           <p>Le traitement de vos données personnelles est régi par notre <router-link to="/confidentialite">Politique de Confidentialité</router-link>, que nous vous invitons à consulter.</p>
+          <p>En acceptant les présentes CGU, vous reconnaissez et acceptez que vos données, une fois anonymisées ou pseudonymisées, puissent être cédées, partagées ou mises à disposition de tiers partenaires à des fins commerciales, d'études statistiques, de recherche ou de marketing, dans le respect de la réglementation applicable en matière de protection des données personnelles.</p>
+          <p>Vous pouvez à tout moment retirer votre consentement à cette cession en nous contactant à <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a>. Ce retrait n'affecte pas la licéité du traitement fondé sur le consentement effectué avant le retrait.</p>
         </section>
 
         <!-- Modification des CGU -->
@@ -145,7 +147,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <h2>12. Droit applicable et litiges</h2>
           <p>Les présentes CGU sont soumises au droit français.</p>
           <p>En cas de litige, une solution amiable sera recherchée prioritairement. À défaut d'accord, les tribunaux français seront seuls compétents.</p>
-          <p>Conformément à l'article L612-1 du Code de la consommation, vous pouvez recourir gratuitement au service de médiation de la consommation.</p>
+          <p>Conformément aux articles L611-1 et R612-1 du Code de la consommation, vous pouvez recourir gratuitement au service de médiation de la consommation. Les coordonnées du médiateur compétent seront communiquées sur simple demande à <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a>. Vous pouvez également utiliser la plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a></p>
         </section>
 
         <!-- Contact -->
@@ -153,7 +155,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
           <h2>13. Contact</h2>
           <p>Pour toute question relative aux présentes CGU :</p>
           <ul>
-            <li><strong>Email :</strong> <a href="mailto:loysb2b@gmail.com">loysb2b@gmail.com</a></li>
+            <li><strong>Email :</strong> <a href="mailto:contact@compaatible.fr">contact@compaatible.fr</a></li>
             <li><strong>Adresse :</strong> 14 Bis Rue de la Carrière, 02190 La Malmaison, France</li>
           </ul>
         </section>
@@ -217,7 +219,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 .legal-logo {
-  width: 48px;
+  width: 30px;
   height: auto;
 }
 
@@ -312,7 +314,7 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 .highlight-box {
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   border-left: 4px solid var(--color-red-pure);
   padding: 16px 20px;
   border-radius: 0 12px 12px 0;
@@ -330,8 +332,36 @@ import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
 }
 
 @media (max-width: 600px) {
+  .legal-page {
+    padding: 24px 16px 60px;
+  }
+
   .legal-content {
     padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .legal-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.15rem;
+  }
+
+  .legal-section p,
+  .legal-section ul li {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .legal-page {
+    padding: 16px 12px 40px;
+  }
+
+  .legal-content {
+    padding: 24px 16px;
   }
 }
 </style>

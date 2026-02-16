@@ -4,13 +4,18 @@ import { useRouter } from 'vue-router'
 import { questions, choices, QUESTIONS_PER_PAGE, type Question } from '../data/bigfive-questions'
 import { processAnswers, type Answer } from '../lib/scoring'
 import { supabase } from '../lib/supabase'
+import { getPersonalityTypeFromScores } from '../data/personality-types'
 
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 import HobbiesSelector from '../components/HobbiesSelector.vue'
+import IdealPartnerSelector from '../components/IdealPartnerSelector.vue'
 
 const router = useRouter()
 const resolvedUserIdRef = ref(sessionStorage.getItem('compaatible_user_id') || '')
 const isEditMode = ref(false)
+const showEmailConfirmation = ref(false)
+const pendingResultId = ref('')
+const userEmail = ref(sessionStorage.getItem('compaatible_user_email') || '')
 
 onMounted(async () => {
   // Try sessionStorage first, fallback to Supabase Auth
@@ -43,7 +48,7 @@ onMounted(async () => {
     answersMap.value = new Map(parsed.answers)
     currentPage.value = parsed.page
     hobbiesAnswer.value = parsed.hobbies || []
-    idealPartnerAnswer.value = parsed.idealPartner || ''
+    idealPartnerAnswer.value = parsed.idealPartner || []
   } else {
     // 2. Load existing answers from Supabase (edit mode)
     const { data: existingTest } = await supabase
@@ -60,8 +65,10 @@ onMounted(async () => {
       const map = new Map<string, Answer>()
       answers.forEach(a => map.set(a.id, a))
       answersMap.value = map
-      hobbiesAnswer.value = existingTest.hobbies || []
-      idealPartnerAnswer.value = existingTest.ideal_partner || ''
+      const rawHobbies = existingTest.hobbies
+      hobbiesAnswer.value = Array.isArray(rawHobbies) ? rawHobbies : (typeof rawHobbies === 'string' ? JSON.parse(rawHobbies) : [])
+      const rawIdealPartner = existingTest.ideal_partner
+      idealPartnerAnswer.value = Array.isArray(rawIdealPartner) ? rawIdealPartner : (typeof rawIdealPartner === 'string' ? JSON.parse(rawIdealPartner) : [])
       // Start at page 0 so user can review from the beginning
     }
   }
@@ -73,7 +80,7 @@ const startTime = ref(Date.now())
 const answersMap = ref<Map<string, Answer>>(new Map())
 const currentPage = ref(0)
 const hobbiesAnswer = ref<string[]>([])
-const idealPartnerAnswer = ref('')
+const idealPartnerAnswer = ref<string[]>([])
 const isSubmitting = ref(false)
 
 // Total pages: questions pages + 1 passions page + 1 ideal partner page
@@ -96,14 +103,14 @@ const progress = computed(() => {
 
 const answeredOnCurrentPage = computed(() => {
   if (isOnPassionsPage.value) return hobbiesAnswer.value.length === 5
-  if (isOnIdealPartnerPage.value) return idealPartnerAnswer.value.trim().length > 0
+  if (isOnIdealPartnerPage.value) return idealPartnerAnswer.value.length === 7
   return currentQuestions.value.every(q => answersMap.value.has(q.id))
 })
 
 // Check if a page has all questions answered (for enabling free navigation)
 function isPageAnswered(pageIndex: number): boolean {
   if (pageIndex === totalQuestionPages) return hobbiesAnswer.value.length === 5
-  if (pageIndex === totalQuestionPages + 1) return idealPartnerAnswer.value.trim().length > 0
+  if (pageIndex === totalQuestionPages + 1) return idealPartnerAnswer.value.length === 7
   const start = pageIndex * QUESTIONS_PER_PAGE
   const pageQuestions = questions.slice(start, start + QUESTIONS_PER_PAGE)
   return pageQuestions.every(q => answersMap.value.has(q.id))
@@ -190,6 +197,16 @@ async function submitTest() {
     const scores = processAnswers(allAnswers)
     const timeElapsed = Math.round((Date.now() - startTime.value) / 1000)
 
+    // Determine personality type from scores
+    const personalityType = getPersonalityTypeFromScores(scores)
+    const personalityTypeId = personalityType?.id || null
+
+    // Delete any previous test results for this user to avoid duplicates
+    await supabase
+      .from('test_results')
+      .delete()
+      .eq('user_id', resolvedUserIdRef.value)
+
     const { data, error } = await supabase
       .from('test_results')
       .insert({
@@ -198,17 +215,39 @@ async function submitTest() {
         scores,
         passions: '', // Deprecated, keeping empty for compat
         hobbies: hobbiesAnswer.value,
-        ideal_partner: idealPartnerAnswer.value.trim(),
-        time_elapsed: timeElapsed
+        ideal_partner: idealPartnerAnswer.value,
+        time_elapsed: timeElapsed,
+        personality_type: personalityTypeId
       })
       .select('id')
       .single()
+
+    // Try to save personality type to user profile (may fail if email not confirmed — that's OK)
+    if (personalityTypeId) {
+      await supabase
+        .from('users')
+        .update({ personality_type: personalityTypeId })
+        .eq('id', resolvedUserIdRef.value)
+        .then(() => {}) // Silently ignore RLS errors for unconfirmed users
+    }
 
     if (error) throw error
 
     sessionStorage.removeItem('compaatible_test_progress')
     if (data) {
-      router.push(`/resultats/${data.id}`)
+      // Store result ID for post-login redirect
+      sessionStorage.setItem('compaatible_pending_result_id', data.id)
+
+      // Check if user has an active auth session (email confirmed)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        // Email already confirmed — go straight to results
+        router.push(`/resultats/${data.id}`)
+      } else {
+        // No session — show email confirmation screen
+        pendingResultId.value = data.id
+        showEmailConfirmation.value = true
+      }
     }
   } catch (err) {
     console.error('Error submitting test:', err)
@@ -326,18 +365,7 @@ async function submitTest() {
 
       <!-- Ideal partner page -->
       <div v-else-if="isOnIdealPartnerPage" class="open-question-container">
-        <div class="open-question-badge">Dernière question</div>
-        <h2 class="open-question-title">Décris la personne idéale selon toi.</h2>
-        <p class="open-question-subtitle">
-          Au-delà du physique, quelle personnalité, quelles valeurs, quel mode de vie
-          recherches-tu chez quelqu'un ? Plus tu es sincère, meilleur sera ton match.
-        </p>
-        <textarea
-          v-model="idealPartnerAnswer"
-          class="open-textarea"
-          placeholder="Quelqu'un de curieux, bienveillant, qui aime rire et qui partage cette envie de construire quelque chose de vrai..."
-          rows="6"
-        ></textarea>
+        <IdealPartnerSelector v-model="idealPartnerAnswer" />
       </div>
 
       <!-- Navigation -->
@@ -374,10 +402,158 @@ async function submitTest() {
         </button>
       </div>
     </div>
+    <!-- Email Confirmation Overlay -->
+    <transition name="fade">
+      <div v-if="showEmailConfirmation" class="email-overlay">
+        <div class="email-card">
+          <div class="email-icon-wrapper">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M22 4L12 13L2 4"/>
+            </svg>
+          </div>
+          <h2 class="email-title">Tes résultats sont prêts !</h2>
+          <p class="email-subtitle">
+            Pour découvrir ton type de personnalité, confirme ton adresse email.
+          </p>
+          <div class="email-address">
+            <span>📧</span>
+            <span>{{ userEmail }}</span>
+          </div>
+          <p class="email-hint">
+            Vérifie ta boîte de réception (et tes spams), puis connecte-toi pour accéder à tes résultats.
+          </p>
+          <router-link to="/connexion" class="email-cta">
+            Je me connecte
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </router-link>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <style scoped>
+/* Email Confirmation Overlay */
+.email-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 26, 26, 0.5);
+  backdrop-filter: blur(16px);
+  padding: 24px;
+}
+
+.email-card {
+  background: #FEFEFE;
+  border-radius: 24px;
+  padding: 48px 36px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: emailCardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes emailCardEnter {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.email-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FBF0ED, #F5E6E0);
+  color: #8B2D4A;
+  margin-bottom: 24px;
+}
+
+.email-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.email-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  color: #5C5C5C;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.email-address {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #F8F6F4;
+  border: 1px solid #E8E4E0;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin-bottom: 20px;
+}
+
+.email-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #8C8C8C;
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+.email-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #8B2D4A;
+  color: #FEFEFE;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
+}
+
+.email-cta:hover {
+  background: #6B2640;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(139, 45, 74, 0.4);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media (max-width: 640px) {
+  .email-card { padding: 36px 24px; }
+  .email-title { font-size: 1.4rem; }
+  .email-subtitle { font-size: 0.95rem; }
+}
+
 .test-page {
   min-height: 100vh;
   background: var(--color-white-cream);
@@ -426,7 +602,7 @@ async function submitTest() {
 }
 
 .topbar-logo img {
-  width: 36px;
+  width: 24px;
   height: auto;
 }
 
@@ -446,7 +622,7 @@ async function submitTest() {
 
 .back-profile-link:hover {
   color: var(--color-red-pure);
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
 }
 
 .logo-text {
@@ -479,7 +655,7 @@ async function submitTest() {
   background: linear-gradient(90deg, var(--color-red-pure), #cc0025);
   border-radius: 0 9999px 9999px 0;
   transition: width 0.4s ease;
-  box-shadow: 0 0 8px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 0 8px rgba(139, 45, 74, 0.3);
 }
 
 /* Content */
@@ -520,7 +696,7 @@ async function submitTest() {
 .page-nav-arrow:hover:not(:disabled) {
   border-color: var(--color-red-pure);
   color: var(--color-red-pure);
-  background: rgba(153, 0, 27, 0.03);
+  background: rgba(139, 45, 74, 0.03);
 }
 
 .page-nav-arrow:disabled {
@@ -548,13 +724,13 @@ async function submitTest() {
 }
 
 .page-dot.answered {
-  background: rgba(153, 0, 27, 0.25);
+  background: rgba(139, 45, 74, 0.25);
 }
 
 .page-dot.active {
   background: var(--color-red-pure);
   transform: scale(1.3);
-  box-shadow: 0 0 6px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 0 6px rgba(139, 45, 74, 0.3);
 }
 
 .page-dot.special {
@@ -563,7 +739,7 @@ async function submitTest() {
 }
 
 .page-dot.special.answered {
-  background: rgba(153, 0, 27, 0.25);
+  background: rgba(139, 45, 74, 0.25);
 }
 
 .page-dot.special.active {
@@ -576,7 +752,7 @@ async function submitTest() {
 }
 
 .page-dot.reachable:hover:not(.active) {
-  background: rgba(153, 0, 27, 0.4);
+  background: rgba(139, 45, 74, 0.4);
   transform: scale(1.2);
 }
 
@@ -681,72 +857,6 @@ async function submitTest() {
   font-weight: 600;
 }
 
-/* Open questions */
-.open-question-container {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.open-question-badge {
-  display: inline-block;
-  padding: 8px 20px;
-  background: white;
-  border: 1px solid var(--color-gray-light);
-  border-radius: 9999px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-red-pure);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 28px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-}
-
-.open-question-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 600;
-  color: var(--color-black);
-  line-height: 1.3;
-  margin-bottom: 16px;
-}
-
-.open-question-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  color: var(--color-gray-dark);
-  line-height: 1.6;
-  max-width: 480px;
-  margin: 0 auto 32px;
-}
-
-.open-textarea {
-  width: 100%;
-  padding: 20px 24px;
-  border: 1.5px solid var(--color-gray-light);
-  border-radius: 20px;
-  background: white;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  color: var(--color-black);
-  line-height: 1.7;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
-}
-
-.open-textarea:focus {
-  border-color: var(--color-red-pure);
-  box-shadow: 0 0 0 3px rgba(153, 0, 27, 0.08);
-}
-
-.open-textarea::placeholder {
-  color: var(--color-gray-medium);
-  font-style: italic;
-}
-
 /* Navigation */
 .test-nav {
   display: flex;
@@ -785,7 +895,7 @@ async function submitTest() {
 .nav-submit {
   background: var(--color-red-pure);
   color: white;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
   margin-left: auto;
 }
 
@@ -793,7 +903,7 @@ async function submitTest() {
 .nav-submit:hover:not(.disabled) {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.4);
 }
 
 .nav-btn.disabled {

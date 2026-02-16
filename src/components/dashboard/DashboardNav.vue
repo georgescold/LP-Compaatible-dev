@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Home, Heart, UserRound } from 'lucide-vue-next'
+import { Home, UserRound } from 'lucide-vue-next'
+import logoImage from '@/assets/nouveau logo compaatible.png'
 
 const props = defineProps<{
   activeTab: string
@@ -9,7 +10,7 @@ const emit = defineEmits(['tab-change'])
 
 const tabs = [
   { id: 'accueil', label: 'Accueil', icon: Home },
-  { id: 'matchs', label: 'Mes matchs', icon: Heart },
+  { id: 'matchs', label: 'Mes matchs', icon: null, isLogo: true },
   { id: 'profil', label: 'Profil', icon: UserRound }
 ]
 </script>
@@ -24,7 +25,8 @@ const tabs = [
         :class="{ active: activeTab === tab.id }"
         @click="emit('tab-change', tab.id)"
       >
-        <component :is="tab.icon" class="nav-icon" />
+        <img v-if="tab.isLogo" :src="logoImage" alt="" class="nav-icon w-5 h-5 object-contain" />
+        <component v-else :is="tab.icon" class="nav-icon" />
         <span class="nav-label">{{ tab.label }}</span>
       </button>
     </div>
@@ -69,7 +71,7 @@ const tabs = [
 }
 
 .nav-tab.active {
-  background: rgba(153, 0, 27, 0.08);
+  background: rgba(139, 45, 74, 0.08);
 }
 
 .nav-icon {
@@ -130,7 +132,7 @@ const tabs = [
 
   .nav-tab.active {
     background: transparent;
-    color: #99001B;
+    color: #8B2D4A;
   }
 
   .nav-tab.active::after {
@@ -140,9 +142,9 @@ const tabs = [
     left: 0;
     width: 100%;
     height: 3px;
-    background: #99001B;
+    background: #8B2D4A;
     border-radius: 999px;
-    box-shadow: 0 2px 8px rgba(153, 0, 27, 0.2);
+    box-shadow: 0 2px 8px rgba(139, 45, 74, 0.2);
   }
 
   .nav-label {

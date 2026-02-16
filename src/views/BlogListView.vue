@@ -88,7 +88,7 @@ function formatDate(dateString: string): string {
     <!-- Bottom -->
     <footer class="blog-footer">
       <div class="footer-divider"></div>
-      <p class="footer-tagline">Basé sur la science de la personnalité</p>
+      <p class="footer-tagline">Basé sur la psychologie profonde</p>
     </footer>
   </div>
 </template>
@@ -125,7 +125,7 @@ function formatDate(dateString: string): string {
   border-radius: 9999px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-red-pure, #99001B);
+  color: var(--color-red-pure, #8B2D4A);
   margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   text-transform: uppercase;
@@ -162,7 +162,7 @@ function formatDate(dateString: string): string {
   right: -10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.06) 0%, transparent 70%);
 }
 
 .blur-2 {
@@ -170,7 +170,7 @@ function formatDate(dateString: string): string {
   left: -5%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.04) 0%, transparent 70%);
 }
 
 /* Grid Layout */
@@ -211,9 +211,9 @@ function formatDate(dateString: string): string {
 }
 
 .show-more-btn:hover {
-  border-color: var(--color-red-pure, #99001B);
-  color: var(--color-red-pure, #99001B);
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.1);
+  border-color: var(--color-red-pure, #8B2D4A);
+  color: var(--color-red-pure, #8B2D4A);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.1);
 }
 
 .chevron-icon {
@@ -239,8 +239,8 @@ function formatDate(dateString: string): string {
 
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(153, 0, 27, 0.08);
-  border-color: rgba(153, 0, 27, 0.15);
+  box-shadow: 0 12px 32px rgba(139, 45, 74, 0.08);
+  border-color: rgba(139, 45, 74, 0.15);
 }
 
 .card-cover {
@@ -318,7 +318,7 @@ function formatDate(dateString: string): string {
 .footer-divider {
   width: 40px;
   height: 2px;
-  background: var(--color-red-pure, #99001B);
+  background: var(--color-red-pure, #8B2D4A);
   margin: 0 auto 20px;
   border-radius: 2px;
 }

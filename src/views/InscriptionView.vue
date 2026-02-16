@@ -2,9 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../lib/supabase'
-import logoImage from '../assets/Logo_compaatible-removebg-preview.png'
-import smsIconImg from '@/assets/sms-icon.png'
-import instaIconImg from '@/assets/Instagram_icon.png'
+import logoImage from '../assets/nouveau logo compaatible.png'
 
 const router = useRouter()
 
@@ -26,6 +24,7 @@ const form = ref({
 
 const isSubmitting = ref(false)
 const errorMessage = ref('')
+const confirmationMessage = ref('')
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const acceptedCGU = ref(false)
@@ -107,7 +106,9 @@ async function handleSubmit() {
       sessionStorage.setItem('compaatible_user_id', data.id)
       sessionStorage.setItem('compaatible_user_name', form.value.firstName)
       sessionStorage.setItem('compaatible_user_email', form.value.email.trim().toLowerCase())
-      router.push('/photo')
+
+      // Redirect to test immediately (email confirmation handled after test)
+      router.push('/test')
     }
   } catch {
     errorMessage.value = 'Erreur de connexion. Vérifie ta connexion internet.'
@@ -240,13 +241,13 @@ async function handleSubmit() {
         </div>
 
         <div class="form-group">
-          <label>Je recherche</label>
+          <label>Je suis attiré(e) par</label>
           <div class="orientation-options">
             <label
               v-for="option in [
                 { value: 'femme', label: 'Une femme' },
                 { value: 'homme', label: 'Un homme' },
-                { value: 'les_deux', label: 'Peu importe' }
+                { value: 'les_deux', label: 'Les deux' }
               ]"
               :key="option.value"
               class="orientation-option"
@@ -287,24 +288,6 @@ async function handleSubmit() {
               type="text"
               placeholder="ton_compte"
             />
-          </div>
-        </div>
-
-        <!-- Contact preference (exclusive choice) -->
-        <div class="form-group visibility-section">
-          <label class="visibility-section-label">Je préfère être contacté sur</label>
-          <p class="visibility-hint">Ton match te contactera via :</p>
-          <div class="visibility-toggles">
-            <label class="visibility-toggle" :class="{ active: form.showPhone }" @click.prevent="form.showPhone = true; form.showInstagram = false">
-              <span class="choice-radio" :class="{ selected: form.showPhone }"></span>
-              <img :src="smsIconImg" alt="SMS" class="toggle-icon-img" />
-              <span class="toggle-label">SMS</span>
-            </label>
-            <label class="visibility-toggle" :class="{ active: form.showInstagram }" @click.prevent="form.showInstagram = true; form.showPhone = false">
-              <span class="choice-radio" :class="{ selected: form.showInstagram }"></span>
-              <img :src="instaIconImg" alt="Insta" class="toggle-icon-img" />
-              <span class="toggle-label">Instagram</span>
-            </label>
           </div>
         </div>
 
@@ -367,7 +350,13 @@ async function handleSubmit() {
 
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
+        <div v-if="confirmationMessage" class="confirmation-message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>{{ confirmationMessage }}</span>
+        </div>
+
         <button
+          v-if="!confirmationMessage"
           type="submit"
           class="submit-btn"
           :class="{ disabled: !isValid || isSubmitting }"
@@ -376,6 +365,10 @@ async function handleSubmit() {
           {{ isSubmitting ? 'Inscription en cours...' : 'Continuer' }}
           <svg v-if="!isSubmitting" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
+
+        <router-link v-if="confirmationMessage" to="/connexion" class="submit-btn" style="text-decoration: none; text-align: center;">
+          Se connecter
+        </router-link>
 
         <div class="consent-checkbox">
           <label class="checkbox-label">
@@ -399,7 +392,7 @@ async function handleSubmit() {
       <div class="trust-row">
         <div class="trust-item">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          Basé sur la science
+          Basé sur la psychologie profonde
         </div>
         <div class="trust-item">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -418,7 +411,7 @@ async function handleSubmit() {
 .inscription-page {
   min-height: 100vh;
   background: #FBF9F7;
-  background-image: radial-gradient(circle at 50% 50%, transparent 0%, rgba(153, 0, 27, 0.03) 100%);
+  background-image: radial-gradient(circle at 50% 50%, transparent 0%, rgba(139, 45, 74, 0.03) 100%);
   position: relative;
   overflow: hidden;
   padding: 40px 24px 80px;
@@ -429,7 +422,7 @@ async function handleSubmit() {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(153, 0, 27, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(139, 45, 74, 0.12) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
   -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
@@ -451,7 +444,7 @@ async function handleSubmit() {
   width: 70vw;
   height: 70vw;
   max-width: 900px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.12) 0%, transparent 75%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.12) 0%, transparent 75%);
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   animation: organicMorph 25s ease-in-out infinite alternate;
 }
@@ -462,7 +455,7 @@ async function handleSubmit() {
   width: 60vw;
   height: 60vw;
   max-width: 800px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.08) 0%, transparent 75%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.08) 0%, transparent 75%);
   border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%;
   animation: organicMorph 30s ease-in-out infinite alternate-reverse;
 }
@@ -472,7 +465,7 @@ async function handleSubmit() {
   left: -5%;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
   border-radius: 50%;
   animation: floatingCurve 22s ease-in-out infinite;
 }
@@ -482,7 +475,7 @@ async function handleSubmit() {
   right: -5%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.04) 0%, transparent 70%);
   border-radius: 50%;
   animation: floatingCurve 28s ease-in-out infinite reverse;
 }
@@ -499,7 +492,7 @@ async function handleSubmit() {
   left: -5%;
   width: 500px;
   height: 600px;
-  background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 10, 60 60 T 120 60' stroke='rgba(153, 0, 27, 0.05)' fill='none' stroke-width='0.7'/%3E%3C/svg%3E") repeat;
+  background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 10, 60 60 T 120 60' stroke='rgba(139, 45, 74, 0.05)' fill='none' stroke-width='0.7'/%3E%3C/svg%3E") repeat;
   mask-image: linear-gradient(to right, black 20%, transparent 80%);
   -webkit-mask-image: linear-gradient(to right, black 20%, transparent 80%);
 }
@@ -509,7 +502,7 @@ async function handleSubmit() {
   right: -5%;
   width: 500px;
   height: 600px;
-  background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 110, 60 60 T 120 60' stroke='rgba(153, 0, 27, 0.05)' fill='none' stroke-width='0.7'/%3E%3C/svg%3E") repeat;
+  background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 110, 60 60 T 120 60' stroke='rgba(139, 45, 74, 0.05)' fill='none' stroke-width='0.7'/%3E%3C/svg%3E") repeat;
   mask-image: linear-gradient(to left, black 20%, transparent 80%);
   -webkit-mask-image: linear-gradient(to left, black 20%, transparent 80%);
 }
@@ -560,8 +553,9 @@ async function handleSubmit() {
 }
 
 .inscription-logo {
-  width: 52px;
+  width: 34px;
   height: auto;
+  mix-blend-mode: multiply;
 }
 
 .logo-brand {
@@ -665,7 +659,7 @@ async function handleSubmit() {
 
 .form-group input:focus {
   border-color: var(--color-red-pure);
-  box-shadow: 0 0 0 3px rgba(153, 0, 27, 0.08);
+  box-shadow: 0 0 0 3px rgba(139, 45, 74, 0.08);
   background: white;
 }
 
@@ -756,7 +750,7 @@ async function handleSubmit() {
 
 .visibility-toggle.active {
   border-color: var(--color-red-pure);
-  background: rgba(153, 0, 27, 0.03);
+  background: rgba(139, 45, 74, 0.03);
 }
 
 .choice-radio {
@@ -877,7 +871,7 @@ async function handleSubmit() {
 
 .orientation-option.active {
   border-color: var(--color-red-pure);
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   color: var(--color-red-pure);
   font-weight: 600;
 }
@@ -890,8 +884,30 @@ async function handleSubmit() {
   text-align: center;
   margin-bottom: 16px;
   padding: 12px;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   border-radius: 12px;
+}
+
+.confirmation-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #166534;
+  text-align: left;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+.confirmation-message svg {
+  flex-shrink: 0;
+  color: #16a34a;
+  margin-top: 2px;
 }
 
 /* Submit */
@@ -911,14 +927,14 @@ async function handleSubmit() {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.3);
   margin-bottom: 16px;
 }
 
 .submit-btn:hover:not(.disabled) {
   background: var(--color-red-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(153, 0, 27, 0.4);
+  box-shadow: 0 8px 30px rgba(139, 45, 74, 0.4);
 }
 
 .submit-btn.disabled {
@@ -1017,7 +1033,14 @@ async function handleSubmit() {
   fill: var(--color-red-pure);
 }
 
-/* Responsive */
+/* Responsive - Tablet */
+@media (max-width: 768px) {
+  .inscription-form {
+    padding: 32px 24px;
+  }
+}
+
+/* Responsive - Mobile */
 @media (max-width: 600px) {
   .inscription-page {
     padding: 24px 16px 60px;
@@ -1050,6 +1073,21 @@ async function handleSubmit() {
 
   .trust-row {
     gap: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .inscription-page {
+    padding: 16px 12px 40px;
+  }
+
+  .inscription-form {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .inscription-title {
+    font-size: 1.4rem;
   }
 }
 

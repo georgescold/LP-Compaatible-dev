@@ -292,14 +292,14 @@ function formatDate(dateStr: string): string {
 }
 
 .article-content :deep(a) {
-  color: var(--color-red-pure, #99001B);
+  color: var(--color-red-pure, #8B2D4A);
   text-decoration: underline;
   text-underline-offset: 4px;
   transition: color 0.2s;
 }
 
 .article-content :deep(a:hover) {
-  color: var(--color-red-dark, #7A0016);
+  color: var(--color-red-dark, #6B2640);
 }
 
 .article-content :deep(ul) {
@@ -321,7 +321,7 @@ function formatDate(dateStr: string): string {
   top: 10px;
   width: 8px;
   height: 8px;
-  background: var(--color-red-pure, #99001B);
+  background: var(--color-red-pure, #8B2D4A);
   border-radius: 50%;
 }
 
@@ -365,7 +365,7 @@ function formatDate(dateStr: string): string {
   right: -10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -393,7 +393,7 @@ function formatDate(dateStr: string): string {
 .glass-btn-container {
   display: inline-block;
   padding: 6px;
-  background: rgba(153, 0, 27, 0.05);
+  background: rgba(139, 45, 74, 0.05);
   border-radius: 9999px;
   margin-bottom: 24px;
 }
@@ -403,20 +403,20 @@ function formatDate(dateStr: string): string {
   align-items: center;
   gap: 12px;
   padding: 18px 40px;
-  background: var(--color-red-pure, #99001B);
+  background: var(--color-red-pure, #8B2D4A);
   color: white;
   text-decoration: none;
   border-radius: 9999px;
   font-weight: 600;
   font-size: 1.1rem;
-  box-shadow: 0 10px 20px rgba(153, 0, 27, 0.2);
+  box-shadow: 0 10px 20px rgba(139, 45, 74, 0.2);
   transition: all 0.3s ease;
 }
 
 .primary-btn:hover {
   transform: translateY(-2px);
-  background: var(--color-red-dark, #7A0016);
-  box-shadow: 0 15px 30px rgba(153, 0, 27, 0.3);
+  background: var(--color-red-dark, #6B2640);
+  box-shadow: 0 15px 30px rgba(139, 45, 74, 0.3);
 }
 
 .cta-footer-text {
@@ -459,8 +459,8 @@ function formatDate(dateStr: string): string {
 
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(153, 0, 27, 0.08);
-  border-color: rgba(153, 0, 27, 0.15);
+  box-shadow: 0 12px 32px rgba(139, 45, 74, 0.08);
+  border-color: rgba(139, 45, 74, 0.15);
 }
 
 .card-cover {
@@ -559,7 +559,7 @@ function formatDate(dateStr: string): string {
   align-items: center;
   gap: 8px;
   padding: 14px 32px;
-  background: var(--color-red-pure, #99001B);
+  background: var(--color-red-pure, #8B2D4A);
   color: white;
   text-decoration: none;
   border-radius: 9999px;
@@ -568,7 +568,7 @@ function formatDate(dateStr: string): string {
 }
 
 .not-found-link:hover {
-  background: var(--color-red-dark, #7A0016);
+  background: var(--color-red-dark, #6B2640);
   transform: translateY(-2px);
 }
 

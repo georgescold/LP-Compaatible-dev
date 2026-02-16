@@ -98,7 +98,7 @@ export const personalityCategories: PersonalityCategory[] = [
     colorLight: '#FDE68A',
     bgColor: '#FEF3E2',
     description: 'Passionnés, indépendants et aventuriers du cœur. Ils vivent l\'amour avec intensité et spontanéité, transformant chaque instant partagé en une aventure mémorable.',
-    types: ['artisan-du-moment', 'artiste-sauvage', 'aventurier-audacieux', 'comete-flamboyante']
+    types: ['artisan-du-moment', 'artiste-spontane', 'aventurier-audacieux', 'comete-flamboyante']
   }
 ]
 
@@ -188,7 +188,7 @@ export const personalityTypes: PersonalityType[] = [
     compatibility: {
       best: ['papillon-empathique', 'mentor-solaire', 'comete-flamboyante'],
       good: ['reveur-romantique', 'pilier-rayonnant', 'etoile-magnetique'],
-      challenging: ['artiste-sauvage', 'coeur-volcanique', 'aventurier-audacieux']
+      challenging: ['artiste-spontane', 'coeur-volcanique', 'aventurier-audacieux']
     },
     advice: 'Pratique la vulnérabilité intentionnelle : exprime ton amour en mots, pas seulement en actes. Ton partenaire ne peut pas lire dans tes pensées, aussi brillantes soient-elles. Un "je t\'aime" dit à voix haute a plus de pouvoir que mille stratégies silencieuses.'
   },
@@ -349,7 +349,7 @@ export const personalityTypes: PersonalityType[] = [
     compatibility: {
       best: ['reveur-romantique', 'guerisseur-tendre', 'papillon-empathique'],
       good: ['sculpteur-passionne', 'sage-bienveillant', 'protecteur-fidele'],
-      challenging: ['artiste-sauvage', 'comete-flamboyante', 'etoile-magnetique']
+      challenging: ['artiste-spontane', 'comete-flamboyante', 'etoile-magnetique']
     },
     advice: 'Le plus beau cadeau que tu puisses offrir à ton partenaire n\'est pas ta protection, mais ta vulnérabilité. Apprends à poser les armes, à écouter sans chercher à résoudre, et à laisser l\'autre te guider parfois. L\'amour n\'est pas un projet à manager — c\'est un jardin à cultiver ensemble.'
   },
@@ -429,7 +429,7 @@ export const personalityTypes: PersonalityType[] = [
     compatibility: {
       best: ['stratege-serein', 'sage-bienveillant', 'protecteur-fidele'],
       good: ['pilier-rayonnant', 'artisan-du-moment', 'commandant-bienveillant'],
-      challenging: ['sculpteur-passionne', 'coeur-volcanique', 'artiste-sauvage']
+      challenging: ['sculpteur-passionne', 'coeur-volcanique', 'artiste-spontane']
     },
     advice: 'Ton éclat est un don rare — apprends à le tamiser sans l\'éteindre. L\'amour le plus puissant n\'est pas celui qui brille le plus fort, mais celui qui brille le plus longtemps. Offre à ton partenaire le privilège de voir ta lumière douce, celle que tu caches derrière les étoiles.'
   },
@@ -644,7 +644,7 @@ export const personalityTypes: PersonalityType[] = [
     compatibility: {
       best: ['stratege-serein', 'protecteur-fidele', 'commandant-bienveillant'],
       good: ['pilier-rayonnant', 'artisan-du-moment', 'sage-bienveillant'],
-      challenging: ['sculpteur-passionne', 'artiste-sauvage', 'coeur-volcanique']
+      challenging: ['sculpteur-passionne', 'artiste-spontane', 'coeur-volcanique']
     },
     advice: 'Tes ailes sont faites pour voler — mais les plus beaux papillons sont ceux qui choisissent un jardin et l\'embellissent de leur présence fidèle. La profondeur de l\'amour ne se découvre qu\'en restant assez longtemps pour voir les saisons changer.'
   },
@@ -658,7 +658,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'ICSS',
     name: 'Le Protecteur Fidèle',
     emoji: '🫶',
-    tagline: 'Dévotion silencieuse et mémoire du cœur — il n\'oublie jamais rien.',
+    tagline: 'Dévotion silencieuse et mémoire du cœur, il n\'oublie jamais rien.',
     categoryId: 'gardiens',
     avatarFile: 'le protecteur fidèle.svg',
     bigFive: { O: 'low', C: 'high', E: 'low', A: 'high', N: 'low' },
@@ -700,7 +700,7 @@ export const personalityTypes: PersonalityType[] = [
     compatibility: {
       best: ['papillon-empathique', 'etoile-magnetique', 'reveur-romantique'],
       good: ['sage-bienveillant', 'mentor-solaire', 'pilier-rayonnant'],
-      challenging: ['comete-flamboyante', 'artiste-sauvage', 'aventurier-audacieux']
+      challenging: ['comete-flamboyante', 'artiste-spontane', 'aventurier-audacieux']
     },
     advice: 'Ton dévouement est un trésor — mais n\'oublie pas que tu mérites la même attention que tu donnes. Apprends à dire "moi aussi j\'ai besoin de..." sans culpabiliser. Protéger l\'autre commence par se protéger soi-même.'
   },
@@ -762,7 +762,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'ECSS',
     name: 'Le Pilier Rayonnant',
     emoji: '💎',
-    tagline: 'Roc chaleureux sur lequel tout le monde s\'appuie — force et douceur réunies.',
+    tagline: 'Roc chaleureux sur lequel tout le monde s\'appuie. Force et douceur réunies.',
     categoryId: 'gardiens',
     avatarFile: 'le pilier rayonnant.svg',
     bigFive: { O: 'low', C: 'high', E: 'high', A: 'high', N: 'low' },
@@ -802,7 +802,7 @@ export const personalityTypes: PersonalityType[] = [
       ]
     },
     compatibility: {
-      best: ['sculpteur-passionne', 'reveur-romantique', 'artiste-sauvage'],
+      best: ['sculpteur-passionne', 'reveur-romantique', 'artiste-spontane'],
       good: ['sage-bienveillant', 'guerisseur-tendre', 'stratege-serein'],
       challenging: ['comete-flamboyante', 'etoile-magnetique', 'aventurier-audacieux']
     },
@@ -814,7 +814,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'ECSI',
     name: 'Le Cœur Volcanique',
     emoji: '🌋',
-    tagline: 'Passionné et structuré — quand il aime, c\'est avec la force d\'un volcan.',
+    tagline: 'Passionné et structuré, quand il aime, c\'est avec la force d\'un volcan.',
     categoryId: 'gardiens',
     avatarFile: 'le coeur volcanique.svg',
     bigFive: { O: 'low', C: 'high', E: 'high', A: 'high', N: 'high' },
@@ -870,7 +870,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'IALS',
     name: 'L\'Artisan du Moment',
     emoji: '🔧',
-    tagline: 'Pragmatique et calme — il résout tout par l\'action et vit pleinement le présent.',
+    tagline: 'Pragmatique et calme, il résout tout par l\'action et vit pleinement le présent.',
     categoryId: 'flammes',
     avatarFile: "l'artisan du moment.svg",
     bigFive: { O: 'low', C: 'low', E: 'low', A: 'low', N: 'low' },
@@ -918,18 +918,18 @@ export const personalityTypes: PersonalityType[] = [
   },
 
   {
-    id: 'artiste-sauvage',
+    id: 'artiste-spontane',
     code: 'IALI',
-    name: 'L\'Artiste Sauvage',
+    name: 'L\'Artiste Spontané',
     emoji: '🎨',
-    tagline: 'Créativité émotionnelle brute — l\'amour comme instinct et comme art.',
+    tagline: 'Créativité émotionnelle spontanée. L\'amour comme instinct et comme art.',
     categoryId: 'flammes',
-    avatarFile: "l'artiste sauvage.svg",
+    avatarFile: "l'artiste spontané.svg",
     bigFive: { O: 'high', C: 'low', E: 'low', A: 'low', N: 'high' },
-    quote: { text: 'L\'amour n\'est pas une science — c\'est un art sauvage qui se crée dans le chaos et la beauté du moment.', author: 'Manifeste de l\'Artiste Sauvage' },
-    introduction: 'L\'Artiste Sauvage vit l\'amour comme une expression artistique brute et instinctive. Il ne suit pas de règles, ne respecte pas les conventions et crée sa propre définition de l\'amour à chaque instant. Son monde intérieur est un chaos magnifique de créativité et d\'émotions, et il cherche un partenaire qui sait apprécier l\'art dans l\'imperfection.',
+    quote: { text: 'L\'amour n\'est pas une science — c\'est un art spontané qui se crée dans le chaos et la beauté du moment.', author: 'Manifeste de l\'Artiste Spontané' },
+    introduction: 'L\'Artiste Spontané vit l\'amour comme une expression artistique instinctive et authentique. Il ne suit pas de règles, ne respecte pas les conventions et crée sa propre définition de l\'amour à chaque instant. Son monde intérieur est un chaos magnifique de créativité et d\'émotions, et il cherche un partenaire qui sait apprécier l\'art dans l\'imperfection.',
     sections: [
-      { title: 'L\'art instinctif', content: 'L\'Artiste Sauvage ne planifie pas l\'amour — il le crée dans l\'instant. Chaque moment partagé est une toile blanche sur laquelle il peint avec les couleurs de ses émotions. Sa créativité relationnelle est sans limites, et ses expressions d\'amour sont aussi uniques que surprenantes.' },
+      { title: 'L\'art instinctif', content: 'L\'Artiste Spontané ne planifie pas l\'amour — il le crée dans l\'instant. Chaque moment partagé est une toile blanche sur laquelle il peint avec les couleurs de ses émotions. Sa créativité relationnelle est sans limites, et ses expressions d\'amour sont aussi uniques que surprenantes.' },
       { title: 'Le chaos intérieur', content: 'Son monde intérieur est un tourbillon d\'émotions, d\'idées et de sensations. Cette richesse intérieure est la source de sa créativité, mais elle peut aussi le rendre imprévisible et difficile à suivre. Il oscille entre des moments d\'inspiration intense et des périodes de retrait profond.' },
       { title: 'La liberté créative', content: 'Il ne supporte pas les cages — même dorées. Son besoin de liberté créative s\'étend à sa vie amoureuse : il veut un partenaire qui accepte son rythme, respecte son espace de création et comprend que son besoin de solitude n\'est pas un rejet mais une nécessité vitale.' }
     ],
@@ -947,7 +947,7 @@ export const personalityTypes: PersonalityType[] = [
       { title: 'Montagnes russes', description: 'Ses hauts sont euphoriques et ses bas sont abyssaux. La stabilité n\'est pas son fort.' }
     ],
     inLove: {
-      intro: 'En amour, l\'Artiste Sauvage est une expérience unique — belle, intense et parfois déroutante.',
+      intro: 'En amour, l\'Artiste Spontané est une expérience unique — belle, intense et parfois déroutante.',
       sections: [
         { title: 'Séduction instinctive', content: 'Il ne séduit pas — il fascine. Son authenticité brute, sa vision unique du monde et son intensité créent un magnétisme qui attire ceux qui cherchent quelque chose de différent.' },
         { title: 'Un amour non conventionnel', content: 'La vie avec lui ne ressemble à rien de connu. Les rituels du couple sont réinventés, les règles sont brisées et recréées, et chaque jour est une nouvelle page dans une histoire non linéaire.' },
@@ -955,7 +955,7 @@ export const personalityTypes: PersonalityType[] = [
       ]
     },
     friendships: {
-      intro: 'L\'Artiste Sauvage a peu d\'amis, mais ceux qu\'il a sont les témoins privilégiés de son univers intérieur.',
+      intro: 'L\'Artiste Spontané a peu d\'amis, mais ceux qu\'il a sont les témoins privilégiés de son univers intérieur.',
       sections: [
         { title: 'L\'ami inspirant', content: 'Ses amis sont souvent des artistes ou des esprits libres comme lui. Ensemble, ils créent, explorent et repoussent les limites.' },
         { title: 'Le loup solitaire fidèle', content: 'Il peut disparaître pendant des semaines puis réapparaître comme si le temps n\'existait pas. Ses vrais amis comprennent et acceptent ce rythme.' }
@@ -974,7 +974,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'EALS',
     name: 'L\'Aventurier Audacieux',
     emoji: '🔥',
-    tagline: 'Énergie débordante et soif d\'adrénaline — il vit l\'amour comme une expédition.',
+    tagline: 'Énergie débordante et soif d\'adrénaline, il vit l\'amour comme une expédition.',
     categoryId: 'flammes',
     avatarFile: "l'aventurier audacieux.svg",
     bigFive: { O: 'low', C: 'low', E: 'high', A: 'low', N: 'low' },
@@ -1026,7 +1026,7 @@ export const personalityTypes: PersonalityType[] = [
     code: 'EALI',
     name: 'La Comète Flamboyante',
     emoji: '🌟',
-    tagline: 'Éclat pur, joie contagieuse — elle transforme chaque instant en célébration.',
+    tagline: 'Éclat pur, joie contagieuse. Elle transforme chaque instant en célébration.',
     categoryId: 'flammes',
     avatarFile: 'la comette flamboyante.svg',
     bigFive: { O: 'high', C: 'low', E: 'high', A: 'low', N: 'high' },
@@ -1112,4 +1112,60 @@ export function getCompatibleTypes(typeId: string): {
 
 export function getTypeSlug(type: PersonalityType): string {
   return type.id
+}
+
+/**
+ * Determine personality type from Big Five scores.
+ * Maps each domain result (high/neutral/low) to high/low for type matching.
+ * Neutral is resolved by comparing the raw average to 3.0 (midpoint).
+ */
+export function getPersonalityTypeFromScores(scores: Record<string, { score: number; count: number; result: 'low' | 'neutral' | 'high' }>): PersonalityType | undefined {
+  const domains = ['O', 'C', 'E', 'A', 'N'] as const
+
+  const mapped: Record<string, 'high' | 'low'> = {}
+  for (const d of domains) {
+    const domain = scores[d]
+    if (!domain) return undefined
+    if (domain.result === 'high') {
+      mapped[d] = 'high'
+    } else if (domain.result === 'low') {
+      mapped[d] = 'low'
+    } else {
+      // Neutral: resolve based on raw average relative to midpoint (3.0)
+      const avg = domain.score / domain.count
+      mapped[d] = avg >= 3.0 ? 'high' : 'low'
+    }
+  }
+
+  // Find exact match
+  const match = personalityTypes.find(t =>
+    t.bigFive.O === mapped.O &&
+    t.bigFive.C === mapped.C &&
+    t.bigFive.E === mapped.E &&
+    t.bigFive.A === mapped.A &&
+    t.bigFive.N === mapped.N
+  )
+
+  if (match) return match
+
+  // Fallback: find closest match using weighted scoring.
+  // C and A are weighted higher (×2) because they determine the category (the core identity).
+  // This ensures users land in the correct category even when no exact match exists.
+  // Among 16 types covering 16/32 combinations, this resolves ties deterministically.
+  const dimensionWeights: Record<string, number> = { O: 1, C: 2, E: 1, A: 2, N: 1 }
+
+  let bestMatch: PersonalityType | undefined
+  let bestScore = -1
+  for (const t of personalityTypes) {
+    let score = 0
+    for (const d of domains) {
+      if (t.bigFive[d] === mapped[d]) score += dimensionWeights[d]
+    }
+    if (score > bestScore) {
+      bestScore = score
+      bestMatch = t
+    }
+  }
+
+  return bestMatch
 }

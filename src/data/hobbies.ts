@@ -31,7 +31,7 @@ export const HOBBIES: Hobby[] = [
     { id: 'spiritualite', label: 'Spiritualité', emoji: '✨' },
     { id: 'mode', label: 'Mode & Shopping', emoji: '👗' },
     { id: 'automobile', label: 'Automobile', emoji: '🏎️' },
-    { id: 'vin', label: 'Œnologie', emoji: '🍇' },
+    { id: 'karaoke', label: 'Karaoké', emoji: '🎤' },
     { id: 'ecriture', label: 'Écriture', emoji: '✍️' },
     { id: 'danse', label: 'Danse', emoji: '💃' },
     { id: 'tech', label: 'Nouvelles Tech', emoji: '💻' },

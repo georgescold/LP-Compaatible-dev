@@ -210,7 +210,7 @@ const closeModal = () => {
   width: 400px;
   height: 400px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -221,7 +221,7 @@ const closeModal = () => {
   width: 300px;
   height: 300px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -279,11 +279,11 @@ const closeModal = () => {
 
 /* Error Message */
 .error-message {
-  background: rgba(153, 0, 27, 0.08);
-  border: 1px solid rgba(153, 0, 27, 0.2);
+  background: rgba(139, 45, 74, 0.08);
+  border: 1px solid rgba(139, 45, 74, 0.2);
   border-radius: 12px;
   padding: 12px 16px;
-  color: #99001B;
+  color: #8B2D4A;
   font-size: 0.875rem;
   text-align: center;
   margin-bottom: 8px;
@@ -316,7 +316,7 @@ const closeModal = () => {
 
 .forgot-link {
   font-size: 0.8125rem;
-  color: #99001B;
+  color: #8B2D4A;
   text-decoration: none;
   font-weight: 500;
 }
@@ -352,8 +352,8 @@ const closeModal = () => {
 
 .form-input:focus {
   outline: none;
-  border-color: #99001B;
-  box-shadow: 0 0 0 3px rgba(153, 0, 27, 0.05);
+  border-color: #8B2D4A;
+  box-shadow: 0 0 0 3px rgba(139, 45, 74, 0.05);
 }
 
 .toggle-password {
@@ -380,20 +380,20 @@ const closeModal = () => {
   gap: 12px;
   padding: 16px;
   border-radius: 9999px;
-  background: #99001B;
+  background: #8B2D4A;
   color: #FEFEFE;
   font-weight: 600;
   font-size: 1.0625rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(153, 0, 27, 0.25);
+  box-shadow: 0 4px 20px rgba(139, 45, 74, 0.25);
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #7A0016;
+  background: #6B2640;
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(153, 0, 27, 0.35);
+  box-shadow: 0 6px 24px rgba(139, 45, 74, 0.35);
 }
 
 .submit-btn:disabled {
@@ -408,29 +408,13 @@ const closeModal = () => {
 
 /* Divider */
 .divider {
-  position: relative;
   text-align: center;
   margin: 32px 0;
 }
 
-.divider::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #E8E8E8;
-  z-index: 1;
-}
-
 .divider span {
-  position: relative;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 0 16px;
   font-size: 0.8125rem;
   color: #787878;
-  z-index: 2;
   font-weight: 500;
 }
 
@@ -443,7 +427,7 @@ const closeModal = () => {
 }
 
 .inline-link {
-  color: #99001B;
+  color: #8B2D4A;
   text-decoration: none;
   font-weight: 600;
 }

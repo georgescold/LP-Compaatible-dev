@@ -4,13 +4,13 @@ import IconShield from './icons/IconShield.vue'
 import IconCheck from './icons/IconCheck.vue'
 import IconCheckCircle from './icons/IconCheckCircle.vue'
 import IconArrowRight from './icons/IconArrowRight.vue'
-import heroBackground from '../assets/image test site (2).jpg'
+import heroBackground from '../assets/image test site (2).webp'
 </script>
 
 <template>
   <section class="hero">
     <div class="hero-bg">
-      <img :src="heroBackground" alt="" />
+      <img :src="heroBackground" alt="" fetchpriority="high" width="1920" height="1280" />
       <div class="hero-bg-overlay"></div>
     </div>
 
@@ -32,7 +32,7 @@ import heroBackground from '../assets/image test site (2).jpg'
       </h1>
 
       <p class="hero-subtitle">
-        Fini les dates décevants et la solitude prolongée. Compaatible analyse ta personnalité en profondeur pour te présenter <strong>la personne la plus compatible avec toi</strong>.
+        Fini les dates décevants et la solitude prolongée. Nous analysons ta personnalité en profondeur pour te présenter <strong>la personne la plus compatible avec toi</strong>.
       </p>
 
       <div class="hero-cta-group">
@@ -99,7 +99,7 @@ import heroBackground from '../assets/image test site (2).jpg'
   right: -20%;
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -110,7 +110,7 @@ import heroBackground from '../assets/image test site (2).jpg'
   left: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(153, 0, 27, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 45, 74, 0.05) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -195,7 +195,7 @@ import heroBackground from '../assets/image test site (2).jpg'
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(153, 0, 27, 0.08);
+  box-shadow: 0 8px 32px rgba(139, 45, 74, 0.08);
 }
 
 .discount-badge {

@@ -48,7 +48,7 @@ const toggleHobby = (id: string) => {
       <!-- Header Section -->
       <header class="text-center mb-10 relative z-10">
         <div class="badge">
-          <svg class="w-4 h-4" fill="#99001B" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="#8B2D4A" viewBox="0 0 24 24">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
           Presque terminé
@@ -147,7 +147,7 @@ const toggleHobby = (id: string) => {
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #99001B;
+  color: #8B2D4A;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
@@ -164,7 +164,7 @@ const toggleHobby = (id: string) => {
 }
 
 .accent-text {
-  color: #99001B;
+  color: #8B2D4A;
   position: relative;
   display: inline-block;
 }
@@ -175,7 +175,7 @@ const toggleHobby = (id: string) => {
   left: 0;
   width: 100%;
   height: 12px;
-  color: #99001B;
+  color: #8B2D4A;
   opacity: 0.5;
 }
 
@@ -220,13 +220,13 @@ const toggleHobby = (id: string) => {
 .hobby-card:hover:not(.is-disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  border-color: rgba(153, 0, 27, 0.2);
+  border-color: rgba(139, 45, 74, 0.2);
 }
 
 .hobby-card.is-selected {
-  border-color: #99001B;
-  background: rgba(153, 0, 27, 0.02);
-  box-shadow: 0 2px 8px rgba(153, 0, 27, 0.1);
+  border-color: #8B2D4A;
+  background: rgba(139, 45, 74, 0.02);
+  box-shadow: 0 2px 8px rgba(139, 45, 74, 0.1);
   transform: scale(1.02);
 }
 
@@ -263,7 +263,7 @@ const toggleHobby = (id: string) => {
   right: 8px;
   width: 18px;
   height: 18px;
-  background: #99001B;
+  background: #8B2D4A;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -322,7 +322,7 @@ const toggleHobby = (id: string) => {
 }
 
 .counter-number.is-complete {
-  color: #99001B;
+  color: #8B2D4A;
 }
 
 .counter-total {
@@ -341,7 +341,7 @@ const toggleHobby = (id: string) => {
 
 .progress-fill {
   height: 100%;
-  background: #99001B;
+  background: #8B2D4A;
   border-radius: 999px;
   transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

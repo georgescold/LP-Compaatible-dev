@@ -1,20 +1,25 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
+
+// Above-the-fold: loaded synchronously
 import UrgencyBanner from '../components/UrgencyBanner.vue'
 import AppHeader from '../components/AppHeader.vue'
 import HeroSection from '../components/HeroSection.vue'
-import MatchingPreviewSection from '../components/MatchingPreviewSection.vue'
-import TechnologySection from '../components/TechnologySection.vue'
-import ComparisonSection from '../components/ComparisonSection.vue'
-import PourQuiSection from '../components/PourQuiSection.vue'
-import ProcessSection from '../components/ProcessSection.vue'
-import StorySection from '../components/StorySection.vue'
-import PersonalityTypesSection from '../components/PersonalityTypesSection.vue'
 
-import QuoteSection from '../components/QuoteSection.vue'
-import FAQSection from '../components/FAQSection.vue'
-import FinalCTASection from '../components/FinalCTASection.vue'
-import AppFooter from '../components/AppFooter.vue'
-import ExitPopup from '../components/ExitPopup.vue'
+// Below-the-fold: lazy-loaded
+const MatchingPreviewSection = defineAsyncComponent(() => import('../components/MatchingPreviewSection.vue'))
+const TechnologySection = defineAsyncComponent(() => import('../components/TechnologySection.vue'))
+const ComparisonSection = defineAsyncComponent(() => import('../components/ComparisonSection.vue'))
+const PourQuiSection = defineAsyncComponent(() => import('../components/PourQuiSection.vue'))
+const ProcessSection = defineAsyncComponent(() => import('../components/ProcessSection.vue'))
+const StorySection = defineAsyncComponent(() => import('../components/StorySection.vue'))
+const PersonalityTypesSection = defineAsyncComponent(() => import('../components/PersonalityTypesSection.vue'))
+const QuoteSection = defineAsyncComponent(() => import('../components/QuoteSection.vue'))
+const FAQSection = defineAsyncComponent(() => import('../components/FAQSection.vue'))
+const FinalCTASection = defineAsyncComponent(() => import('../components/FinalCTASection.vue'))
+const AppFooter = defineAsyncComponent(() => import('../components/AppFooter.vue'))
+const ExitPopup = defineAsyncComponent(() => import('../components/ExitPopup.vue'))
+const DevPanel = defineAsyncComponent(() => import('../components/DevPanel.vue'))
 </script>
 
 <template>
@@ -37,5 +42,6 @@ import ExitPopup from '../components/ExitPopup.vue'
       <FinalCTASection />
     </main>
     <AppFooter />
+    <DevPanel />
   </div>
 </template>

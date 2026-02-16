@@ -22,7 +22,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Science & Amour',
     readTime: 8,
     publishedAt: '2026-02-01',
-    coverColor: 'linear-gradient(135deg, #99001B 0%, #cc2244 100%)',
+    coverColor: 'linear-gradient(135deg, #8B2D4A 0%, #cc2244 100%)',
     tags: ['compatibilité', 'science', 'psychologie', 'âme sœur', 'big five'],
     content: `
 <p>L'idée de l'âme sœur est aussi ancienne que l'humanité. Mais aujourd'hui, la science offre des réponses concrètes à cette quête universelle. Des décennies de recherche en psychologie de la personnalité et en psychologie sociale ont révélé les mécanismes réels de la compatibilité amoureuse.</p>
@@ -33,11 +33,11 @@ export const blogArticles: BlogArticle[] = [
 <h2>Le modèle Big Five : la référence scientifique</h2>
 <p>Le modèle de personnalité le plus validé scientifiquement est le Big Five, aussi appelé modèle OCEAN. Il mesure cinq grands domaines de la personnalité :</p>
 <ul>
-<li><strong>Ouverture d'esprit</strong> — curiosité intellectuelle, créativité, goût pour la nouveauté</li>
-<li><strong>Conscience</strong> — organisation, fiabilité, discipline</li>
-<li><strong>Extraversion</strong> — sociabilité, énergie, assertivité</li>
-<li><strong>Convivialité (Agréabilité)</strong> — empathie, coopération, altruisme</li>
-<li><strong>Stabilité émotionnelle</strong> — gestion du stress, résilience, sérénité</li>
+<li><strong>Ouverture d'esprit</strong> : curiosité intellectuelle, créativité, goût pour la nouveauté</li>
+<li><strong>Conscience</strong> : organisation, fiabilité, discipline</li>
+<li><strong>Extraversion</strong> : sociabilité, énergie, assertivité</li>
+<li><strong>Convivialité (Agréabilité)</strong> : empathie, coopération, altruisme</li>
+<li><strong>Stabilité émotionnelle</strong> : gestion du stress, résilience, sérénité</li>
 </ul>
 <p>Chacun de ces domaines se décompose en 6 facettes, soit <strong>30 dimensions de personnalité</strong> au total. C'est exactement ce que mesure le test Compaatible.</p>
 
@@ -54,7 +54,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Les applications basées sur le swipe reposent sur l'attraction physique instantanée. Or, la recherche montre que l'attraction physique diminue rapidement si la compatibilité profonde n'est pas au rendez-vous. Le psychologue Eli Finkel de l'Université Northwestern a publié une étude majeure démontrant que les algorithmes basés sur la personnalité surpassent largement les méthodes basées sur l'apparence seule.</p>
 
 <h2>Comment Compaatible utilise la science</h2>
-<p>Chez Compaatible, nous avons conçu notre test sur le modèle Big Five, validé par des décennies de recherche. En analysant <strong>30 dimensions de ta personnalité</strong>, nous identifions les personnes avec lesquelles tu as les meilleures chances de construire une relation épanouissante et durable. Ce n'est pas du hasard — c'est de la science.</p>
+<p>Chez Compaatible, nous avons conçu notre test sur le modèle Big Five, validé par des décennies de recherche. En analysant <strong>30 dimensions de ta personnalité</strong>, nous identifions les personnes avec lesquelles tu as les meilleures chances de construire une relation épanouissante et durable. Ce n'est pas du hasard, c'est de la science.</p>
 
 <p><strong>Prêt(e) à découvrir ton profil de personnalité ?</strong> <a href="/inscription">Passe le test gratuitement</a> et laisse la science te guider vers la compatibilité authentique.</p>
 `
@@ -80,10 +80,10 @@ export const blogArticles: BlogArticle[] = [
 <p>Le psychologue Geoffrey Miller de l'Université du Nouveau-Mexique a démontré que l'humour est un signal d'intelligence créative. Une étude de 2015 dans <em>Evolution and Human Behavior</em> montre que <strong>les hommes drôles sont perçus comme plus intelligents et plus socialement compétents</strong>. L'humour crée un lien émotionnel instantané.</p>
 
 <h2>3. L'écoute active et l'empathie</h2>
-<p>La convivialité — la capacité à écouter, comprendre et se montrer bienveillant — est un puissant facteur d'attraction. Les travaux de Sara Algoe à l'Université de Caroline du Nord montrent que <strong>la gratitude et l'écoute active renforcent l'attachement amoureux</strong> de manière significative.</p>
+<p>La convivialité, la capacité à écouter, comprendre et se montrer bienveillant, est un puissant facteur d'attraction. Les travaux de Sara Algoe à l'Université de Caroline du Nord montrent que <strong>la gratitude et l'écoute active renforcent l'attachement amoureux</strong> de manière significative.</p>
 
 <h2>4. L'ambition et la conscience</h2>
-<p>Ce n'est pas l'argent qui attire, mais la <strong>direction et la détermination</strong>. Le trait de Conscience dans le modèle Big Five — organisation, fiabilité, persévérance — est fortement corrélé à l'attraction à long terme. Un homme qui a des objectifs et qui travaille pour les atteindre inspire confiance.</p>
+<p>Ce n'est pas l'argent qui attire, mais la <strong>direction et la détermination</strong>. Le trait de Conscience dans le modèle Big Five, organisation, fiabilité, persévérance, est fortement corrélé à l'attraction à long terme. Un homme qui a des objectifs et qui travaille pour les atteindre inspire confiance.</p>
 
 <h2>5. L'ouverture d'esprit</h2>
 <p>La curiosité intellectuelle, le goût pour les nouvelles expériences et la créativité rendent un homme fascinant. La recherche montre que l'ouverture d'esprit est particulièrement attractive pour des relations durables, car elle <strong>maintient la flamme de la découverte mutuelle</strong> au fil des années.</p>
@@ -103,7 +103,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Psychologie',
     readTime: 6,
     publishedAt: '2026-02-03',
-    coverColor: 'linear-gradient(135deg, #99001B 0%, #E8586D 100%)',
+    coverColor: 'linear-gradient(135deg, #8B2D4A 0%, #E8586D 100%)',
     tags: ['attraction', 'femme', 'psychologie', 'personnalité', 'séduction'],
     content: `
 <p>L'attraction féminine est un sujet souvent réduit à l'apparence physique. Pourtant, la recherche en psychologie montre que les traits de personnalité jouent un rôle bien plus déterminant dans l'attraction durable. Voici les 5 qualités scientifiquement validées.</p>
@@ -115,16 +115,16 @@ export const blogArticles: BlogArticle[] = [
 <p>La capacité à comprendre, exprimer et gérer ses émotions est profondément attractive. Les travaux de Marc Brackett, directeur du Yale Center for Emotional Intelligence, montrent que <strong>l'intelligence émotionnelle est le meilleur prédicteur de relations épanouissantes</strong>. Elle crée un espace où l'autre se sent compris.</p>
 
 <h2>3. La chaleur humaine et l'empathie</h2>
-<p>Le trait de Convivialité dans le modèle Big Five — la bienveillance naturelle, la capacité à prendre soin des autres — est unanimement cité comme attractif. La chercheuse Susan Sprecher a démontré que <strong>la chaleur humaine génère plus d'attraction que la beauté physique</strong> dans les interactions prolongées.</p>
+<p>Le trait de Convivialité dans le modèle Big Five, la bienveillance naturelle, la capacité à prendre soin des autres, est unanimement cité comme attractif. La chercheuse Susan Sprecher a démontré que <strong>la chaleur humaine génère plus d'attraction que la beauté physique</strong> dans les interactions prolongées.</p>
 
 <h2>4. La passion et la curiosité</h2>
-<p>Une femme passionnée par ses centres d'intérêt est magnétique. L'Ouverture d'esprit — la curiosité, la créativité, l'enthousiasme pour la vie — crée un rayonnement naturel. La recherche montre que <strong>les personnes passionnées sont perçues comme plus intéressantes et plus désirables</strong> comme partenaires de vie.</p>
+<p>Une femme passionnée par ses centres d'intérêt est magnétique. L'Ouverture d'esprit, la curiosité, la créativité, l'enthousiasme pour la vie, crée un rayonnement naturel. La recherche montre que <strong>les personnes passionnées sont perçues comme plus intéressantes et plus désirables</strong> comme partenaires de vie.</p>
 
 <h2>5. L'indépendance et l'authenticité</h2>
 <p>La psychologue Esther Perel, dans ses travaux sur le désir dans les couples, souligne que <strong>l'attraction se nourrit de l'altérité</strong>. Une femme qui maintient son identité propre, ses passions, ses amitiés et son indépendance reste fascinante au fil du temps. L'authenticité est le fondement de toute connexion profonde.</p>
 
 <h2>Se connaître pour mieux se connecter</h2>
-<p>Ces traits ne sont pas des masques à porter. Ce sont des facettes de ta personnalité qui gagnent à être connues et comprises. En découvrant ton profil psychologique, tu comprends mieux ce qui te rend unique — et quel partenaire saura véritablement t'apprécier.</p>
+<p>Ces traits ne sont pas des masques à porter. Ce sont des facettes de ta personnalité qui gagnent à être connues et comprises. En découvrant ton profil psychologique, tu comprends mieux ce qui te rend unique, et quel partenaire saura véritablement t'apprécier.</p>
 
 <p><a href="/inscription">Passe le test de personnalité Compaatible</a> et découvre tes forces naturelles.</p>
 `
@@ -138,7 +138,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Conseils',
     readTime: 9,
     publishedAt: '2026-01-28',
-    coverColor: 'linear-gradient(135deg, #B5001F 0%, #FF6B6B 100%)',
+    coverColor: 'linear-gradient(135deg, #C4637A 0%, #FF6B6B 100%)',
     tags: ['amour', '2026', 'rencontre', 'dating', 'relation'],
     content: `
 <p>Trouver l'amour en 2026, c'est naviguer dans un monde de paradoxes. Plus de moyens de se connecter que jamais, mais plus de solitude aussi. Voici un guide honnête et basé sur la recherche pour trouver une relation véritablement épanouissante cette année.</p>
@@ -157,7 +157,7 @@ export const blogArticles: BlogArticle[] = [
 <p>L'étincelle initiale (le fameux « coup de foudre ») est souvent trompeuse. Les neuroscientifiques ont montré que l'excitation initiale est principalement chimique (dopamine) et s'estompe en 12 à 18 mois. Ce qui reste après ? <strong>La compatibilité de personnalité, les valeurs partagées et le respect mutuel.</strong></p>
 
 <h2>Étape 4 : Utiliser la technologie intelligemment</h2>
-<p>En 2026, de nouvelles approches émergent. Les plateformes qui utilisent la psychométrie — l'analyse scientifique de la personnalité — offrent des résultats bien supérieurs aux algorithmes basés sur les photos et les centres d'intérêt superficiels. <a href="/inscription">Compaatible</a> fait partie de cette nouvelle vague.</p>
+<p>En 2026, de nouvelles approches émergent. Les plateformes qui utilisent la psychométrie, l'analyse scientifique de la personnalité, offrent des résultats bien supérieurs aux algorithmes basés sur les photos et les centres d'intérêt superficiels. <a href="/inscription">Compaatible</a> fait partie de cette nouvelle vague.</p>
 
 <h2>Étape 5 : Être patient(e) et honnête</h2>
 <p>L'amour durable se construit, il ne se trouve pas dans un swipe. La recherche de Gottman montre que <strong>les relations les plus solides commencent par une amitié et un respect mutuel</strong>, pas par une passion dévorante.</p>
@@ -177,7 +177,7 @@ export const blogArticles: BlogArticle[] = [
     coverColor: 'linear-gradient(135deg, #4A4A4A 0%, #787878 100%)',
     tags: ['solitude', 'amour', 'dating', 'psychologie', 'société'],
     content: `
-<p>Tu as l'impression que trouver l'amour sincère est devenu un parcours du combattant ? Tu n'es pas seul(e). La solitude amoureuse touche de plus en plus de jeunes adultes, malgré — ou peut-être à cause — des innombrables façons de se connecter. Voici pourquoi.</p>
+<p>Tu as l'impression que trouver l'amour sincère est devenu un parcours du combattant ? Tu n'es pas seul(e). La solitude amoureuse touche de plus en plus de jeunes adultes, malgré, ou peut-être à cause, des innombrables façons de se connecter. Voici pourquoi.</p>
 
 <h2>Le paradoxe du choix infini</h2>
 <p>Le psychologue Barry Schwartz l'a théorisé dans son ouvrage <em>The Paradox of Choice</em> : plus on a d'options, plus il est difficile de choisir et d'être satisfait de son choix. Les applications de dating offrent un flux infini de profils, créant l'illusion que <strong>« quelqu'un de mieux » est toujours à un swipe de distance</strong>. Résultat : on n'investit jamais vraiment.</p>
@@ -240,7 +240,7 @@ export const blogArticles: BlogArticle[] = [
 <li><strong>Scientifiquement validé</strong> par des milliers d'études peer-reviewed</li>
 <li><strong>Mesurable sur un continuum</strong> (pas de catégories binaires)</li>
 <li><strong>Stable dans le temps</strong> tout en capturant les évolutions naturelles</li>
-<li><strong>Universel</strong> — validé dans plus de 50 cultures différentes</li>
+<li><strong>Universel</strong> : validé dans plus de 50 cultures différentes</li>
 </ul>
 
 <h2>Big Five et compatibilité amoureuse</h2>
@@ -261,7 +261,7 @@ export const blogArticles: BlogArticle[] = [
     coverColor: 'linear-gradient(135deg, #D63031 0%, #FD79A8 100%)',
     tags: ['mythes', 'compatibilité', 'couple', 'psychologie', 'science'],
     content: `
-<p>En matière d'amour, les croyances populaires ont la vie dure. Pourtant, la recherche en psychologie démonte systématiquement ces mythes. Voici les 7 plus tenaces — et ce que dit réellement la science.</p>
+<p>En matière d'amour, les croyances populaires ont la vie dure. Pourtant, la recherche en psychologie démonte systématiquement ces mythes. Voici les 7 plus tenaces, et ce que dit réellement la science.</p>
 
 <h2>Mythe 1 : « Les opposés s'attirent »</h2>
 <p><strong>Réalité :</strong> La similarité de personnalité est un bien meilleur prédicteur de satisfaction que la complémentarité. Les études de Montoya et Horton montrent que nous sommes naturellement attirés par des personnes qui nous ressemblent sur les dimensions fondamentales de personnalité.</p>
@@ -282,7 +282,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Réalité :</strong> Gottman a démontré que 69% des problèmes dans un couple sont permanents et liés à des différences fondamentales de personnalité. Ce qui distingue les couples heureux, c'est leur capacité à gérer ces différences avec humour et respect.</p>
 
 <h2>Mythe 7 : « On trouve l'amour quand on ne le cherche pas »</h2>
-<p><strong>Réalité :</strong> Être ouvert aux rencontres aide, mais l'amour n'est pas un accident heureux. Les personnes qui adoptent une démarche intentionnelle — se connaître, définir ce qu'elles cherchent, utiliser des outils adaptés — ont significativement plus de chances de trouver un partenaire compatible.</p>
+<p><strong>Réalité :</strong> Être ouvert aux rencontres aide, mais l'amour n'est pas un accident heureux. Les personnes qui adoptent une démarche intentionnelle, se connaître, définir ce qu'elles cherchent, utiliser des outils adaptés, ont significativement plus de chances de trouver un partenaire compatible.</p>
 
 <p>Prêt(e) à remplacer les mythes par la science ? <a href="/inscription">Découvre ton profil de compatibilité</a> et laisse les données parler.</p>
 `
@@ -328,9 +328,9 @@ export const blogArticles: BlogArticle[] = [
 <h2>Comment s'en sortir</h2>
 <p>Reconnaître ces signes est déjà un acte de courage. Les prochaines étapes :</p>
 <ul>
-<li><strong>Parle à quelqu'un de confiance</strong> — ami(e), famille, professionnel</li>
-<li><strong>Consulte un(e) psychologue</strong> — la thérapie aide à comprendre les mécanismes et à reconstruire l'estime de soi</li>
-<li><strong>Reconnecte-toi avec toi-même</strong> — redécouvre tes goûts, tes valeurs, ta personnalité</li>
+<li><strong>Parle à quelqu'un de confiance</strong> : ami(e), famille, professionnel</li>
+<li><strong>Consulte un(e) psychologue</strong> : la thérapie aide à comprendre les mécanismes et à reconstruire l'estime de soi</li>
+<li><strong>Reconnecte-toi avec toi-même</strong> : redécouvre tes goûts, tes valeurs, ta personnalité</li>
 </ul>
 
 <p>Tu mérites une relation qui te fait grandir, pas qui te diminue. <a href="/inscription">Commence par redécouvrir qui tu es</a> avec un test de personnalité scientifique.</p>
@@ -345,7 +345,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Conseils',
     readTime: 7,
     publishedAt: '2026-01-15',
-    coverColor: 'linear-gradient(135deg, #99001B 0%, #C73B5C 100%)',
+    coverColor: 'linear-gradient(135deg, #8B2D4A 0%, #C73B5C 100%)',
     tags: ['communication', 'couple', 'Gottman', 'relation', 'conseils'],
     content: `
 <p>John Gottman, psychologue au Gottman Institute, a étudié plus de 3 000 couples pendant 40 ans. Ses recherches ont identifié les comportements de communication qui distinguent les couples heureux des couples en difficulté. Voici les 5 clés essentielles.</p>
@@ -356,10 +356,10 @@ export const blogArticles: BlogArticle[] = [
 <h2>Clé 2 : Éviter les « Quatre Cavaliers de l'Apocalypse »</h2>
 <p>Gottman a identifié 4 comportements toxiques en communication :</p>
 <ul>
-<li><strong>La critique</strong> — attaquer la personne plutôt que le comportement</li>
-<li><strong>Le mépris</strong> — sarcasme, moquerie, rouler des yeux</li>
-<li><strong>La défensive</strong> — se victimiser au lieu d'écouter</li>
-<li><strong>L'obstruction</strong> — se fermer et refuser le dialogue</li>
+<li><strong>La critique</strong> : attaquer la personne plutôt que le comportement</li>
+<li><strong>Le mépris</strong> : sarcasme, moquerie, rouler des yeux</li>
+<li><strong>La défensive</strong> : se victimiser au lieu d'écouter</li>
+<li><strong>L'obstruction</strong> : se fermer et refuser le dialogue</li>
 </ul>
 <p>Le mépris est le plus destructeur et le meilleur prédicteur de divorce.</p>
 
@@ -370,7 +370,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Écouter ne signifie pas attendre son tour pour parler. L'écoute active implique de reformuler ce que l'autre a dit et de <strong>valider son émotion</strong>, même si tu n'es pas d'accord avec son point de vue : « Je comprends que ça te blesse, c'est normal. »</p>
 
 <h2>Clé 5 : Réparer après les conflits</h2>
-<p>Les couples heureux ne sont pas ceux qui ne se disputent jamais, mais ceux qui savent <strong>réparer</strong>. Un geste d'humour, des excuses sincères, un toucher affectueux pendant un désaccord — ces tentatives de réparation sont cruciales.</p>
+<p>Les couples heureux ne sont pas ceux qui ne se disputent jamais, mais ceux qui savent <strong>réparer</strong>. Un geste d'humour, des excuses sincères, un toucher affectueux pendant un désaccord, ces tentatives de réparation sont cruciales.</p>
 
 <h2>La compatibilité de communication</h2>
 <p>La facilité de communication dépend aussi de la compatibilité de personnalité. Deux personnes ayant des niveaux similaires de Convivialité et de Stabilité émotionnelle communiquent naturellement mieux ensemble.</p>
@@ -387,7 +387,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Psychologie',
     readTime: 8,
     publishedAt: '2026-01-12',
-    coverColor: 'linear-gradient(135deg, #B5001F 0%, #D4606F 100%)',
+    coverColor: 'linear-gradient(135deg, #C4637A 0%, #D4606F 100%)',
     tags: ['attachement', 'psychologie', 'relation', 'sécure', 'anxieux'],
     content: `
 <p>La théorie de l'attachement, développée par le psychiatre John Bowlby et enrichie par Mary Ainsworth, est l'un des cadres les plus puissants pour comprendre nos comportements amoureux. Ton style d'attachement, formé dans l'enfance, influence profondément comment tu vis tes relations adultes.</p>
@@ -399,7 +399,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Tu as un fort besoin de proximité et de réassurance. Le silence de ton/ta partenaire te stresse, tu analyses chaque message, tu crains l'abandon. Ce style génère souvent des comportements de « poursuite » qui peuvent paradoxalement éloigner le partenaire.</p>
 
 <h2>Style évitant (~23% de la population)</h2>
-<p>Tu valorises l'indépendance et tu te sens étouffé(e) par trop de proximité. Tu as tendance à te replier émotionnellement face aux conflits ou à l'intimité croissante. Ce n'est pas un manque d'amour — c'est une stratégie inconsciente de protection.</p>
+<p>Tu valorises l'indépendance et tu te sens étouffé(e) par trop de proximité. Tu as tendance à te replier émotionnellement face aux conflits ou à l'intimité croissante. Ce n'est pas un manque d'amour, c'est une stratégie inconsciente de protection.</p>
 
 <h2>Style désorganisé (~1% de la population)</h2>
 <p>Un mélange de comportements anxieux et évitants. Tu désires l'intimité mais elle te fait peur. Ce style est souvent lié à des expériences traumatiques précoces et bénéficie fortement d'un accompagnement thérapeutique.</p>
@@ -451,7 +451,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Consulter constamment son téléphone pendant un date est un signe de manque de respect et de difficulté à être présent dans l'instant.</p>
 
 <h2>7. Les plaintes incessantes</h2>
-<p>Se plaindre de tout — du restaurant, du temps, de la vie — révèle un trait de Stabilité émotionnelle bas et une tendance au pessimisme chronique.</p>
+<p>Se plaindre de tout, du restaurant, du temps, de la vie, révèle un trait de Stabilité émotionnelle bas et une tendance au pessimisme chronique.</p>
 
 <h2>8. L'évasion sur les questions importantes</h2>
 <p>Esquiver les questions sur ses valeurs, sa situation ou ses intentions est suspect. La transparence est la base de toute relation saine.</p>
@@ -482,20 +482,20 @@ export const blogArticles: BlogArticle[] = [
 
 <h2>L'amour sain : les caractéristiques</h2>
 <ul>
-<li><strong>L'indépendance émotionnelle</strong> — Tu es heureux(se) dans la relation, mais tu pourrais aussi être heureux(se) seul(e)</li>
-<li><strong>Le respect des limites</strong> — Chacun conserve son espace, ses ami(e)s, ses passions</li>
-<li><strong>La réciprocité</strong> — Le giving et le receiving sont équilibrés</li>
-<li><strong>La liberté</strong> — Tu aimes cette personne, tu ne la possèdes pas</li>
-<li><strong>La croissance</strong> — La relation te fait devenir une meilleure version de toi-même</li>
+<li><strong>L'indépendance émotionnelle</strong> : Tu es heureux(se) dans la relation, mais tu pourrais aussi être heureux(se) seul(e)</li>
+<li><strong>Le respect des limites</strong> : Chacun conserve son espace, ses ami(e)s, ses passions</li>
+<li><strong>La réciprocité</strong> : Le giving et le receiving sont équilibrés</li>
+<li><strong>La liberté</strong> : Tu aimes cette personne, tu ne la possèdes pas</li>
+<li><strong>La croissance</strong> : La relation te fait devenir une meilleure version de toi-même</li>
 </ul>
 
 <h2>La dépendance affective : les signaux</h2>
 <ul>
-<li><strong>La peur panique de l'abandon</strong> — L'idée que l'autre te quitte est insupportable</li>
-<li><strong>La perte d'identité</strong> — Tu ne sais plus qui tu es en dehors de la relation</li>
-<li><strong>Le besoin constant de réassurance</strong> — « Tu m'aimes ? Tu es sûr(e) ? »</li>
-<li><strong>La jalousie excessive</strong> — Chaque interaction avec un(e) autre est une menace</li>
-<li><strong>L'impossibilité d'être seul(e)</strong> — Le célibat t'angoisse profondément</li>
+<li><strong>La peur panique de l'abandon</strong> : L'idée que l'autre te quitte est insupportable</li>
+<li><strong>La perte d'identité</strong> : Tu ne sais plus qui tu es en dehors de la relation</li>
+<li><strong>Le besoin constant de réassurance</strong> : « Tu m'aimes ? Tu es sûr(e) ? »</li>
+<li><strong>La jalousie excessive</strong> : Chaque interaction avec un(e) autre est une menace</li>
+<li><strong>L'impossibilité d'être seul(e)</strong> : Le célibat t'angoisse profondément</li>
 </ul>
 
 <h2>D'où vient la dépendance affective ?</h2>
@@ -510,10 +510,10 @@ export const blogArticles: BlogArticle[] = [
 <h2>Comment sortir de la dépendance affective</h2>
 <p>La bonne nouvelle : la dépendance affective se soigne. Voici les pistes principales :</p>
 <ol>
-<li><strong>Reconnaître le problème</strong> — C'est l'étape la plus courageuse</li>
-<li><strong>Travailler sur l'estime de soi</strong> — En dehors de la relation</li>
-<li><strong>Consulter un professionnel</strong> — La thérapie cognitivo-comportementale est particulièrement efficace</li>
-<li><strong>Se reconnecter avec soi</strong> — Redécouvrir ses goûts, ses passions, sa personnalité</li>
+<li><strong>Reconnaître le problème</strong> : C'est l'étape la plus courageuse</li>
+<li><strong>Travailler sur l'estime de soi</strong> : En dehors de la relation</li>
+<li><strong>Consulter un professionnel</strong> : La thérapie cognitivo-comportementale est particulièrement efficace</li>
+<li><strong>Se reconnecter avec soi</strong> : Redécouvrir ses goûts, ses passions, sa personnalité</li>
 </ol>
 
 <p>Connaître ta personnalité est un acte fondateur d'indépendance émotionnelle. <a href="/inscription">Découvre qui tu es vraiment</a> avec le test Compaatible.</p>
@@ -531,7 +531,7 @@ export const blogArticles: BlogArticle[] = [
     coverColor: 'linear-gradient(135deg, #C73B5C 0%, #E8A0AD 100%)',
     tags: ['introversion', 'extraversion', 'couple', 'personnalité', 'Big Five'],
     content: `
-<p>« Il est trop social pour moi » ou « Elle ne veut jamais sortir » — cette tension introversion/extraversion est l'une des plus fréquentes dans les couples. Mais que dit réellement la science sur cette dynamique ?</p>
+<p>« Il est trop social pour moi » ou « Elle ne veut jamais sortir », cette tension introversion/extraversion est l'une des plus fréquentes dans les couples. Mais que dit réellement la science sur cette dynamique ?</p>
 
 <h2>Introversion ≠ timidité</h2>
 <p>Première clarification essentielle. L'introversion, telle que mesurée par le Big Five, n'est pas de la timidité. C'est une <strong>préférence pour les environnements calmes et les interactions en petit comité</strong>. Les introvertis rechargent leur énergie dans la solitude, les extravertis dans la socialisation.</p>
@@ -554,10 +554,10 @@ export const blogArticles: BlogArticle[] = [
 
 <h2>Les clés pour que ça fonctionne</h2>
 <ol>
-<li><strong>Communiquer ses besoins</strong> — « J'ai besoin de calme » n'est pas « Je ne veux pas être avec toi »</li>
-<li><strong>Négocier les compromis</strong> — Alterner soirées sociales et soirées en tête-à-tête</li>
-<li><strong>Respecter sans juger</strong> — Aucun des deux modes n'est supérieur</li>
-<li><strong>Valoriser la complémentarité</strong> — L'extraverti(e) élargit le monde social, l'introverti(e) approfondit les connexions</li>
+<li><strong>Communiquer ses besoins</strong> : « J'ai besoin de calme » n'est pas « Je ne veux pas être avec toi »</li>
+<li><strong>Négocier les compromis</strong> : Alterner soirées sociales et soirées en tête-à-tête</li>
+<li><strong>Respecter sans juger</strong> : Aucun des deux modes n'est supérieur</li>
+<li><strong>Valoriser la complémentarité</strong> : L'extraverti(e) élargit le monde social, l'introverti(e) approfondit les connexions</li>
 </ol>
 
 <h2>L'importance des autres dimensions</h2>
@@ -601,14 +601,14 @@ export const blogArticles: BlogArticle[] = [
 <h2>Comment la confiance en soi transforme tes relations</h2>
 <p>Quand tu te connais et que tu t'acceptes, tu :</p>
 <ol>
-<li><strong>Choisis mieux</strong> — Tu ne te contentes pas de qui veut de toi, tu choisis qui te correspond</li>
-<li><strong>Communiques mieux</strong> — Tu exprimes tes besoins clairement</li>
-<li><strong>Crées un espace sain</strong> — Ton partenaire se sent libre d'être lui/elle-même aussi</li>
-<li><strong>Gères mieux les conflits</strong> — Tu ne prends pas tout personnellement</li>
+<li><strong>Choisis mieux</strong> : Tu ne te contentes pas de qui veut de toi, tu choisis qui te correspond</li>
+<li><strong>Communiques mieux</strong> : Tu exprimes tes besoins clairement</li>
+<li><strong>Crées un espace sain</strong> : Ton partenaire se sent libre d'être lui/elle-même aussi</li>
+<li><strong>Gères mieux les conflits</strong> : Tu ne prends pas tout personnellement</li>
 </ol>
 
 <h2>Construire la confiance en soi</h2>
-<p>La confiance se construit par la connaissance de soi. Comprendre tes traits de personnalité — tes forces naturelles et tes zones de développement — te donne un ancrage solide. Tu ne dépends plus du regard des autres pour savoir qui tu es.</p>
+<p>La confiance se construit par la connaissance de soi. Comprendre tes traits de personnalité, tes forces naturelles et tes zones de développement, te donne un ancrage solide. Tu ne dépends plus du regard des autres pour savoir qui tu es.</p>
 
 <p><a href="/inscription">Découvre tes 30 dimensions de personnalité</a> et apprends à te connaître en profondeur.</p>
 `
@@ -625,7 +625,7 @@ export const blogArticles: BlogArticle[] = [
     coverColor: 'linear-gradient(135deg, #636E72 0%, #B2BEC3 100%)',
     tags: ['algorithme', 'dating app', 'Tinder', 'technologie', 'compatibilité'],
     content: `
-<p>Tu t'es déjà demandé pourquoi les apps de dating te montrent certains profils et pas d'autres ? Pourquoi tes matchs sont rarement satisfaisants ? La réponse est dans le fonctionnement de leurs algorithmes — et leur objectif n'est pas celui que tu crois.</p>
+<p>Tu t'es déjà demandé pourquoi les apps de dating te montrent certains profils et pas d'autres ? Pourquoi tes matchs sont rarement satisfaisants ? La réponse est dans le fonctionnement de leurs algorithmes, et leur objectif n'est pas celui que tu crois.</p>
 
 <h2>L'objectif réel des algorithmes de dating</h2>
 <p>La plupart des applications de rencontre sont des entreprises à but lucratif. Leur modèle économique repose sur <strong>l'engagement</strong> : plus tu passes de temps sur l'app, plus tu vois de publicités, plus tu achètes des fonctionnalités premium. Trouver l'amour rapidement est donc... contre-productif pour eux.</p>
@@ -665,7 +665,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Développement personnel',
     readTime: 7,
     publishedAt: '2025-12-25',
-    coverColor: 'linear-gradient(135deg, #99001B 0%, #E8586D 100%)',
+    coverColor: 'linear-gradient(135deg, #8B2D4A 0%, #E8586D 100%)',
     tags: ['intelligence émotionnelle', 'couple', 'émotions', 'relation durable'],
     content: `
 <p>L'intelligence émotionnelle (IE), popularisée par le psychologue Daniel Goleman, est la capacité à reconnaître, comprendre et gérer ses propres émotions et celles des autres. En amour, c'est le facteur le plus déterminant.</p>
@@ -687,18 +687,18 @@ export const blogArticles: BlogArticle[] = [
 <h2>IE et Big Five : le lien</h2>
 <p>L'intelligence émotionnelle est fortement corrélée à certains traits du Big Five :</p>
 <ul>
-<li><strong>Stabilité émotionnelle</strong> — Meilleure régulation des émotions</li>
-<li><strong>Convivialité</strong> — Plus d'empathie et de coopération</li>
-<li><strong>Conscience</strong> — Meilleure gestion de soi et fiabilité</li>
+<li><strong>Stabilité émotionnelle</strong> : Meilleure régulation des émotions</li>
+<li><strong>Convivialité</strong> : Plus d'empathie et de coopération</li>
+<li><strong>Conscience</strong> : Meilleure gestion de soi et fiabilité</li>
 </ul>
-<p>Connaître tes scores sur ces dimensions te donne une cartographie de ton intelligence émotionnelle naturelle — et des pistes pour la développer.</p>
+<p>Connaître tes scores sur ces dimensions te donne une cartographie de ton intelligence émotionnelle naturelle, et des pistes pour la développer.</p>
 
 <h2>Comment développer ton IE</h2>
 <ol>
-<li><strong>Pratique la pleine conscience</strong> — Observe tes émotions sans les juger</li>
-<li><strong>Tiens un journal émotionnel</strong> — Écris ce que tu ressens et pourquoi</li>
-<li><strong>Demande des feedbacks</strong> — À tes proches, avec ouverture</li>
-<li><strong>Lis sur le sujet</strong> — <em>Emotional Intelligence</em> de Goleman est un classique</li>
+<li><strong>Pratique la pleine conscience</strong> : Observe tes émotions sans les juger</li>
+<li><strong>Tiens un journal émotionnel</strong> : Écris ce que tu ressens et pourquoi</li>
+<li><strong>Demande des feedbacks</strong> : À tes proches, avec ouverture</li>
+<li><strong>Lis sur le sujet</strong> : <em>Emotional Intelligence</em> de Goleman est un classique</li>
 </ol>
 
 <p><a href="/inscription">Découvre ton profil émotionnel</a> avec le test Big Five de Compaatible.</p>
@@ -736,7 +736,7 @@ export const blogArticles: BlogArticle[] = [
 <p>La confiance se reconstruit par de petites victoires. Commence par des interactions sociales sans enjeu : parler à un inconnu dans une file d'attente, rejoindre un club ou une association, renouer avec des ami(e)s perdus de vue.</p>
 
 <h2>Étape 2 : Se connaître à nouveau</h2>
-<p>Après une longue période seul(e), tu as probablement évolué sans t'en rendre compte. Un test de personnalité peut t'aider à faire le point sur qui tu es aujourd'hui — pas qui tu étais il y a 3 ans.</p>
+<p>Après une longue période seul(e), tu as probablement évolué sans t'en rendre compte. Un test de personnalité peut t'aider à faire le point sur qui tu es aujourd'hui, pas qui tu étais il y a 3 ans.</p>
 
 <h2>Étape 3 : Définir ce que tu cherches vraiment</h2>
 <p>Pas physiquement, mais en termes de personnalité, de valeurs, de style de vie. Plus tu es clair(e) sur tes besoins, plus tu attireras des personnes compatibles.</p>
@@ -745,7 +745,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Pas besoin de te jeter sur Tinder demain. Choisis une approche qui te ressemble. Si les apps te stressent, essaie des événements en personne. Si tu es introverti(e), commence par des échanges écrits.</p>
 
 <h2>Étape 5 : Accepter l'inconfort</h2>
-<p>Les premiers rendez-vous après une longue pause seront maladroits. C'est normal. La maladresse n'est pas un défaut — c'est la preuve de ton authenticité et de ton courage.</p>
+<p>Les premiers rendez-vous après une longue pause seront maladroits. C'est normal. La maladresse n'est pas un défaut, c'est la preuve de ton authenticité et de ton courage.</p>
 
 <p>Tu es prêt(e) ? <a href="/inscription">Commence par découvrir ton profil de personnalité</a>. C'est un premier pas concret, sans pression, pour te reconnecter avec toi-même.</p>
 `
@@ -774,7 +774,7 @@ export const blogArticles: BlogArticle[] = [
 <h2>Les 5 valeurs essentielles à partager</h2>
 
 <h3>1. La vision de l'engagement</h3>
-<p>Vous devez être sur la même longueur d'onde concernant ce que signifie « être en couple ». Exclusivité, priorité accordée à la relation, investissement émotionnel — si ces éléments divergent, les conflits seront constants.</p>
+<p>Vous devez être sur la même longueur d'onde concernant ce que signifie « être en couple ». Exclusivité, priorité accordée à la relation, investissement émotionnel, si ces éléments divergent, les conflits seront constants.</p>
 
 <h3>2. Le rapport à la famille</h3>
 <p>Vouloir des enfants ou non, le rôle de la famille élargie, la conception de la parentalité. Ces sujets génèrent les ruptures les plus fréquentes quand ils ne sont pas alignés.</p>
@@ -783,7 +783,7 @@ export const blogArticles: BlogArticle[] = [
 <p>Le seuil de tolérance au mensonge, l'importance de la transparence, la définition de la loyauté. Deux personnes qui n'ont pas les mêmes standards d'intégrité ne pourront pas construire la confiance nécessaire.</p>
 
 <h3>4. Les ambitions et le rythme de vie</h3>
-<p>Un partenaire très ambitieux professionnellement et un partenaire qui priorise le temps libre auront des tensions. Ce n'est pas un jugement — c'est une question de compatibilité de rythme.</p>
+<p>Un partenaire très ambitieux professionnellement et un partenaire qui priorise le temps libre auront des tensions. Ce n'est pas un jugement, c'est une question de compatibilité de rythme.</p>
 
 <h3>5. La gestion des conflits</h3>
 <p>Certaines personnes résolvent les conflits par la discussion immédiate, d'autres ont besoin de temps seul pour réfléchir. Si ces styles sont trop divergents sans compréhension mutuelle, chaque désaccord devient une crise.</p>
@@ -808,7 +808,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Conseils',
     readTime: 5,
     publishedAt: '2025-12-15',
-    coverColor: 'linear-gradient(135deg, #99001B 0%, #C73B5C 100%)',
+    coverColor: 'linear-gradient(135deg, #8B2D4A 0%, #C73B5C 100%)',
     tags: ['premier message', 'dating app', 'conversation', 'séduction'],
     content: `
 <p>Sur les apps de dating, ton premier message est ta première impression. Les études montrent que la majorité des conversations meurent après le premier échange. Voici comment te démarquer.</p>
@@ -817,10 +817,10 @@ export const blogArticles: BlogArticle[] = [
 <p>Les « Salut ça va ? » obtiennent le taux de réponse le plus bas. Mentionne quelque chose de spécifique du profil de l'autre personne. Cela montre que tu as pris le temps de lire, et la psychologie sociale nous apprend que <strong>les gens sont plus réceptifs quand ils se sentent vus</strong>.</p>
 
 <h2>2. Pose une question ouverte</h2>
-<p>Les questions fermées (oui/non) tuent la conversation. Préfère : « Je vois que tu aimes la randonnée — quel est le plus beau sentier que tu aies fait ? » à « Tu aimes la randonnée ? »</p>
+<p>Les questions fermées (oui/non) tuent la conversation. Préfère : « Je vois que tu aimes la randonnée, quel est le plus beau sentier que tu aies fait ? » à « Tu aimes la randonnée ? »</p>
 
 <h2>3. L'humour léger (mais pas forcé)</h2>
-<p>L'humour est le trait le plus universellement attractif. Mais un humour forcé est pire que pas d'humour. Sois naturel(le) — une touche de légèreté suffit.</p>
+<p>L'humour est le trait le plus universellement attractif. Mais un humour forcé est pire que pas d'humour. Sois naturel(le), une touche de légèreté suffit.</p>
 
 <h2>4. Sois concis(e)</h2>
 <p>2 à 3 phrases maximum. Un message trop long peut sembler intense. Un message trop court semble désintéressé. Le juste milieu montre confiance et intention.</p>
@@ -837,7 +837,7 @@ export const blogArticles: BlogArticle[] = [
 <h2>Au-delà du premier message</h2>
 <p>Le meilleur premier message du monde ne compensera pas une incompatibilité fondamentale. C'est pourquoi l'approche de Compaatible est différente : au lieu de multiplier les premiers messages, nous identifions d'abord les personnes avec qui tu es véritablement compatible.</p>
 
-<p><a href="/inscription">Découvre qui te correspond vraiment</a> — au-delà des premières impressions.</p>
+<p><a href="/inscription">Découvre qui te correspond vraiment</a>, au-delà des premières impressions.</p>
 `
   },
   {
@@ -870,7 +870,7 @@ export const blogArticles: BlogArticle[] = [
 <p>La distance est aussi une opportunité. Les couples à distance qui prospèrent sont ceux où chaque partenaire maintient une vie sociale et personnelle riche de son côté.</p>
 
 <h2>6. La compatibilité de communication</h2>
-<p>En relation à distance, la communication est le principal canal de connexion. La compatibilité dans les styles de communication — fréquence, profondeur, mode (écrit vs oral) — devient absolument cruciale.</p>
+<p>En relation à distance, la communication est le principal canal de connexion. La compatibilité dans les styles de communication, fréquence, profondeur, mode (écrit vs oral), devient absolument cruciale.</p>
 
 <h2>La distance n'est pas le problème</h2>
 <p>La distance met simplement en lumière les forces et les faiblesses d'une relation. Un couple fondamentalement compatible survivra à la distance. Un couple incompatible se heurtera à la réalité plus tôt.</p>
@@ -887,7 +887,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'Réflexion',
     readTime: 6,
     publishedAt: '2025-12-10',
-    coverColor: 'linear-gradient(135deg, #B5001F 0%, #D4606F 100%)',
+    coverColor: 'linear-gradient(135deg, #C4637A 0%, #D4606F 100%)',
     tags: ['friendzone', 'amitié', 'attraction', 'psychologie', 'relation'],
     content: `
 <p>Le concept de « friendzone » est omniprésent dans la culture dating. Mais que nous dit réellement la psychologie sur ce phénomène ? Est-ce une réalité ou une construction problématique ?</p>
@@ -896,7 +896,7 @@ export const blogArticles: BlogArticle[] = [
 <p>L'attraction non réciproque est un phénomène réel et étudié. Les psychologues April Bleske-Rechek et Melissa Somers ont publié une étude importante montrant que <strong>les hommes surestiment l'intérêt romantique de leurs amies femmes</strong>, tandis que les femmes le sous-estiment. Ce décalage perceptif est au cœur du phénomène.</p>
 
 <h2>Pourquoi le terme est problématique</h2>
-<p>Le concept de friendzone implique qu'une personne « doit » une relation romantique en échange d'amitié. C'est une vision transactionnelle de l'amour qui nie le droit fondamental de chacun à ne pas être attiré. <strong>L'amitié n'est pas un prix de consolation — c'est une relation précieuse en soi.</strong></p>
+<p>Le concept de friendzone implique qu'une personne « doit » une relation romantique en échange d'amitié. C'est une vision transactionnelle de l'amour qui nie le droit fondamental de chacun à ne pas être attiré. <strong>L'amitié n'est pas un prix de consolation, c'est une relation précieuse en soi.</strong></p>
 
 <h2>Pourquoi l'attraction n'est pas réciproque</h2>
 <p>La recherche en psychologie de la personnalité montre que l'attraction dépend de multiples facteurs :</p>
@@ -911,10 +911,10 @@ export const blogArticles: BlogArticle[] = [
 <h2>Que faire si tu vis cette situation ?</h2>
 <p>Si tes sentiments ne sont pas partagés :</p>
 <ol>
-<li><strong>Accepte la réalité</strong> — L'espoir de « changer les choses » prolonge la souffrance</li>
-<li><strong>Prends de la distance si nécessaire</strong> — C'est sain, pas lâche</li>
-<li><strong>Ne reste pas ami(e) par stratégie</strong> — C'est malhonnête envers toi et l'autre</li>
-<li><strong>Dirige ton énergie ailleurs</strong> — Vers des personnes réellement disponibles et compatibles</li>
+<li><strong>Accepte la réalité</strong> : L'espoir de « changer les choses » prolonge la souffrance</li>
+<li><strong>Prends de la distance si nécessaire</strong> : C'est sain, pas lâche</li>
+<li><strong>Ne reste pas ami(e) par stratégie</strong> : C'est malhonnête envers toi et l'autre</li>
+<li><strong>Dirige ton énergie ailleurs</strong> : Vers des personnes réellement disponibles et compatibles</li>
 </ol>
 
 <h2>La compatibilité va au-delà de l'amitié</h2>
