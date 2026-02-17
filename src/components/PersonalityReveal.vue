@@ -124,15 +124,15 @@ onUnmounted(() => {
     </div>
 
     <!-- Header / Nav -->
-    <div class="absolute top-0 left-0 flex items-center px-6 py-5 md:px-12 md:py-6 z-20">
-      <div class="flex items-center gap-2.5">
-        <img :src="logoImage" alt="" class="h-8 w-8 object-contain" />
-        <span class="text-[15px] font-bold tracking-widest text-[#1A1A1A] uppercase">Compaatible</span>
+    <div class="absolute top-0 left-0 right-0 flex items-center justify-center px-6 py-3 md:justify-start md:px-12 md:py-6 z-20">
+      <div class="flex items-center gap-2">
+        <img :src="logoImage" alt="" class="h-6 w-6 md:h-8 md:w-8 object-contain" />
+        <span class="text-[13px] md:text-[15px] font-bold tracking-widest text-[#1A1A1A] uppercase">Compaatible</span>
       </div>
     </div>
 
     <!-- Main Content Transition -->
-    <div class="relative z-10 w-full max-w-2xl px-6">
+    <div class="relative z-10 w-full max-w-2xl px-6 pt-12 md:pt-0">
       <Transition
         mode="out-in"
         enter-active-class="transition duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)]"
