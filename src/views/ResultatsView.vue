@@ -1689,6 +1689,56 @@ function goHome() {
     width: 42px;
     height: 42px;
   }
+
+  .tier-card {
+    padding: 28px 20px;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .cta-title {
+    font-size: 1.5rem;
+  }
+
+  .tier-card-title {
+    font-size: 1.25rem;
+  }
+
+  .overview-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .tier-card {
+    padding: 24px 16px;
+  }
+
+  .cta-card {
+    padding: 32px 16px;
+  }
+
+  .cta-title {
+    font-size: 1.3rem;
+  }
 }
 
 </style>

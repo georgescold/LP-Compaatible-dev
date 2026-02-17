@@ -1035,5 +1035,17 @@ async function submitTest() {
     width: 28px;
     height: 28px;
   }
+
+  .header-left {
+    gap: 12px;
+  }
+
+  .topbar-inner {
+    padding: 12px 16px;
+  }
+
+  .test-nav {
+    gap: 12px;
+  }
 }
 </style>

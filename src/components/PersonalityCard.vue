@@ -150,7 +150,7 @@ async function handleShare() {
       class="relative transition-all duration-300 ease-out"
       :style="{ transform: cardTransform }"
       :class="[
-        variant === 'full' ? 'w-[360px]' : 'w-[280px]',
+        variant === 'full' ? 'w-full max-w-[360px]' : 'w-full max-w-[280px]',
       ]"
     >
       <!-- Background Glow (Matching Category) -->

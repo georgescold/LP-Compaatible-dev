@@ -671,6 +671,8 @@ function handleBack() {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--color-red-pure);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .forgot-row {
@@ -799,6 +801,8 @@ function handleBack() {
   color: var(--color-gray-main);
   line-height: 1.7;
   margin-bottom: 32px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .success-text strong {
