@@ -449,14 +449,55 @@ defineExpose({ selectedFile });
 
 /* Responsive */
 @media (max-width: 600px) {
+  .photo-container {
+    padding: 24px 0;
+  }
+
+  .photo-header {
+    margin-bottom: 28px;
+  }
+
+  .badge {
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    padding: 0 8px;
+  }
+
+  .upload-area {
+    margin-top: 20px;
+  }
+
   .upload-zone {
-    width: 260px;
+    width: 240px;
+  }
+
+  .empty-state {
+    padding: 24px 16px;
+  }
+
+  .upload-text {
+    font-size: 0.82rem;
+  }
+
+  .photo-footer {
+    margin-top: 28px;
   }
 
   .trust-indicators {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
+  }
+
+  .trust-item {
+    font-size: 0.75rem;
+  }
+
+  .skip-link {
+    font-size: 0.8rem;
   }
 }
 </style>
