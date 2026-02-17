@@ -86,6 +86,7 @@ const idealPartnerAnswer = ref<string[]>([])
 const isSubmitting = ref(false)
 const photoPreviewUrl = ref<string | null>(null)
 const profilePhotoRef = ref<InstanceType<typeof ProfilePhotoUpload> | null>(null)
+const userInteractedOnPage = ref(false) // Track if user answered something on current page
 
 // Total pages: questions pages + 1 passions page + 1 ideal partner page + 1 photo page
 const totalQuestionPages = Math.ceil(questions.length / QUESTIONS_PER_PAGE)
@@ -145,6 +146,7 @@ function canGoToPage(pageIndex: number): boolean {
 function goToPage(pageIndex: number) {
   if (canGoToPage(pageIndex) && pageIndex >= 0 && pageIndex < totalPages) {
     currentPage.value = pageIndex
+    userInteractedOnPage.value = false
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
@@ -163,6 +165,7 @@ function selectAnswer(question: Question, score: number) {
   })
   // Force reactivity
   answersMap.value = new Map(answersMap.value)
+  userInteractedOnPage.value = true
 }
 
 function getSelectedScore(questionId: string): number | null {
@@ -181,10 +184,31 @@ watch([answersMap, currentPage, hobbiesAnswer, idealPartnerAnswer, photoPreviewU
   }))
 }, { deep: true })
 
+// Mark interaction on passions/ideal partner pages when selections change
+watch(hobbiesAnswer, () => {
+  if (isOnPassionsPage.value) userInteractedOnPage.value = true
+}, { deep: true })
+watch(idealPartnerAnswer, () => {
+  if (isOnIdealPartnerPage.value) userInteractedOnPage.value = true
+}, { deep: true })
+
+// Auto-advance to next page when all questions on current page are answered
+let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null
+watch(answeredOnCurrentPage, (allAnswered) => {
+  if (autoAdvanceTimer) {
+    clearTimeout(autoAdvanceTimer)
+    autoAdvanceTimer = null
+  }
+  if (allAnswered && userInteractedOnPage.value && !isOnPhotoPage.value && currentPage.value < totalPages - 1) {
+    autoAdvanceTimer = setTimeout(() => nextPage(), 600)
+  }
+})
+
 function nextPage() {
   if (!answeredOnCurrentPage.value) return
   if (currentPage.value < totalPages - 1) {
     currentPage.value++
+    userInteractedOnPage.value = false
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
@@ -192,6 +216,7 @@ function nextPage() {
 function prevPage() {
   if (currentPage.value > 0) {
     currentPage.value--
+    userInteractedOnPage.value = false
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
