@@ -1150,19 +1150,32 @@ export function getPersonalityTypeFromScores(scores: Record<string, { score: num
 
   // Fallback: find closest match using weighted scoring.
   // C and A are weighted higher (×2) because they determine the category (the core identity).
-  // This ensures users land in the correct category even when no exact match exists.
-  // Among 16 types covering 16/32 combinations, this resolves ties deterministically.
+  // Ties are broken by a secondary score: sum of |avg - 3.0| for matching dimensions,
+  // so the type that agrees on the user's most decisive dimensions wins.
   const dimensionWeights: Record<string, number> = { O: 1, C: 2, E: 1, A: 2, N: 1 }
+
+  // Compute conviction per dimension (how far the avg is from midpoint)
+  const conviction: Record<string, number> = {}
+  for (const d of domains) {
+    const domain = scores[d]
+    conviction[d] = domain ? Math.abs(domain.score / domain.count - 3.0) : 0
+  }
 
   let bestMatch: PersonalityType | undefined
   let bestScore = -1
+  let bestTiebreaker = -1
   for (const t of personalityTypes) {
     let score = 0
+    let tiebreaker = 0
     for (const d of domains) {
-      if (t.bigFive[d] === mapped[d]) score += dimensionWeights[d]
+      if (t.bigFive[d] === mapped[d]) {
+        score += dimensionWeights[d]
+        tiebreaker += conviction[d] * dimensionWeights[d]
+      }
     }
-    if (score > bestScore) {
+    if (score > bestScore || (score === bestScore && tiebreaker > bestTiebreaker)) {
       bestScore = score
+      bestTiebreaker = tiebreaker
       bestMatch = t
     }
   }

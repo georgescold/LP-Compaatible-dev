@@ -159,28 +159,28 @@ const rawQuestions = [
 
   // ========== ROUND 3 (questions 61-90): third question per facet, angle différent ==========
 
-  // === N1 - Anxiety (plus) — angle: catastrophizing ===
-  { id: '7f92ab2c-265c-4b84-8c74-09f9bb9d41a7', text: 'J\'imagine souvent les pires scénarios possibles', keyed: 'plus', domain: 'N', facet: 1 },
+  // === N1 - Anxiety (minus) — angle: serenity under uncertainty ===
+  { id: '7f92ab2c-265c-4b84-8c74-09f9bb9d41a7', text: 'Je me sens rarement submergé(e) par des pensées catastrophiques', keyed: 'minus', domain: 'N', facet: 1 },
   // === E1 - Friendliness (plus) — angle: social energy ===
   { id: 'af55f014-788c-4b6e-92c4-b2b59dc8a28d', text: 'Je me sens bien et énergisé(e) quand je suis entouré(e)', keyed: 'plus', domain: 'E', facet: 1 },
-  // === O1 - Imagination (plus) — angle: daydreaming ===
-  { id: '08ff6dca-02a5-4aeb-aaa4-2ecf2526f143', text: 'J\'aime me perdre dans mes pensées et rêver éveillé(e)', keyed: 'plus', domain: 'O', facet: 1 },
+  // === O1 - Imagination (minus) — angle: practical thinking ===
+  { id: '08ff6dca-02a5-4aeb-aaa4-2ecf2526f143', text: 'Je ne vois pas l\'intérêt de rêvasser ou de me perdre dans mes pensées', keyed: 'minus', domain: 'O', facet: 1 },
   // === A1 - Trust (plus) — angle: credulity ===
   { id: 'c63e6121-c3ed-40cc-abc2-c1e6ea1e0858', text: 'Quand quelqu\'un me dit quelque chose, j\'ai tendance à le croire', keyed: 'plus', domain: 'A', facet: 1 },
   // === C1 - Self-efficacy (plus) — angle: task completion ===
   { id: 'c7f53c3c-2e77-432f-bb71-7470b67d3aa9', text: 'Quand je commence un projet, je le termine toujours', keyed: 'plus', domain: 'C', facet: 1 },
   // === N2 - Anger (plus) — angle: daily irritability ===
   { id: '7dab2a37-8635-4fc7-86b7-0abf13c183c9', text: 'Les petits désagréments du quotidien m\'agacent rapidement', keyed: 'plus', domain: 'N', facet: 2 },
-  // === E2 - Gregariousness (plus) — angle: social behavior at parties ===
-  { id: '28ab59a0-e7cd-4fce-94e3-bba2ecc023b6', text: 'En soirée, je vais naturellement discuter avec plein de gens', keyed: 'plus', domain: 'E', facet: 2 },
+  // === E2 - Gregariousness (minus) — angle: social selectivity ===
+  { id: '28ab59a0-e7cd-4fce-94e3-bba2ecc023b6', text: 'En soirée, je reste plutôt avec les gens que je connais déjà', keyed: 'minus', domain: 'E', facet: 2 },
   // === O2 - Artistic interests (plus) — angle: aesthetic perception ===
   { id: 'b5919f2f-cded-4745-a9ce-c02703cee807', text: 'Je remarque des détails esthétiques que les autres ne voient pas', keyed: 'plus', domain: 'O', facet: 2 },
   // === A2 - Morality (minus) — angle: manipulation ===
   { id: '0cf79e27-e702-45c2-9471-04ac96b58e0e', text: 'Je suis capable de manipuler les gens pour arriver à mes fins', keyed: 'minus', domain: 'A', facet: 2 },
   // === C2 - Orderliness (minus) — angle: messiness ===
   { id: 'f4891687-0ff0-47af-a4f6-d1202c8f6676', text: 'Mon espace de vie ou de travail est souvent en désordre', keyed: 'minus', domain: 'C', facet: 2 },
-  // === N3 - Depression (plus) — angle: rumination ===
-  { id: '743d8973-1de1-4485-91b4-8a5cf63e7d44', text: 'Je rumine souvent des pensées négatives en boucle', keyed: 'plus', domain: 'N', facet: 3 },
+  // === N3 - Depression (minus) — angle: emotional resilience ===
+  { id: '743d8973-1de1-4485-91b4-8a5cf63e7d44', text: 'J\'arrive à tourner la page rapidement après un moment difficile', keyed: 'minus', domain: 'N', facet: 3 },
   // === E3 - Assertiveness (plus) — angle: natural leadership ===
   { id: '8af754f2-68e9-48f3-8c5d-2e6633d4472c', text: 'Je prends naturellement le rôle de leader dans un groupe', keyed: 'plus', domain: 'E', facet: 3 },
   // === O3 - Emotionality (minus) — angle: emotional restraint ===
@@ -191,28 +191,28 @@ const rawQuestions = [
   { id: 'c55e3958-00c4-4fc3-9118-47d8f31bfde1', text: 'Je dis la vérité même quand c\'est inconfortable', keyed: 'plus', domain: 'C', facet: 3 },
   // === N4 - Self-consciousness (plus) — angle: discomfort with strangers ===
   { id: 'b2d9ef74-73f5-4ea8-b00c-7aaca15937df', text: 'Je suis mal à l\'aise à l\'idée de parler à quelqu\'un que je ne connais pas', keyed: 'plus', domain: 'N', facet: 4 },
-  // === E4 - Activity level (plus) — angle: filled days ===
-  { id: 'a1b2c3d4-1111-4a00-b000-000000000017', text: 'J\'aime avoir des journées bien remplies avec beaucoup d\'activités', keyed: 'plus', domain: 'E', facet: 4 },
+  // === E4 - Activity level (minus) — angle: preference for calm ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000017', text: 'Je préfère les journées calmes sans trop d\'activités prévues', keyed: 'minus', domain: 'E', facet: 4 },
   // === O4 - Adventurousness (minus) — angle: comfort zone ===
   { id: '33b81fd0-7e32-4cd8-a13a-d5f5f754f998', text: 'Je préfère rester dans ma zone de confort plutôt que d\'essayer du nouveau', keyed: 'minus', domain: 'O', facet: 4 },
   // === A4 - Cooperation (minus) — angle: yelling when angry ===
   { id: 'd9a9a180-29c9-4ec5-8621-2256d411def7', text: 'Quand je suis en colère, il m\'arrive de hausser le ton ou de crier', keyed: 'minus', domain: 'A', facet: 4 },
   // === C4 - Achievement-striving (plus) — angle: giving one's best ===
   { id: 'b7fc949b-02b6-4cb9-a3e2-dbb3d824b55f', text: 'Je donne le meilleur de moi-même dans tout ce que j\'entreprends', keyed: 'plus', domain: 'C', facet: 4 },
-  // === N5 - Immoderation (plus) — angle: overindulgence ===
-  { id: 'a1b2c3d4-1111-4a00-b000-000000000021', text: 'Quand quelque chose me fait plaisir, j\'ai tendance à en abuser', keyed: 'plus', domain: 'N', facet: 5 },
+  // === N5 - Immoderation (minus) — angle: self-control ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000021', text: 'Je sais m\'arrêter quand j\'ai assez, même si c\'est tentant de continuer', keyed: 'minus', domain: 'N', facet: 5 },
   // === E5 - Excitement-seeking (plus) — angle: risk for thrill ===
   { id: '10f90fa9-649c-4631-ac4c-3dd3f751597d', text: 'Il m\'arrive de prendre des risques juste pour le frisson', keyed: 'plus', domain: 'E', facet: 5 },
-  // === O5 - Intellect (plus) — angle: deep curiosity ===
-  { id: 'a1b2c3d4-1111-4a00-b000-000000000023', text: 'Je suis curieux(se) de comprendre comment le monde fonctionne en profondeur', keyed: 'plus', domain: 'O', facet: 5 },
+  // === O5 - Intellect (minus) — angle: preference for simplicity ===
+  { id: 'a1b2c3d4-1111-4a00-b000-000000000023', text: 'Les réflexions trop profondes ou théoriques m\'ennuient rapidement', keyed: 'minus', domain: 'O', facet: 5 },
   // === A5 - Modesty (minus) — angle: entitlement ===
   { id: '7df44711-4cd4-4b05-8830-73fcc3ebdab5', text: 'Je pense mériter plus de reconnaissance que ce que je reçois', keyed: 'minus', domain: 'A', facet: 5 },
   // === C5 - Self-discipline (minus) — angle: procrastination ===
   { id: '51403620-968c-42fa-a772-65ba5ad8396f', text: 'J\'ai du mal à me motiver pour commencer une tâche que je dois faire', keyed: 'minus', domain: 'C', facet: 5 },
   // === N6 - Vulnerability (plus) — angle: destabilized by surprise ===
   { id: 'a1b2c3d4-1111-4a00-b000-000000000026', text: 'Face à un imprévu, je me sens facilement déstabilisé(e) et stressé(e)', keyed: 'plus', domain: 'N', facet: 6 },
-  // === E6 - Cheerfulness (plus) — angle: optimism ===
-  { id: 'e7b31bdc-5f6b-40ec-ba91-f5919b0f170e', text: 'Je vois naturellement le côté positif des situations', keyed: 'plus', domain: 'E', facet: 6 },
+  // === E6 - Cheerfulness (minus) — angle: emotional reserve ===
+  { id: 'e7b31bdc-5f6b-40ec-ba91-f5919b0f170e', text: 'On me reproche parfois de ne pas montrer assez d\'enthousiasme', keyed: 'minus', domain: 'E', facet: 6 },
   // === O6 - Liberalism (plus) — angle: moral relativism ===
   { id: 'f08e1b27-3673-4898-9cae-896482d0d9f9', text: 'Je pense que ce qui est bien ou mal dépend du contexte', keyed: 'plus', domain: 'O', facet: 6 },
   // === A6 - Sympathy (plus) — angle: empathy for the less fortunate ===
