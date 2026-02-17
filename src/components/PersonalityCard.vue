@@ -46,6 +46,7 @@ interface Props {
   variant?: 'compact' | 'full';
   actualScores?: ScoreData;
   shareToken?: string;
+  profilePhotoUrl?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -212,8 +213,11 @@ async function handleShare() {
                <div class="h-48 w-48 rounded-full blur-3xl" :style="{ backgroundColor: category.color }"></div>
             </div>
 
-            <div class="relative z-10 flex h-32 w-32 items-center justify-center rounded-full bg-slate-50 p-2 shadow-inner ring-4 ring-white">
-              <img :src="avatarUrl" alt="Personality Avatar" class="h-full w-full object-contain" />
+            <div class="relative z-10 flex h-32 w-32 items-center justify-center rounded-full shadow-inner ring-4 ring-white overflow-hidden"
+              :class="profilePhotoUrl ? 'bg-white' : 'bg-slate-50 p-2'"
+            >
+              <img v-if="profilePhotoUrl" :src="profilePhotoUrl" :alt="userName || 'Photo de profil'" class="h-full w-full object-cover" />
+              <img v-else :src="avatarUrl" alt="Personality Avatar" class="h-full w-full object-contain" />
             </div>
 
             <div class="mt-4 text-center">

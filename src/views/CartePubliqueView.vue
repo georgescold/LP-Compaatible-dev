@@ -53,6 +53,7 @@ const firstName = ref('')
 const personalityTypeId = ref('')
 const customTagline = ref('')
 const rawScores = ref<Scores | null>(null)
+const profilePhotoUrl = ref('')
 
 const personalityType = computed(() => {
   if (!personalityTypeId.value) return null
@@ -113,6 +114,7 @@ onMounted(async () => {
     personalityTypeId.value = data.personality_type
     customTagline.value = data.custom_tagline || ''
     rawScores.value = data.scores || null
+    profilePhotoUrl.value = data.profile_photo_url || ''
   } catch {
     notFound.value = true
   } finally {
@@ -192,6 +194,7 @@ onMounted(async () => {
           :user-name="firstName"
           :custom-tagline="customTagline || undefined"
           :actual-scores="actualScores"
+          :profile-photo-url="profilePhotoUrl"
           variant="full"
         />
       </div>

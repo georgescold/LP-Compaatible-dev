@@ -1417,6 +1417,7 @@ async function upgradeToPaid() {
               :custom-tagline="userCustomTagline"
               :actual-scores="revealScores"
               :share-token="userShareToken"
+              :profile-photo-url="userInfo.profilePhotoUrl"
               variant="full"
               @share="handleCardShare"
             />
