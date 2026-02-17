@@ -77,7 +77,7 @@ import IconArrowRight from './icons/IconArrowRight.vue'
 
 .final-subtitle {
   font-size: 1.25rem;
-  color: #64748b;
+  color: #4A5568;
   font-family: 'Playfair Display', serif;
   max-width: 500px;
   margin: 0 auto 30px;
@@ -137,14 +137,16 @@ import IconArrowRight from './icons/IconArrowRight.vue'
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  box-shadow: 0 0 0 0 rgba(139, 45, 74, 0.4);
+  border: 2px solid rgba(139, 45, 74, 0.3);
   animation: pulse-glow 2s infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
 }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(139, 45, 74, 0.3); }
-  70% { box-shadow: 0 0 0 16px rgba(139, 45, 74, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(139, 45, 74, 0); }
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.15); opacity: 0; }
+  100% { transform: scale(1.15); opacity: 0; }
 }
 
 .cta-note {

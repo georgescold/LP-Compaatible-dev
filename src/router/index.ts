@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { supabase } from '../lib/supabase'
+
+// Lazy-load supabase to keep it out of the initial landing page bundle
+const getSupabase = () => import('../lib/supabase').then(m => m.supabase)
 
 // Routes that require authentication
 const authRequiredRoutes = ['profil', 'resultats']
@@ -107,6 +109,7 @@ router.beforeEach(async (to, _from, next) => {
       return next()
     }
 
+    const supabase = await getSupabase()
     const { data: { session } } = await supabase.auth.getSession()
 
     if (!session) {

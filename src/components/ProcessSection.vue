@@ -53,7 +53,7 @@ const steps: Step[] = [
           <FadeInSection :delay="index * 200" class="step-wrapper">
             <div class="step-card">
               <div class="icon-container">
-                <img v-if="step.isLogo" :src="logoImage" alt="" class="w-7 h-7 object-contain" />
+                <img v-if="step.isLogo" :src="logoImage" alt="" class="w-7 h-7 object-contain" width="28" height="28" />
                 <component v-else :is="step.icon" :size="28" color="#FEFEFE" :stroke-width="1.5" />
               </div>
 

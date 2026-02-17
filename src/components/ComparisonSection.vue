@@ -23,20 +23,20 @@ const features = [
     <!-- Floating Images Left -->
     <div class="floating-images floating-images-left">
       <div class="floating-frame frame-1">
-        <img :src="imageAutumn" alt="Couple en automne" loading="lazy" />
+        <img :src="imageAutumn" alt="Couple en automne" loading="lazy" width="300" height="400" />
       </div>
       <div class="floating-frame frame-2">
-        <img :src="imageWindow" alt="Couple à la fenêtre" loading="lazy" />
+        <img :src="imageWindow" alt="Couple à la fenêtre" loading="lazy" width="300" height="400" />
       </div>
     </div>
 
     <!-- Floating Images Right -->
     <div class="floating-images floating-images-right">
       <div class="floating-frame frame-3">
-        <img :src="imageBeach" alt="Couple à la plage" loading="lazy" />
+        <img :src="imageBeach" alt="Couple à la plage" loading="lazy" width="300" height="400" />
       </div>
       <div class="floating-frame frame-4">
-        <img :src="imageSunset" alt="Couple au coucher de soleil" loading="lazy" />
+        <img :src="imageSunset" alt="Couple au coucher de soleil" loading="lazy" width="300" height="400" />
       </div>
     </div>
 

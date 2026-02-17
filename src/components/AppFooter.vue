@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear()
 
         <!-- Legal Links -->
         <div class="footer-col">
-          <h4 class="footer-col-title">Légal</h4>
+          <p class="footer-col-title" role="heading" aria-level="2">Légal</p>
           <nav class="footer-nav">
             <router-link to="/cgu" class="footer-link">Conditions d'utilisation</router-link>
             <router-link to="/confidentialite" class="footer-link">Politique de confidentialité</router-link>
@@ -33,7 +33,7 @@ const currentYear = new Date().getFullYear()
 
         <!-- Contact Links -->
         <div class="footer-col">
-          <h4 class="footer-col-title">Contact</h4>
+          <p class="footer-col-title" role="heading" aria-level="2">Contact</p>
           <nav class="footer-nav">
             <a href="mailto:contact@compaatible.fr" class="footer-link">contact@compaatible.fr</a>
             <a href="#" class="footer-link">FAQ</a>

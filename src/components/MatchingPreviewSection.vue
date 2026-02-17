@@ -84,7 +84,7 @@ function animatePercentage() {
         <!-- Sophie Card -->
         <div class="profile-card card-sophie">
           <div class="card-photo">
-            <img :src="womanPhoto" alt="Sophie" loading="lazy" />
+            <img :src="womanPhoto" alt="Sophie" loading="lazy" decoding="async" width="260" height="260" />
             <div class="verified-badge">
               <img :src="logoImage" alt="" width="12" height="12" style="width:12px;height:12px;max-width:12px;max-height:12px;" class="verified-logo" />
               <span>Profil vérifié</span>
@@ -154,7 +154,7 @@ function animatePercentage() {
         <!-- Thomas Card -->
         <div class="profile-card card-thomas">
           <div class="card-photo">
-            <img :src="manPhoto" alt="Thomas" loading="lazy" />
+            <img :src="manPhoto" alt="Thomas" loading="lazy" decoding="async" width="260" height="260" />
             <div class="verified-badge">
               <img :src="logoImage" alt="" width="12" height="12" style="width:12px;height:12px;max-width:12px;max-height:12px;" class="verified-logo" />
               <span>Profil vérifié</span>
@@ -443,7 +443,7 @@ function animatePercentage() {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #787878;
+  color: #6B6B6B;
   margin-bottom: 10px;
 }
 
@@ -499,7 +499,7 @@ function animatePercentage() {
   font-style: italic;
   font-size: 0.78rem;
   line-height: 1.35;
-  color: #787878;
+  color: #6B6B6B;
   margin: 0 0 10px;
 }
 
@@ -666,14 +666,15 @@ function animatePercentage() {
 
 .is-visible .ring-progress {
   animation: ringGlow 2.5s ease-in-out 3.5s infinite;
+  will-change: opacity;
 }
 
 @keyframes ringGlow {
   0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(139, 45, 74, 0.3));
+    opacity: 0.85;
   }
   50% {
-    filter: drop-shadow(0 0 8px rgba(139, 45, 74, 0.5));
+    opacity: 1;
   }
 }
 
@@ -777,7 +778,7 @@ function animatePercentage() {
   text-align: center;
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
-  color: #787878;
+  color: #6B6B6B;
   max-width: 500px;
   margin: 0 auto;
   line-height: 1.6;

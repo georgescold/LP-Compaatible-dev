@@ -36,7 +36,7 @@ const categoriesWithTypes = personalityCategories.map(cat => ({
       <!-- Section Header -->
       <div class="mb-16 text-center">
         <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-red-pure/5 px-4 py-1 text-[11px] font-medium tracking-widest text-red-pure">
-          <img :src="logoImage" alt="" class="h-3.5 w-3.5 object-contain" />
+          <img :src="logoImage" alt="" class="h-3.5 w-3.5 object-contain" width="14" height="14" />
           VOTRE DESTINÉE AMOUREUSE
         </div>
         <h2 class="mb-4 font-serif text-4xl font-bold text-black md:text-5xl">
@@ -65,6 +65,8 @@ const categoriesWithTypes = personalityCategories.map(cat => ({
               :alt="cat.name"
               class="h-12 w-12 object-contain"
               loading="lazy"
+              width="48"
+              height="48"
             />
           </div>
 

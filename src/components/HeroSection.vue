@@ -10,7 +10,7 @@ import heroBackground from '../assets/image test site (2).webp'
 <template>
   <section class="hero">
     <div class="hero-bg">
-      <img :src="heroBackground" alt="" fetchpriority="high" width="1920" height="1280" />
+      <img :src="heroBackground" alt="" role="presentation" fetchpriority="high" width="1920" height="1280" />
       <div class="hero-bg-overlay"></div>
     </div>
 
