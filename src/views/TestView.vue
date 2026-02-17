@@ -9,6 +9,7 @@ import { getPersonalityTypeFromScores } from '../data/personality-types'
 import logoImage from '../assets/nouveau logo compaatible.png'
 import HobbiesSelector from '../components/HobbiesSelector.vue'
 import IdealPartnerSelector from '../components/IdealPartnerSelector.vue'
+import ProfilePhotoUpload from '../components/ProfilePhotoUpload.vue'
 
 const router = useRouter()
 const resolvedUserIdRef = ref(sessionStorage.getItem('compaatible_user_id') || '')
@@ -49,6 +50,7 @@ onMounted(async () => {
     currentPage.value = parsed.page
     hobbiesAnswer.value = parsed.hobbies || []
     idealPartnerAnswer.value = parsed.idealPartner || []
+    photoPreviewUrl.value = parsed.photoPreview || null
   } else {
     // 2. Load existing answers from Supabase (edit mode)
     const { data: existingTest } = await supabase
@@ -82,14 +84,17 @@ const currentPage = ref(0)
 const hobbiesAnswer = ref<string[]>([])
 const idealPartnerAnswer = ref<string[]>([])
 const isSubmitting = ref(false)
+const photoPreviewUrl = ref<string | null>(null)
+const profilePhotoRef = ref<InstanceType<typeof ProfilePhotoUpload> | null>(null)
 
-// Total pages: questions pages + 1 passions page + 1 ideal partner page
+// Total pages: questions pages + 1 passions page + 1 ideal partner page + 1 photo page
 const totalQuestionPages = Math.ceil(questions.length / QUESTIONS_PER_PAGE)
-const totalPages = totalQuestionPages + 2
+const totalPages = totalQuestionPages + 3
 
 const isOnQuestionsPhase = computed(() => currentPage.value < totalQuestionPages)
 const isOnPassionsPage = computed(() => currentPage.value === totalQuestionPages)
 const isOnIdealPartnerPage = computed(() => currentPage.value === totalQuestionPages + 1)
+const isOnPhotoPage = computed(() => currentPage.value === totalQuestionPages + 2)
 
 const currentQuestions = computed<Question[]>(() => {
   if (!isOnQuestionsPhase.value) return []
@@ -104,6 +109,7 @@ const progress = computed(() => {
 const answeredOnCurrentPage = computed(() => {
   if (isOnPassionsPage.value) return hobbiesAnswer.value.length === 5
   if (isOnIdealPartnerPage.value) return idealPartnerAnswer.value.length === 7
+  if (isOnPhotoPage.value) return true // Photo is optional, always considered answered
   return currentQuestions.value.every(q => answersMap.value.has(q.id))
 })
 
@@ -111,6 +117,7 @@ const answeredOnCurrentPage = computed(() => {
 function isPageAnswered(pageIndex: number): boolean {
   if (pageIndex === totalQuestionPages) return hobbiesAnswer.value.length === 5
   if (pageIndex === totalQuestionPages + 1) return idealPartnerAnswer.value.length === 7
+  if (pageIndex === totalQuestionPages + 2) return true // Photo is optional
   const start = pageIndex * QUESTIONS_PER_PAGE
   const pageQuestions = questions.slice(start, start + QUESTIONS_PER_PAGE)
   return pageQuestions.every(q => answersMap.value.has(q.id))
@@ -164,12 +171,13 @@ function getSelectedScore(questionId: string): number | null {
 }
 
 // Save progress
-watch([answersMap, currentPage, hobbiesAnswer, idealPartnerAnswer], () => {
+watch([answersMap, currentPage, hobbiesAnswer, idealPartnerAnswer, photoPreviewUrl], () => {
   sessionStorage.setItem('compaatible_test_progress', JSON.stringify({
     answers: Array.from(answersMap.value.entries()),
     page: currentPage.value,
     hobbies: hobbiesAnswer.value,
-    idealPartner: idealPartnerAnswer.value
+    idealPartner: idealPartnerAnswer.value,
+    photoPreview: photoPreviewUrl.value
   }))
 }, { deep: true })
 
@@ -200,6 +208,35 @@ async function submitTest() {
     // Determine personality type from scores
     const personalityType = getPersonalityTypeFromScores(scores)
     const personalityTypeId = personalityType?.id || null
+
+    // Upload profile photo if one was selected
+    const photoFile = profilePhotoRef.value?.selectedFile
+    if (photoFile) {
+      try {
+        const fileExt = photoFile.name.split('.').pop()
+        const fileName = `${resolvedUserIdRef.value}-${Date.now()}.${fileExt}`
+
+        const { error: storageError } = await supabase.storage
+          .from('profile-photos')
+          .upload(fileName, photoFile)
+
+        if (storageError) throw storageError
+
+        const { data: urlData } = supabase.storage
+          .from('profile-photos')
+          .getPublicUrl(fileName)
+
+        if (urlData?.publicUrl) {
+          await supabase
+            .from('users')
+            .update({ profile_photo_url: urlData.publicUrl })
+            .eq('id', resolvedUserIdRef.value)
+        }
+      } catch (photoErr) {
+        console.error('Photo upload failed (non-blocking):', photoErr)
+        // Photo upload failure should not block test submission
+      }
+    }
 
     // Delete any previous test results for this user to avoid duplicates
     await supabase
@@ -308,7 +345,7 @@ async function submitTest() {
             }"
             :disabled="!canGoToPage(i - 1)"
             @click="goToPage(i - 1)"
-            :title="i - 1 < totalQuestionPages ? `Questions ${(i - 1) * 5 + 1}-${Math.min(i * 5, questions.length)}` : i - 1 === totalQuestionPages ? 'Centres d\'intérêt' : 'Partenaire idéal'"
+            :title="i - 1 < totalQuestionPages ? `Questions ${(i - 1) * 5 + 1}-${Math.min(i * 5, questions.length)}` : i - 1 === totalQuestionPages ? 'Centres d\'intérêt' : i - 1 === totalQuestionPages + 1 ? 'Partenaire idéal' : 'Photo de profil'"
           ></button>
         </div>
 
@@ -366,6 +403,15 @@ async function submitTest() {
       <!-- Ideal partner page -->
       <div v-else-if="isOnIdealPartnerPage" class="open-question-container">
         <IdealPartnerSelector v-model="idealPartnerAnswer" />
+      </div>
+
+      <!-- Photo upload page -->
+      <div v-else-if="isOnPhotoPage" class="open-question-container">
+        <ProfilePhotoUpload
+          ref="profilePhotoRef"
+          v-model="photoPreviewUrl"
+          @skip="submitTest"
+        />
       </div>
 
       <!-- Navigation -->
