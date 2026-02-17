@@ -108,10 +108,24 @@ router.beforeEach(async (to, _from, next) => {
     }
 
     const { data: { session } } = await supabase.auth.getSession()
-    const sessionUserId = sessionStorage.getItem('compaatible_user_id')
 
-    if (!session && !sessionUserId) {
+    if (!session) {
+      // No valid Supabase session — clear any stale sessionStorage and redirect
+      sessionStorage.removeItem('compaatible_user_id')
       return next({ name: 'connexion' })
+    }
+
+    // Sync sessionStorage with current Supabase session if stale or missing
+    const sessionUserId = sessionStorage.getItem('compaatible_user_id')
+    if (!sessionUserId) {
+      const { data: currentUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_id', session.user.id)
+        .single()
+      if (currentUser?.id) {
+        sessionStorage.setItem('compaatible_user_id', currentUser.id)
+      }
     }
   }
   next()

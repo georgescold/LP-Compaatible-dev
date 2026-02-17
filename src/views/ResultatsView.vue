@@ -136,27 +136,30 @@ onMounted(async () => {
 
     // Verify the current user owns these results
     const { data: { session } } = await supabase.auth.getSession()
-    const sessionUserId = sessionStorage.getItem('compaatible_user_id')
 
-    if (session?.user?.id || sessionUserId) {
-      // Fetch the user row to compare IDs
-      let currentUserId = sessionUserId
-      if (session?.user?.id && !currentUserId) {
-        const { data: currentUser } = await supabase
-          .from('users')
-          .select('id')
-          .eq('auth_id', session.user.id)
-          .single()
-        currentUserId = currentUser?.id || null
-      }
-      if (currentUserId && currentUserId !== result.user_id) {
-        error.value = 'Tu n\'as pas accès à ces résultats.'
-        loading.value = false
-        return
-      }
-    } else {
-      // No auth at all — redirect to login
+    if (!session?.user?.id) {
+      // No valid session — redirect to login
+      sessionStorage.removeItem('compaatible_user_id')
       router.push('/connexion')
+      return
+    }
+
+    // Always resolve current user from Supabase session (source of truth)
+    const { data: currentUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('auth_id', session.user.id)
+      .single()
+    const currentUserId = currentUser?.id || null
+
+    // Keep sessionStorage in sync
+    if (currentUserId) {
+      sessionStorage.setItem('compaatible_user_id', currentUserId)
+    }
+
+    if (currentUserId && currentUserId !== result.user_id) {
+      error.value = 'Tu n\'as pas accès à ces résultats.'
+      loading.value = false
       return
     }
 

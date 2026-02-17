@@ -6,7 +6,7 @@ import ExitPopup from './ExitPopup.vue'
 const { today: devToday, setDate, clearDate, isOverridden, presets } = useDevCalendar()
 
 const exitPopupRef = ref<InstanceType<typeof ExitPopup> | null>(null)
-const isCollapsed = ref(false)
+const isCollapsed = ref(true)
 </script>
 
 <template>
@@ -28,18 +28,18 @@ const isCollapsed = ref(false)
           :key="preset.date"
           class="dev-preset-btn"
           :class="{ active: devToday === preset.date }"
-          @click="setDate(preset.date)"
+          @click.stop="setDate(preset.date)"
         >
           {{ preset.label }}
         </button>
       </div>
-      <button v-if="isOverridden" class="dev-reset-btn" @click="clearDate">
+      <button v-if="isOverridden" class="dev-reset-btn" @click.stop="clearDate">
         ✕ Reset à aujourd'hui
       </button>
       <div class="dev-panel-divider"></div>
       <button
         class="dev-preset-btn dev-action-btn"
-        @click="exitPopupRef?.forceShow()"
+        @click.stop="exitPopupRef?.forceShow()"
       >
         🚪 Tester le popup de sortie
       </button>
