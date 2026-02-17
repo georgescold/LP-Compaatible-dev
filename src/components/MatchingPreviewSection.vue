@@ -948,28 +948,29 @@ function animatePercentage() {
   }
 
   .fh-1 {
-    top: -10px;
-    right: 2px;
+    top: -8px;
+    right: auto;
+    left: -6px;
   }
 
   .fh-2 {
-    top: 14px;
-    left: -4px;
+    top: 12px;
+    left: -10px;
   }
 
   .fh-3 {
     bottom: 24px;
-    right: -4px;
+    right: -8px;
   }
 
   .fh-4 {
-    bottom: 4px;
-    left: 2px;
+    bottom: 6px;
+    left: -8px;
   }
 
   .fh-5 {
-    top: 50%;
-    right: -8px;
+    top: -6px;
+    right: -6px;
   }
 
   .traits-row {
