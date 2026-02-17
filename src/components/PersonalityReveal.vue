@@ -106,7 +106,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-[1000] flex flex-col items-center justify-center overflow-hidden bg-[#FBF9F7] font-sans selection:bg-[#8B2D4A]/10">
+  <div class="fixed inset-0 z-[1000] flex flex-col items-center overflow-y-auto overflow-x-hidden bg-[#FBF9F7] font-sans selection:bg-[#8B2D4A]/10 personality-reveal-root">
 
     <!-- Ambient Background Elements -->
     <div
@@ -124,7 +124,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Header / Nav -->
-    <div class="absolute top-0 left-0 right-0 flex items-center justify-center px-6 py-3 md:justify-start md:px-12 md:py-6 z-20">
+    <div class="sticky top-0 left-0 right-0 w-full flex items-center justify-center px-6 py-3 md:justify-start md:px-12 md:py-6 z-20 shrink-0">
       <div class="flex items-center gap-2">
         <img :src="logoImage" alt="" class="h-6 w-6 md:h-8 md:w-8 object-contain" />
         <span class="text-[13px] md:text-[15px] font-bold tracking-widest text-[#1A1A1A] uppercase">Compaatible</span>
@@ -132,7 +132,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Main Content Transition -->
-    <div class="relative z-10 w-full max-w-2xl px-6 pt-12 md:pt-0">
+    <div class="relative z-10 w-full max-w-2xl px-6 my-auto">
       <Transition
         mode="out-in"
         enter-active-class="transition duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)]"
@@ -415,7 +415,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Footer Progress Dots -->
-    <div class="absolute bottom-6 flex items-center gap-3 z-20">
+    <div class="py-6 flex items-center justify-center gap-3 z-20 shrink-0">
       <div
         v-for="i in totalSteps"
         :key="i"
@@ -462,6 +462,16 @@ onUnmounted(() => {
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.1; transform: scale(1); }
   50% { opacity: 0.15; transform: scale(1.1); }
+}
+
+/* Hide scrollbar but allow scrolling */
+.personality-reveal-root {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.personality-reveal-root::-webkit-scrollbar {
+  display: none;
 }
 
 /* Mobile responsive */
