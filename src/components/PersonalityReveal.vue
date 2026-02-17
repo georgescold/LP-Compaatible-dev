@@ -153,7 +153,7 @@ onUnmounted(() => {
           </div>
 
           <!-- Dramatic Avatar Showcase -->
-          <div class="relative mb-12 group">
+          <div class="relative mb-8 md:mb-12 group">
             <!-- Halo Glow Effect -->
             <div
               class="absolute inset-0 scale-125 rounded-full blur-3xl opacity-30 transition-all duration-1000 group-hover:scale-150"
@@ -162,32 +162,32 @@ onUnmounted(() => {
 
             <!-- Decorative Spinning Ring -->
             <div
-              class="absolute -inset-6 rounded-full border border-dashed opacity-20 animate-[spin_30s_linear_infinite]"
+              class="absolute -inset-4 md:-inset-6 rounded-full border border-dashed opacity-20 animate-[spin_30s_linear_infinite]"
               :style="{ borderColor: category.color }"
             ></div>
 
             <!-- Main Avatar Container -->
             <div
-              class="relative h-44 w-44 md:h-52 md:w-52 overflow-hidden rounded-full bg-white p-2 shadow-2xl transition-all duration-700 group-hover:scale-105"
+              class="relative h-32 w-32 md:h-52 md:w-52 overflow-hidden rounded-full bg-white p-2 shadow-2xl transition-all duration-700 group-hover:scale-105"
               :style="{ boxShadow: `0 20px 50px -12px ${category.color}4D` }"
             >
               <div class="flex h-full w-full items-center justify-center overflow-hidden rounded-full" :style="{ backgroundColor: category.color + '10' }">
-                <img v-if="categoryLogoUrl" :src="categoryLogoUrl" :alt="category.name" class="h-24 w-24 md:h-28 md:w-28 object-contain transform transition-transform duration-700 group-hover:scale-110" />
-                <span v-else class="text-6xl">{{ personalityType.emoji }}</span>
+                <img v-if="categoryLogoUrl" :src="categoryLogoUrl" :alt="category.name" class="h-16 w-16 md:h-28 md:w-28 object-contain transform transition-transform duration-700 group-hover:scale-110" />
+                <span v-else class="text-4xl md:text-6xl">{{ personalityType.emoji }}</span>
               </div>
             </div>
           </div>
 
           <div class="max-w-2xl px-4">
-            <h1 class="mb-4 font-serif text-4xl font-bold text-[#1A1A1A] md:text-6xl">
+            <h1 class="mb-3 font-serif text-3xl font-bold text-[#1A1A1A] md:mb-4 md:text-6xl">
               {{ category.name }}
             </h1>
 
-            <p class="mb-6 font-serif text-lg text-slate-500 italic opacity-80 md:text-xl">
+            <p class="mb-4 font-serif text-base text-[#4A4A4A] italic md:mb-6 md:text-xl">
               "{{ category.subtitle }}"
             </p>
 
-            <p class="mx-auto max-w-md text-sm leading-relaxed text-slate-500">
+            <p class="mx-auto max-w-md text-sm leading-relaxed text-[#5C5C5C]">
               {{ category.description }}
             </p>
           </div>
@@ -205,7 +205,7 @@ onUnmounted(() => {
 
         <!-- SCREEN 2: Personality Type Reveal -->
         <div v-else-if="currentStep === 1" key="step1" class="flex flex-col items-center text-center">
-          <div class="mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-slate-400 uppercase">
+          <div class="mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-[#787878] uppercase">
             Ton type de personnalité
           </div>
 
@@ -240,7 +240,7 @@ onUnmounted(() => {
             </h1>
           </div>
 
-          <p class="mb-8 font-quote text-lg text-slate-500 italic opacity-90">
+          <p class="mb-8 font-quote text-lg text-[#5C5C5C] italic opacity-90">
             "{{ personalityType.tagline }}"
           </p>
 
@@ -271,7 +271,7 @@ onUnmounted(() => {
             <h2 class="font-serif text-3xl font-bold text-[#1A1A1A]">
               Quelle phrase te représente le mieux ?
             </h2>
-            <p class="mt-2 text-[13px] text-slate-400 italic">
+            <p class="mt-2 text-[13px] text-[#787878] italic">
               Elle apparaîtra sur ta carte de personnalité
             </p>
           </div>
@@ -311,7 +311,7 @@ onUnmounted(() => {
                 :class="[
                   selectedPunchlineIndex === index
                     ? 'text-[#1A1A1A]'
-                    : 'text-slate-400'
+                    : 'text-[#787878]'
                 ]"
               >
                 « {{ punchline }} »
@@ -334,7 +334,7 @@ onUnmounted(() => {
         <!-- SCREEN 4: Profile Summary -->
         <div v-else-if="currentStep === 3" key="step3" class="mx-auto w-full max-w-lg">
           <div class="mb-5 text-center">
-            <div class="mb-2 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-slate-400 uppercase">
+            <div class="mb-2 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-[#787878] uppercase">
               Ton profil Compaatible
             </div>
             <h2 class="font-serif text-3xl font-bold text-[#1A1A1A]">
@@ -365,7 +365,7 @@ onUnmounted(() => {
 
             <!-- Selected Punchline -->
             <div class="mb-6 text-center">
-              <p class="font-quote text-[15px] leading-relaxed text-slate-500 italic">
+              <p class="font-quote text-[15px] leading-relaxed text-[#5C5C5C] italic">
                 "{{ selectedPunchline }}"
               </p>
             </div>
@@ -391,7 +391,7 @@ onUnmounted(() => {
 
             <!-- Quote -->
             <div class="mt-6 border-t border-slate-100 pt-5 text-center">
-              <p class="font-quote text-[15px] leading-relaxed text-slate-400 italic">
+              <p class="font-quote text-[15px] leading-relaxed text-[#787878] italic">
                 "{{ personalityType.quote.text }}"
               </p>
               <p class="mt-2 text-[10px] font-medium tracking-wide text-slate-300 uppercase">
@@ -462,5 +462,61 @@ onUnmounted(() => {
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.1; transform: scale(1); }
   50% { opacity: 0.15; transform: scale(1.1); }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  /* Step 0 - Category Reveal */
+  :deep(.text-4xl) {
+    font-size: 1.75rem !important;
+  }
+
+  /* Step 2 - Citation cards */
+  :deep(.text-3xl) {
+    font-size: 1.5rem !important;
+  }
+
+  /* Reduce button sizes */
+  :deep(.px-12) {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+
+  :deep(.px-10) {
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  :deep(.text-4xl) {
+    font-size: 1.5rem !important;
+  }
+
+  :deep(.text-3xl) {
+    font-size: 1.3rem !important;
+  }
+
+  :deep(.px-6) {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  :deep(.px-8) {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  :deep(.text-lg) {
+    font-size: 0.95rem !important;
+  }
+
+  :deep(.mb-12) {
+    margin-bottom: 1.5rem !important;
+  }
+
+  :deep(.mt-12) {
+    margin-top: 2rem !important;
+  }
 }
 </style>
