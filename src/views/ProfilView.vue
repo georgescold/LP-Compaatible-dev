@@ -988,6 +988,12 @@ onMounted(async () => {
       // Parse hobbies if JSONB or string
       const rawH = testData.hobbies
       userHobbies.value = Array.isArray(rawH) ? rawH : (typeof rawH === 'string' ? JSON.parse(rawH) : [])
+
+      // If user hasn't chosen a plan yet, redirect to results page to force plan selection
+      if (!userData.tier) {
+        router.push(`/resultats/${testData.id}`)
+        return
+      }
     }
 
     // Fetch current/latest session

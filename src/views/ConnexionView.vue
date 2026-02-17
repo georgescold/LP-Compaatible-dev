@@ -55,7 +55,7 @@ async function handleLogin() {
     if (authData.user) {
       const { data: userData } = await supabase
         .from('users')
-        .select('id, first_name, personality_type')
+        .select('id, first_name, personality_type, tier')
         .eq('email', email.value.trim().toLowerCase())
         .single()
 
@@ -95,6 +95,7 @@ async function handleLogin() {
           .from('test_results')
           .select('id')
           .eq('user_id', userData.id)
+          .order('created_at', { ascending: false })
           .limit(1)
           .single()
 
@@ -104,7 +105,13 @@ async function handleLogin() {
           return
         }
 
-        // Has test results → go to profile dashboard
+        // Has test results but no tier selected yet → must choose a plan first
+        if (!userData.tier) {
+          router.push(`/resultats/${existingTest.id}`)
+          return
+        }
+
+        // Has test results and tier → go to profile dashboard
         router.push('/profil')
         return
       }
