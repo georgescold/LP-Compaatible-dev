@@ -947,8 +947,29 @@ function animatePercentage() {
     max-height: 10px !important;
   }
 
-  .floating-heart {
-    display: none;
+  .fh-1 {
+    top: -10px;
+    right: 2px;
+  }
+
+  .fh-2 {
+    top: 14px;
+    left: -4px;
+  }
+
+  .fh-3 {
+    bottom: 24px;
+    right: -4px;
+  }
+
+  .fh-4 {
+    bottom: 4px;
+    left: 2px;
+  }
+
+  .fh-5 {
+    top: 50%;
+    right: -8px;
   }
 
   .traits-row {
