@@ -6,7 +6,7 @@ const techCards = [
     icon: Brain,
     title: 'Le test le plus complet du marché',
     description: 'Basé sur le Big Five, le modèle de référence en psychologie scientifique, notre test explore 30 facettes de ta personnalité. Là où les autres apps se contentent de quelques questions, nous allons en profondeur pour comprendre qui tu es vraiment.',
-    stat: '120',
+    stat: '90',
     statLabel: 'questions'
   },
   {
