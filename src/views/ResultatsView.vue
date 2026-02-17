@@ -1694,6 +1694,10 @@ function goHome() {
     padding: 28px 20px;
   }
 
+  .tier-featured {
+    order: -1;
+  }
+
   .section-title {
     font-size: 1.4rem;
   }
