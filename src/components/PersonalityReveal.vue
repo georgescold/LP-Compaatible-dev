@@ -415,15 +415,15 @@ onUnmounted(() => {
     </div>
 
     <!-- Footer Progress Dots -->
-    <div class="py-6 flex items-center justify-center gap-3 z-20 shrink-0">
+    <div class="py-6 flex items-center justify-center gap-2.5 z-20 shrink-0">
       <div
         v-for="i in totalSteps"
         :key="i"
-        class="h-1.5 rounded-full transition-all duration-500"
+        class="progress-dot rounded-full transition-all duration-500"
         :class="[
           currentStep === i - 1
-            ? 'w-8 bg-[#8B2D4A]'
-            : 'w-1.5 bg-slate-200'
+            ? 'active'
+            : 'inactive'
         ]"
       ></div>
     </div>
@@ -462,6 +462,22 @@ onUnmounted(() => {
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.1; transform: scale(1); }
   50% { opacity: 0.15; transform: scale(1.1); }
+}
+
+/* Progress dots - use exact pixel values to avoid sub-pixel rendering glitches */
+.progress-dot {
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.progress-dot.active {
+  width: 28px;
+  background-color: #8B2D4A;
+}
+
+.progress-dot.inactive {
+  width: 8px;
+  background-color: #E2E8F0;
 }
 
 /* Hide scrollbar but allow scrolling */
