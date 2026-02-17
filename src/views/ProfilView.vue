@@ -19,6 +19,7 @@ import {
 import smsIconImg from '@/assets/sms-icon.png'
 import instaIconImg from '@/assets/Instagram_icon.png'
 import { getTypeById, getCategoryForType, getPersonalityTypeFromScores, type PersonalityType, type PersonalityCategory } from '../data/personality-types'
+import { generateShareToken } from '../lib/share'
 import PersonalityCard from '../components/PersonalityCard.vue'
 import PersonalityReveal from '../components/PersonalityReveal.vue'
 import ExitPopup from '../components/ExitPopup.vue'
@@ -69,6 +70,10 @@ const userCategoryLogoUrl = computed(() => {
 const userCustomTagline = ref('')
 const themeColor = computed(() => userCategory.value?.color || '#8B2D4A')
 const themeBgColor = computed(() => userCategory.value?.bgColor || '#FBF9F7')
+
+// Share token for public card
+const userShareToken = ref<string | null>(null)
+const shareConfirmation = ref(false)
 
 // Subscription logic
 const isUpgrading = ref(false)
@@ -222,6 +227,51 @@ async function saveSelectedTagline(tagline: string) {
       .eq('auth_id', session.user.id)
   } catch (e) {
     console.error('Failed to save tagline:', e)
+  }
+}
+
+async function ensureShareToken(): Promise<string | null> {
+  if (userShareToken.value) return userShareToken.value
+
+  const token = generateShareToken()
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.user?.id) return null
+
+    const { error } = await supabase
+      .from('users')
+      .update({ share_token: token })
+      .eq('auth_id', session.user.id)
+
+    if (error) {
+      console.error('Failed to save share token:', error)
+      return null
+    }
+
+    userShareToken.value = token
+    return token
+  } catch (e) {
+    console.error('Failed to generate share token:', e)
+    return null
+  }
+}
+
+async function handleCardShare() {
+  // Ensure token exists before sharing
+  await ensureShareToken()
+
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.user?.id) return
+
+    // Increment free_matches_earned via RPC
+    await supabase.rpc('increment_free_matches', { user_auth_id: session.user.id })
+
+    // Show confirmation toast
+    shareConfirmation.value = true
+    setTimeout(() => { shareConfirmation.value = false }, 4000)
+  } catch (e) {
+    console.error('Failed to reward share:', e)
   }
 }
 
@@ -909,6 +959,7 @@ onMounted(async () => {
     }
     rawOrientation.value = userData.sexual_orientation || ''
     userCustomTagline.value = userData.custom_tagline || ''
+    userShareToken.value = userData.share_token || null
 
     // Load personality type and category theming
     if (userData.personality_type) {
@@ -1358,8 +1409,19 @@ async function upgradeToPaid() {
               :category-logo-url="userCategoryLogoUrl"
               :user-name="userName"
               :custom-tagline="userCustomTagline"
+              :actual-scores="revealScores"
+              :share-token="userShareToken"
               variant="full"
+              @share="handleCardShare"
             />
+
+            <!-- Share confirmation toast -->
+            <Transition name="toast">
+              <div v-if="shareConfirmation" class="share-toast">
+                <CheckCircle :size="16" />
+                +1 match gratuit débloqué !
+              </div>
+            </Transition>
           </div>
 
           <!-- Countdown + Illustration intégrés -->
@@ -2165,8 +2227,38 @@ async function upgradeToPaid() {
 /* ===== ACCUEIL TAB ===== */
 .personality-card-section {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 32px;
+}
+
+.share-toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.toast-enter-active {
+  transition: all 0.4s ease;
+}
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+.toast-enter-from {
+  opacity: 0;
+  transform: translateY(8px) scale(0.95);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.95);
 }
 
 .greeting-section {

@@ -79,6 +79,11 @@ const router = createRouter({
       name: 'personality-detail',
       component: () => import('../views/PersonalityDetailView.vue')
     },
+    {
+      path: '/carte/:token',
+      name: 'carte-publique',
+      component: () => import('../views/CartePubliqueView.vue')
+    },
     // 404 Catch-all
     {
       path: '/:pathMatch(.*)*',

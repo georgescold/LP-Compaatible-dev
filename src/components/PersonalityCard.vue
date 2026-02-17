@@ -28,6 +28,14 @@ interface CategoryData {
   bgColor: string;
 }
 
+interface ScoreData {
+  O: number;
+  C: number;
+  E: number;
+  A: number;
+  N: number;
+}
+
 interface Props {
   personalityType: PersonalityTypeData;
   category: CategoryData;
@@ -36,12 +44,18 @@ interface Props {
   userName?: string;
   customTagline?: string;
   variant?: 'compact' | 'full';
+  actualScores?: ScoreData;
+  shareToken?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'full',
   userName: 'Utilisateur'
 });
+
+const emit = defineEmits<{
+  share: []
+}>();
 
 const displayTagline = computed(() => props.customTagline || props.personalityType.tagline);
 
@@ -78,6 +92,55 @@ const traits = [
 ];
 
 const getTraitLevel = (key: keyof BigFive) => props.personalityType.bigFive[key] === 'high';
+
+// Proportional dots based on actual scores (if available)
+function getFilledDots(key: keyof BigFive): number {
+  if (props.actualScores) {
+    const pct = props.actualScores[key]
+    if (pct >= 80) return 5
+    if (pct >= 60) return 4
+    if (pct >= 40) return 3
+    if (pct >= 20) return 2
+    return 1
+  }
+  // Fallback to binary high/low
+  return props.personalityType.bigFive[key] === 'high' ? 4 : 2
+}
+
+// Share functionality
+const copySuccess = ref(false)
+
+async function handleShare() {
+  if (!props.shareToken) return
+
+  const shareUrl = `${window.location.origin}/carte/${props.shareToken}`
+  const shareData = {
+    title: `${props.userName} - ${props.personalityType.name} | Compaatible`,
+    text: `Découvre mon type de personnalité : ${props.personalityType.name} ! Et toi, quel est le tien ?`,
+    url: shareUrl
+  }
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData)
+      emit('share')
+    } else {
+      await navigator.clipboard.writeText(shareUrl)
+      copySuccess.value = true
+      setTimeout(() => { copySuccess.value = false }, 3000)
+      emit('share')
+    }
+  } catch (err) {
+    if ((err as Error).name !== 'AbortError') {
+      try {
+        await navigator.clipboard.writeText(shareUrl)
+        copySuccess.value = true
+        setTimeout(() => { copySuccess.value = false }, 3000)
+        emit('share')
+      } catch { /* silent fail */ }
+    }
+  }
+}
 </script>
 
 <template>
@@ -181,12 +244,8 @@ const getTraitLevel = (key: keyof BigFive) => props.personalityType.bigFive[key]
                   <div
                     v-for="i in 5" :key="i"
                     class="h-1.5 w-4 rounded-full transition-all duration-700"
-                    :class="[
-                      getTraitLevel(trait.key as keyof BigFive)
-                        ? (i <= 4 ? 'opacity-100' : 'opacity-20')
-                        : (i <= 2 ? 'opacity-100' : 'opacity-20')
-                    ]"
-                    :style="{ backgroundColor: getTraitLevel(trait.key as keyof BigFive) ? category.color : '#CBD5E1' }"
+                    :class="i <= getFilledDots(trait.key as keyof BigFive) ? 'opacity-100' : 'opacity-20'"
+                    :style="{ backgroundColor: i <= getFilledDots(trait.key as keyof BigFive) ? category.color : '#CBD5E1' }"
                   ></div>
                 </div>
               </div>
@@ -213,10 +272,12 @@ const getTraitLevel = (key: keyof BigFive) => props.personalityType.bigFive[key]
             </div>
 
             <button
-              class="group flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 py-2 text-[11px] font-semibold text-slate-600 transition-all hover:border-[#8B2D4A]/20 hover:text-[#8B2D4A] hover:shadow-md active:scale-95"
+              @click="handleShare"
+              :disabled="!shareToken"
+              class="group flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 py-2 text-[11px] font-semibold text-slate-600 transition-all hover:border-[#8B2D4A]/20 hover:text-[#8B2D4A] hover:shadow-md active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-100 disabled:hover:text-slate-600 disabled:hover:shadow-none"
             >
               <Share2 class="h-3.5 w-3.5 transition-transform group-hover:rotate-12" />
-              Partager ma carte
+              {{ copySuccess ? 'Lien copié !' : 'Partager ma carte' }}
             </button>
           </div>
         </div>

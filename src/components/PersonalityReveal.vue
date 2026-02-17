@@ -10,6 +10,7 @@ import {
 } from 'lucide-vue-next'
 import logoImage from '@/assets/nouveau logo compaatible.png'
 import { personalityPunchlines } from '@/data/personality-punchlines'
+import PersonalityCard from './PersonalityCard.vue'
 
 interface PersonalityTypeData {
   id: string
@@ -342,63 +343,17 @@ onUnmounted(() => {
             </h2>
           </div>
 
-          <!-- Summary Card -->
-          <div class="overflow-hidden rounded-[2rem] bg-white px-8 py-7 shadow-sm ring-1 ring-black/5">
-            <!-- Centered Avatar & Name -->
-            <div class="mb-6 flex flex-col items-center text-center">
-              <div
-                class="mb-3 flex h-[5.5rem] w-[5.5rem] items-center justify-center rounded-full"
-                :style="{ backgroundColor: category.bgColor }"
-              >
-                <img v-if="avatarUrl" :src="avatarUrl" :alt="personalityType.name" class="h-[3.75rem] w-[3.75rem] object-contain" />
-                <span v-else class="text-3xl">{{ personalityType.emoji }}</span>
-              </div>
-              <h3 class="mb-1 font-serif text-[1.4rem] font-bold text-[#1A1A1A]">{{ personalityType.name }}</h3>
-              <span
-                class="inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[10px] font-semibold tracking-widest uppercase"
-                :style="{ backgroundColor: category.color + '10', color: category.color }"
-              >
-                <Heart class="h-2.5 w-2.5" fill="currentColor" />
-                {{ category.name }}
-              </span>
-            </div>
-
-            <!-- Selected Punchline -->
-            <div class="mb-6 text-center">
-              <p class="font-quote text-[15px] leading-relaxed text-[#5C5C5C] italic">
-                "{{ selectedPunchline }}"
-              </p>
-            </div>
-
-            <!-- Big Five Overview -->
-            <div class="space-y-4">
-              <div v-for="(score, key) in scores" :key="key">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-[13px] font-medium tracking-wide text-slate-600">{{ traitLabels[key as string]?.label || key }}</span>
-                  <span class="text-[13px] font-semibold tabular-nums text-[#1A1A1A]">{{ score }}%</span>
-                </div>
-                <div class="relative h-2 w-full overflow-hidden rounded-full bg-slate-100">
-                  <div
-                    class="h-full rounded-full transition-all duration-[1200ms] ease-out"
-                    :style="{
-                      width: `${score}%`,
-                      backgroundColor: category.color
-                    }"
-                  ></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Quote -->
-            <div class="mt-6 border-t border-slate-100 pt-5 text-center">
-              <p class="font-quote text-[15px] leading-relaxed text-[#787878] italic">
-                "{{ personalityType.quote.text }}"
-              </p>
-              <p class="mt-2 text-[10px] font-medium tracking-wide text-slate-300 uppercase">
-                {{ personalityType.quote.author }}
-              </p>
-            </div>
-          </div>
+          <!-- Personality Card -->
+          <PersonalityCard
+            :personality-type="personalityType"
+            :category="category"
+            :avatar-url="avatarUrl || ''"
+            :category-logo-url="categoryLogoUrl"
+            :user-name="userName"
+            :custom-tagline="selectedPunchline"
+            :actual-scores="scores"
+            variant="full"
+          />
 
           <!-- Final Action -->
           <div class="mt-7 flex justify-center">
