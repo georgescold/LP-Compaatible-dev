@@ -358,7 +358,7 @@ onUnmounted(() => {
 }
 
 .popup-urgency strong {
-  color: #D97706;
+  color: #B45309;
 }
 
 .popup-features {

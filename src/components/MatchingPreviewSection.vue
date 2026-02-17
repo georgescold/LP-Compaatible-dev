@@ -93,7 +93,7 @@ function animatePercentage() {
 
           <div class="card-body">
             <div class="diamond-pattern diamond-sophie"></div>
-            <h3 class="card-name">Sophie, 28</h3>
+            <p class="card-name">Sophie, 28</p>
             <div class="card-city">
               <MapPin :size="11" stroke-width="2.5" />
               Bordeaux
@@ -103,8 +103,8 @@ function animatePercentage() {
             <div class="personality-tag" style="background-color: rgba(45, 139, 87, 0.08);">
               <img :src="papillonEmpathiqueAvatar" alt="" width="28" height="28" style="width:28px;height:28px;max-width:28px;max-height:28px;" class="personality-avatar" />
               <div class="personality-text">
-                <span class="personality-name" style="color: #2D8B57;">Le Papillon Empathique</span>
-                <span class="personality-category" style="color: #2D8B57;">Âmes Lumineuses</span>
+                <span class="personality-name" style="color: #257A4B;">Le Papillon Empathique</span>
+                <span class="personality-category" style="color: #257A4B;">Âmes Lumineuses</span>
               </div>
             </div>
 
@@ -163,7 +163,7 @@ function animatePercentage() {
 
           <div class="card-body">
             <div class="diamond-pattern diamond-thomas"></div>
-            <h3 class="card-name">Thomas, 31</h3>
+            <p class="card-name">Thomas, 31</p>
             <div class="card-city">
               <MapPin :size="11" stroke-width="2.5" />
               Toulouse

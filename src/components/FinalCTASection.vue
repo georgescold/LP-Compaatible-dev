@@ -94,9 +94,8 @@ import IconArrowRight from './icons/IconArrowRight.vue'
 
 .price-original {
   font-size: 1.5rem;
-  color: var(--color-gray-main);
+  color: var(--color-gray-dark);
   text-decoration: line-through;
-  opacity: 0.6;
 }
 
 .price-arrow {

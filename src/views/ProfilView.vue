@@ -643,7 +643,7 @@ const DEV_FAKE_MATCHES: MatchData[] = [
     unlocked: false,
     city: 'Paris',
     age: 26,
-    bannerColor: devMatchTypes[0] ? getCategoryForType(devMatchTypes[0])?.color || '#2D8B57' : '#2D8B57',
+    bannerColor: devMatchTypes[0] ? getCategoryForType(devMatchTypes[0])?.color || '#257A4B' : '#257A4B',
     isUser1: true,
     avatarUrl: devMatchTypes[0] ? getAvatarUrl(devMatchTypes[0].avatarFile) : '',
     personalityTypeName: devMatchTypes[0]?.name || 'Le Papillon Empathique',
@@ -663,7 +663,7 @@ const DEV_FAKE_MATCHES: MatchData[] = [
     unlocked: true,
     city: 'Lyon',
     age: 24,
-    bannerColor: devMatchTypes[1] ? getCategoryForType(devMatchTypes[1])?.color || '#2D8B57' : '#2D8B57',
+    bannerColor: devMatchTypes[1] ? getCategoryForType(devMatchTypes[1])?.color || '#257A4B' : '#257A4B',
     isUser1: true,
     avatarUrl: devMatchTypes[1] ? getAvatarUrl(devMatchTypes[1].avatarFile) : '',
     personalityTypeName: devMatchTypes[1]?.name || 'Le Mentor Solaire',
@@ -683,7 +683,7 @@ const DEV_FAKE_MATCHES: MatchData[] = [
     unlocked: false,
     city: 'Bordeaux',
     age: 27,
-    bannerColor: devMatchTypes[2] ? getCategoryForType(devMatchTypes[2])?.color || '#2D8B57' : '#2D8B57',
+    bannerColor: devMatchTypes[2] ? getCategoryForType(devMatchTypes[2])?.color || '#257A4B' : '#257A4B',
     isUser1: true,
     avatarUrl: devMatchTypes[2] ? getAvatarUrl(devMatchTypes[2].avatarFile) : '',
     personalityTypeName: devMatchTypes[2]?.name || 'Le Rêveur Romantique',
@@ -776,7 +776,7 @@ onMounted(async () => {
       showInstagram: false,
       createdAt: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
       profilePhotoUrl: '',
-      bannerColor: '#2D8B57'
+      bannerColor: '#257A4B'
     }
     scores.value = {
       O: { score: 15, count: 6, result: 'high', facets: {
@@ -2925,7 +2925,7 @@ async function upgradeToPaid() {
 
 .results-tag.pending {
   background: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+  color: #B45309;
 }
 
 /* Info items */

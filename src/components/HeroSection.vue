@@ -4,13 +4,12 @@ import IconShield from './icons/IconShield.vue'
 import IconCheck from './icons/IconCheck.vue'
 import IconCheckCircle from './icons/IconCheckCircle.vue'
 import IconArrowRight from './icons/IconArrowRight.vue'
-import heroBackground from '../assets/image test site (2).webp'
 </script>
 
 <template>
   <section class="hero">
     <div class="hero-bg">
-      <img :src="heroBackground" alt="" role="presentation" fetchpriority="high" width="1920" height="1280" />
+      <img src="/hero-bg-small.webp" srcset="/hero-bg-small.webp 640w, /hero-bg.webp 1920w" sizes="100vw" alt="" role="presentation" fetchpriority="high" width="1920" height="1280" />
       <div class="hero-bg-overlay"></div>
     </div>
 
@@ -214,8 +213,7 @@ import heroBackground from '../assets/image test site (2).webp'
 
 .discount-badge .price-old {
   text-decoration: line-through;
-  opacity: 0.7;
-  color: var(--color-gray-dark);
+  color: var(--color-gray-main);
 }
 
 .discount-badge .price-free {
