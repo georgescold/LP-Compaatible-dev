@@ -169,7 +169,7 @@ const toggleTrait = (id: string) => {
 
 .accent-svg {
   position: absolute;
-  bottom: -2px;
+  bottom: -6px;
   left: 0;
   width: 100%;
   height: 12px;
